@@ -345,7 +345,7 @@ export class InterfacesModule {
     await this.desktop.invoke('interfaces_validate', { workspace: { ...workspace, documents } });
 
     if (this.session.getState().value.workspace !== workspace) {
-      throw new Error('Редактор изменился во время импорта. Повторите импорт.');
+      throw new Error('The editor changed during import. Import again.');
     }
 
     this.session.applyImported(documents, imported.id);
@@ -466,6 +466,14 @@ export class InterfacesModule {
 
     if (request === ExitRequest.Quit) {
       await this.exit();
+    }
+  }
+
+  public async removeUnavailable(folder: string): Promise<void> {
+    try {
+      this.snapshot.value = await this.store.removeUnavailable(folder);
+    } catch (error) {
+      this.session.report(error);
     }
   }
 

@@ -1,4 +1,5 @@
 use crate::core::game::GameSnapshot;
+use crate::integrations::aion2::WorldBossObservation;
 use serde_json::Value;
 use serde_json::json;
 use std::collections::HashMap;
@@ -76,12 +77,7 @@ impl WorldFields {
         );
         fields.insert(
             "zone.worldBosses.aliveCount".into(),
-            json!(
-                list.bosses()
-                    .iter()
-                    .filter(|boss| boss.alive_at(now))
-                    .count()
-            ),
+            json!(list.bosses().iter().filter(|boss| boss.alive()).count()),
         );
 
         if let Some((boss, time)) = list
@@ -103,8 +99,18 @@ impl WorldFields {
         for boss in list.bosses() {
             let prefix = format!("worldBoss.{}", boss.world_map_id());
 
-            fields.insert(format!("{prefix}.observedAlive"), json!(boss.alive()));
-            fields.insert(format!("{prefix}.alive"), json!(boss.alive_at(now)));
+            let observation =
+                WorldBossObservation::new(Some(list), boss.world_map_id(), game.header().at_us());
+
+            fields.insert(
+                format!("{prefix}.observedAlive"),
+                json!(observation.observed_alive()),
+            );
+            fields.insert(
+                format!("{prefix}.alive"),
+                json!(observation.compatible_alive()),
+            );
+            fields.insert(format!("{prefix}.expected"), json!(observation.expected()));
 
             if let Some(time) = boss.time_ms() {
                 let name = if boss.alive() {

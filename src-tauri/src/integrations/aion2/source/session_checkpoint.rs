@@ -13,8 +13,8 @@ pub(super) struct SessionCheckpoint {
     process: CaptureProcess,
     stream: StreamKey,
     player: PlayerRecovery,
-    #[serde(default)]
-    bosses: Vec<WorldBossList>,
+    #[serde(default, rename = "bosses", skip_serializing)]
+    legacy_bosses: Vec<WorldBossList>,
     #[serde(default)]
     map_id: Option<MapId>,
     #[serde(default)]
@@ -28,19 +28,14 @@ impl SessionCheckpoint {
             process,
             stream,
             player,
-            bosses: Vec::new(),
+            legacy_bosses: Vec::new(),
             map_id: None,
             npcs: Vec::new(),
         }
     }
 
-    pub(super) fn with_bosses(mut self, bosses: Vec<WorldBossList>) -> Self {
-        self.bosses = bosses;
-        self
-    }
-
-    pub(super) fn bosses(&self) -> &[WorldBossList] {
-        &self.bosses
+    pub(super) fn legacy_bosses(&self) -> &[WorldBossList] {
+        &self.legacy_bosses
     }
 
     pub(super) fn with_npcs(mut self, game: &GameSnapshot) -> Self {

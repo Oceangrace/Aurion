@@ -24,11 +24,11 @@ mod live_rows;
 mod live_update;
 mod selection_resolver;
 mod skill_history;
+mod stamina_fields;
 mod trigger_match;
 mod trigger_result;
 mod trigger_state;
 mod world_boss_rows;
-mod world_boss_status;
 mod world_fields;
 
 pub(crate) use self::live_delivery::LiveDelivery;

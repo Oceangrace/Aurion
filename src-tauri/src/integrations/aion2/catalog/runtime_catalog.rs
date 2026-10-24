@@ -2,7 +2,7 @@ use super::effect_metadata::EffectMetadata;
 use super::npc_metadata::NpcMetadata;
 use super::skill_metadata::SkillMetadata;
 use serde::{Deserialize, Serialize};
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 use std::num::NonZeroU32;
 
 #[derive(Deserialize, Serialize, schemars::JsonSchema)]
@@ -15,6 +15,8 @@ pub(crate) struct RuntimeCatalog {
     effects: BTreeMap<NonZeroU32, EffectMetadata>,
     skills: BTreeMap<NonZeroU32, SkillMetadata>,
     npcs: BTreeMap<NonZeroU32, NpcMetadata>,
+    #[serde(default)]
+    non_health_skill_effects: BTreeSet<NonZeroU32>,
 }
 
 impl RuntimeCatalog {
@@ -30,6 +32,7 @@ impl RuntimeCatalog {
             || catalog.effects.len() > 100000
             || catalog.skills.len() > 100000
             || catalog.npcs.len() > 100000
+            || catalog.non_health_skill_effects.len() > 100000
         {
             return Err("Invalid runtime catalog".into());
         }
@@ -62,6 +65,10 @@ impl RuntimeCatalog {
 
     pub(crate) fn skill(&self, id: u32) -> Option<&SkillMetadata> {
         self.skills.get(&NonZeroU32::new(id)?)
+    }
+
+    pub(crate) fn non_health_skill_effect(&self, id: u32) -> bool {
+        NonZeroU32::new(id).is_some_and(|id| self.non_health_skill_effects.contains(&id))
     }
 
     pub(crate) fn npc(&self, id: u32) -> Option<&NpcMetadata> {

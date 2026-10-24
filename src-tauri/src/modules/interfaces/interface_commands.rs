@@ -1,6 +1,7 @@
 use crate::core::diagnostics::PageHeartbeat;
 use crate::core::game::GameObservationSource;
 use crate::core::localization::LocaleRegistry;
+use crate::core::surface::Surface;
 use crate::integrations::aion2::catalog::CatalogPage;
 use crate::integrations::aion2::catalog::CatalogRecord;
 use crate::integrations::aion2::catalog::CatalogScope;
@@ -26,9 +27,7 @@ pub(crate) fn interfaces_read(
     window: WebviewWindow,
     state: State<'_, Mutex<InterfaceService>>,
 ) -> Result<InterfaceSnapshot, String> {
-    if window.label() != "editor" {
-        return Err("Unknown surface".into());
-    }
+    Surface::Editor.require(window.label())?;
 
     Ok(state
         .lock()
@@ -43,9 +42,7 @@ pub(crate) fn interfaces_save(
     state: State<'_, Mutex<InterfaceService>>,
     workspace: InterfaceWorkspace,
 ) -> Result<InterfaceSnapshot, String> {
-    if window.label() != "editor" {
-        return Err("Editor access required".into());
-    }
+    Surface::Editor.require(window.label())?;
 
     let snapshot = state
         .lock()
@@ -58,14 +55,31 @@ pub(crate) fn interfaces_save(
 }
 
 #[tauri::command]
+pub(crate) fn interfaces_remove_unavailable(
+    window: WebviewWindow,
+    app: AppHandle,
+    state: State<'_, Mutex<InterfaceService>>,
+    folder: String,
+) -> Result<InterfaceSnapshot, String> {
+    Surface::Editor.require(window.label())?;
+
+    let snapshot = state
+        .lock()
+        .map_err(|_| "Interface state unavailable")?
+        .remove_unavailable(&folder)?;
+
+    let _ = app.emit("interfaces:changed", &snapshot);
+
+    Ok(snapshot)
+}
+
+#[tauri::command]
 pub(crate) fn catalog_search(
     window: WebviewWindow,
     state: State<'_, Mutex<InterfaceService>>,
     request: CatalogSearch,
 ) -> Result<CatalogPage, String> {
-    if window.label() != "editor" {
-        return Err("Editor access required".into());
-    }
+    Surface::Editor.require(window.label())?;
 
     state
         .lock()
@@ -82,9 +96,7 @@ pub(crate) fn catalog_item(
     key: String,
     locale: String,
 ) -> Result<CatalogRecord, String> {
-    if window.label() != "editor" {
-        return Err("Editor access required".into());
-    }
+    Surface::Editor.require(window.label())?;
 
     Ok(state
         .lock()
@@ -101,15 +113,16 @@ pub(crate) fn interfaces_preview(
     locale: String,
     locales: State<'_, Arc<LocaleRegistry>>,
 ) -> Result<HashMap<String, PreviewVisual>, String> {
-    if window.label() != "editor" {
-        return Err("Editor access required".into());
-    }
+    Surface::Editor.require(window.label())?;
 
-    context.set_text(PreviewText::new(
-        locales.message(&locale, &["modules", "interfaces", "values", "true"]),
-        locales.message(&locale, &["modules", "interfaces", "values", "false"]),
-        locale.clone(),
-    ));
+    context.set_text(
+        PreviewText::new(
+            locales.message(&locale, &["modules", "interfaces", "values", "true"]),
+            locales.message(&locale, &["modules", "interfaces", "values", "false"]),
+            locale.clone(),
+        )
+        .with_world_bosses(&locales),
+    );
 
     state
         .lock()
@@ -123,9 +136,7 @@ pub(crate) fn interfaces_import(
     state: State<'_, Mutex<InterfaceService>>,
     text: String,
 ) -> Result<ImportPreview, String> {
-    if window.label() != "editor" {
-        return Err("Editor access required".into());
-    }
+    Surface::Editor.require(window.label())?;
 
     state
         .lock()
@@ -139,9 +150,7 @@ pub(crate) fn interfaces_validate(
     state: State<'_, Mutex<InterfaceService>>,
     workspace: InterfaceWorkspace,
 ) -> Result<(), String> {
-    if window.label() != "editor" {
-        return Err("Editor access required".into());
-    }
+    Surface::Editor.require(window.label())?;
 
     state
         .lock()
@@ -155,9 +164,7 @@ pub(crate) fn interfaces_export(
     state: State<'_, Mutex<InterfaceService>>,
     document: InterfaceDocument,
 ) -> Result<String, String> {
-    if window.label() != "editor" {
-        return Err("Editor access required".into());
-    }
+    Surface::Editor.require(window.label())?;
 
     state
         .lock()
@@ -174,9 +181,7 @@ pub(crate) async fn interfaces_export_file(
 ) -> Result<Option<String>, String> {
     use tauri_plugin_dialog::DialogExt;
 
-    if window.label() != "editor" {
-        return Err("Editor access required".into());
-    }
+    Surface::Editor.require(window.label())?;
 
     if !text.starts_with(DocumentFormat::PREFIX) {
         return Err("Expected an export string".into());
@@ -221,9 +226,7 @@ pub(crate) async fn interfaces_export_folder(
 ) -> Result<Option<String>, String> {
     use tauri_plugin_dialog::DialogExt;
 
-    if window.label() != "editor" {
-        return Err("Editor access required".into());
-    }
+    Surface::Editor.require(window.label())?;
 
     let mut workspace = InterfaceWorkspace::empty();
 
@@ -263,9 +266,7 @@ pub(crate) async fn interfaces_import_folder(
 ) -> Result<Option<ImportPreview>, String> {
     use tauri_plugin_dialog::DialogExt;
 
-    if window.label() != "editor" {
-        return Err("Editor access required".into());
-    }
+    Surface::Editor.require(window.label())?;
 
     let locales = window.state::<Arc<LocaleRegistry>>().inner().clone();
 
@@ -307,9 +308,7 @@ pub(crate) fn interfaces_live(
     locales: State<'_, Arc<LocaleRegistry>>,
     heartbeat: State<'_, Arc<PageHeartbeat>>,
 ) -> Result<LiveUpdate, String> {
-    if window.label() != "editor" {
-        return Err("Editor access required".into());
-    }
+    Surface::Editor.require(window.label())?;
 
     heartbeat.beat();
 
@@ -318,7 +317,8 @@ pub(crate) fn interfaces_live(
         locales.message(&locale, &["modules", "interfaces", "values", "true"]),
         locales.message(&locale, &["modules", "interfaces", "values", "false"]),
         locale.clone(),
-    );
+    )
+    .with_world_bosses(&locales);
 
     state
         .lock()

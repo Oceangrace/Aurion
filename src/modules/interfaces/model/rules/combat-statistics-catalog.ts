@@ -1,4 +1,5 @@
 import { DataKind } from './data-kind';
+import { FieldCategory } from './field-category';
 import type { CatalogField } from './catalog-field';
 export const combatStatisticsCatalog: readonly CatalogField[] = [
   { path: 'observedDamage', kind: DataKind.Number },
@@ -50,4 +51,4 @@ export const combatStatisticsCatalog: readonly CatalogField[] = [
   { path: 'minHit', kind: DataKind.Number },
   { path: 'maxHit', kind: DataKind.Number },
   { path: 'duration', kind: DataKind.Duration },
-];
+].map((field) => ({ ...field, category: FieldCategory.Combat }));

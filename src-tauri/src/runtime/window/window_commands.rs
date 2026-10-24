@@ -1,4 +1,5 @@
 use crate::core::geometry::OverlayRegion;
+use crate::core::surface::Surface;
 use crate::runtime::OverlayWindow;
 use tauri::{AppHandle, State, WebviewWindow};
 
@@ -7,9 +8,7 @@ pub(crate) fn app_wait_for_game(
     window: WebviewWindow,
     overlay: State<'_, OverlayWindow>,
 ) -> Result<(), String> {
-    if window.label() != "editor" {
-        return Err("Editor access required".into());
-    }
+    Surface::Editor.require(window.label())?;
 
     overlay.wait_for_game(&window)
 }
@@ -19,9 +18,7 @@ pub(crate) fn overlay_game_attached(
     window: WebviewWindow,
     overlay: State<'_, OverlayWindow>,
 ) -> Result<bool, String> {
-    if window.label() != "editor" {
-        return Err("Editor access required".into());
-    }
+    Surface::Editor.require(window.label())?;
 
     Ok(overlay.game_attached())
 }
@@ -31,9 +28,7 @@ pub(crate) fn overlay_foreground(
     window: WebviewWindow,
     overlay: State<'_, OverlayWindow>,
 ) -> Result<bool, String> {
-    if window.label() != "editor" {
-        return Err("Editor access required".into());
-    }
+    Surface::Editor.require(window.label())?;
 
     Ok(overlay.foreground())
 }
@@ -43,18 +38,14 @@ pub(crate) fn overlay_game_panel(
     window: WebviewWindow,
     overlay: State<'_, OverlayWindow>,
 ) -> Result<bool, String> {
-    if window.label() != "editor" {
-        return Err("Editor access required".into());
-    }
+    Surface::Editor.require(window.label())?;
 
     Ok(overlay.game_panel())
 }
 
 #[tauri::command]
 pub(crate) fn app_exit(app: AppHandle, window: WebviewWindow) -> Result<(), String> {
-    if window.label() != "editor" {
-        return Err("Editor access required".into());
-    }
+    Surface::Editor.require(window.label())?;
 
     app.exit(0);
 
@@ -67,9 +58,7 @@ pub(crate) fn overlay_regions(
     overlay: State<'_, OverlayWindow>,
     regions: Vec<OverlayRegion>,
 ) -> Result<(), String> {
-    if window.label() != "editor" {
-        return Err("Overlay access required".into());
-    }
+    Surface::Editor.require(window.label())?;
 
     overlay.set_regions(regions)
 }
@@ -80,9 +69,7 @@ pub(crate) fn overlay_capture(
     overlay: State<'_, OverlayWindow>,
     captured: bool,
 ) -> Result<(), String> {
-    if window.label() != "editor" {
-        return Err("Editor access required".into());
-    }
+    Surface::Editor.require(window.label())?;
 
     overlay.set_dragging(captured);
 
@@ -91,9 +78,7 @@ pub(crate) fn overlay_capture(
 
 #[tauri::command]
 pub(crate) fn app_minimize(window: WebviewWindow) -> Result<(), String> {
-    if window.label() != "editor" {
-        return Err("Editor access required".into());
-    }
+    Surface::Editor.require(window.label())?;
 
     window.minimize().map_err(|error| error.to_string())
 }

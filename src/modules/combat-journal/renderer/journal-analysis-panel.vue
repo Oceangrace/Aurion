@@ -5,19 +5,20 @@ import type { JournalSegment } from '../model/journal-segment';
 import type { JournalWindow } from '../model/journal-window';
 import type { JournalQuery } from '../runtime/journal-query';
 import type { JournalFormatter } from '../runtime/journal-formatter';
-import type { JournalAnalysisRow } from '../model/journal-analysis-row';
+import type { JournalAction } from '../model/journal-action';
 import { JournalAnalysis } from '../runtime/journal-analysis';
 import { JournalAnalysisTab } from '../model/journal-analysis-tab';
 import { JournalAnalysisSort } from '../model/journal-analysis-sort';
 import { JournalActionKind } from '../model/journal-action-kind';
+import { JournalChartColor } from '../model/journal-chart-color';
 import { JournalDetail } from '../model/journal-detail';
 import { JournalMetric } from '../model/journal-metric';
-import { CombatCounter } from '../model/combat-counter';
+import JournalComparePanel from './journal-compare-panel.vue';
 import JournalDeathsPanel from './journal-deaths-panel.vue';
 import JournalEffectsPanel from './journal-effects-panel.vue';
 import JournalOverview from './journal-overview.vue';
+import JournalSkillsTable from './journal-skills-table.vue';
 import JournalTimeline from './journal-timeline.vue';
-import JournalSkillIcon from './journal-skill-icon.vue';
 import JournalEventsPanel from './journal-events-panel.vue';
 import JournalCastsPanel from './journal-casts-panel.vue';
 import UiSelect from '../../../renderer/components/ui/ui-select.vue';
@@ -37,29 +38,52 @@ const props = defineProps<{
   window: JournalWindow;
   query: JournalQuery;
   formatter: JournalFormatter;
-  timelineAvailable: boolean;
   exportFile: (text: string) => Promise<void>;
 }>();
-
-const selectedFight = ref<string | null>(null);
-
-const segment = computed(
-  () => props.segments.find((fight) => fight.id === selectedFight.value) ?? props.segment,
-);
-
-const timelineAvailable = computed(() => selectedFight.value !== null || props.timelineAvailable);
-
-const scope = ref(props.window.scope);
-
-const mergeSummons = ref(props.window.mergeSummons);
 
 const { t } = useI18n();
 
 const analysis = new JournalAnalysis();
 
-const tab = ref(JournalAnalysisTab.Overview);
+/** Everything Back/Forward restores. Child panels read it and report changes back. */
+const view = reactive<{ -readonly [K in keyof JournalNavigationState]: JournalNavigationState[K] }>(
+  {
+    fight: null,
+    tab: JournalAnalysisTab.Overview,
+    actor: props.actor,
+    metric:
+      new Map([
+        [JournalMetric.DamageTaken, JournalMetric.DamageTaken],
+        [JournalMetric.HealingTaken, JournalMetric.HealingTaken],
+        [JournalMetric.Healing, JournalMetric.Healing],
+        [JournalMetric.Hps, JournalMetric.Healing],
+      ]).get(props.window.metric) ?? JournalMetric.Damage,
+    scope: props.window.scope,
+    mergeSummons: props.window.mergeSummons,
+    target: 'all',
+    skill: null,
+    reference: 'none',
+    referenceActor: '',
+    bySkill: false,
+    raidCasts: true,
+    sort: JournalAnalysisSort.Amount,
+    search: '',
+    interval: [0, props.segment.spanMs ?? props.segment.elapsedMs],
+  },
+);
 
+/** Set while Back/Forward applies a state, so the resets below do not overwrite it. */
 let restoring = false;
+
+const segment = computed(
+  () => props.segments.find((fight) => fight.id === view.fight) ?? props.segment,
+);
+
+const duration = computed(() => segment.value.spanMs ?? segment.value.elapsedMs);
+
+const timelineAvailable = computed(() => (segment.value.actions?.length ?? 0) !== 0);
+
+const effectsAvailable = computed(() => (segment.value.effects?.length ?? 0) !== 0);
 
 const quantitative = computed(() =>
   [
@@ -68,30 +92,17 @@ const quantitative = computed(() =>
     JournalAnalysisTab.Timeline,
     JournalAnalysisTab.Events,
     JournalAnalysisTab.Compare,
-  ].includes(tab.value),
+  ].includes(view.tab),
 );
 
 const scroll = ref<HTMLElement | null>(null);
 
-const actor = ref(props.actor);
+const exportError = ref('');
 
-const metric = ref(
-  new Map([
-    [JournalMetric.DamageTaken, JournalMetric.DamageTaken],
-    [JournalMetric.HealingTaken, JournalMetric.HealingTaken],
-    [JournalMetric.Healing, JournalMetric.Healing],
-    [JournalMetric.Hps, JournalMetric.Healing],
-  ]).get(props.window.metric) ?? JournalMetric.Damage,
-);
-
-const bySkill = ref(false);
-
-const raidCasts = ref(true);
-
-const castActor = (id: number): number => analysis.root(id, segment.value, mergeSummons.value);
+const castActor = (id: number): number => analysis.root(id, segment.value, view.mergeSummons);
 
 const castActors = computed(() => [
-  ...new Set(props.query.participants(segment.value, scope.value).map(castActor)),
+  ...new Set(props.query.participants(segment.value, view.scope).map(castActor)),
 ]);
 
 const groupActions = computed(() => {
@@ -100,16 +111,11 @@ const groupActions = computed(() => {
   return (segment.value.actions ?? []).filter((action) => ids.has(castActor(action.sourceId)));
 });
 
-const interval = ref<readonly [number, number]>([
-  0,
-  segment.value.spanMs ?? segment.value.elapsedMs,
-]);
-
 const analysisWindow = computed(() => ({
   ...props.window,
-  metric: metric.value,
-  scope: scope.value,
-  mergeSummons: mergeSummons.value,
+  metric: view.metric,
+  scope: view.scope,
+  mergeSummons: view.mergeSummons,
   limit: Number.MAX_SAFE_INTEGER,
 }));
 
@@ -125,9 +131,9 @@ const metricOptions = computed(() =>
 const actorOptions = computed(() =>
   [
     ...new Set([
-      actor.value,
+      view.actor,
       ...(segment.value.actions ?? []).map((action) =>
-        analysis.root(action.sourceId, segment.value, mergeSummons.value),
+        analysis.root(action.sourceId, segment.value, view.mergeSummons),
       ),
       ...props.query
         .rows(segment.value, { ...analysisWindow.value, scope: JournalScope.All })
@@ -137,70 +143,55 @@ const actorOptions = computed(() =>
 );
 
 const selectActor = (id: number, value: JournalMetric): void => {
-  actor.value = id;
-  metric.value = value;
-  tab.value = JournalAnalysisTab.Skills;
+  view.actor = id;
+  view.metric = value;
+  view.tab = JournalAnalysisTab.Skills;
 };
 
 const selectDeath = (id: number): void => {
   selectActor(id, JournalMetric.DamageTaken);
-  tab.value = JournalAnalysisTab.Deaths;
+  view.tab = JournalAnalysisTab.Deaths;
 };
 
-// Time-based tabs need a single fight; never keep one open for a combined period.
-watch(
-  () => timelineAvailable.value,
-  (available) => {
-    const timed = [
-      JournalAnalysisTab.Timeline,
-      JournalAnalysisTab.Rotation,
-      JournalAnalysisTab.Effects,
-      JournalAnalysisTab.Deaths,
-    ];
+const availableTabs = computed<Readonly<Record<JournalAnalysisTab, boolean>>>(() => ({
+  [JournalAnalysisTab.Overview]: true,
+  [JournalAnalysisTab.Skills]: true,
+  [JournalAnalysisTab.Targets]: true,
+  [JournalAnalysisTab.Compare]: true,
+  [JournalAnalysisTab.Effects]: effectsAvailable.value,
+  [JournalAnalysisTab.Timeline]: timelineAvailable.value,
+  [JournalAnalysisTab.Rotation]: timelineAvailable.value,
+  [JournalAnalysisTab.Deaths]: timelineAvailable.value,
+  [JournalAnalysisTab.Events]: timelineAvailable.value,
+}));
 
-    if (available === false && timed.includes(tab.value) === true) {
-      tab.value = JournalAnalysisTab.Skills;
-    }
-  },
-);
-
-const sortMode = ref(JournalAnalysisSort.Amount);
-
-const search = ref('');
-
-const target = ref('all');
-
-const skill = ref<string | null>(null);
-
-const reference = ref('none');
-
-const referenceActor = ref('');
-
-const exportError = ref('');
+watch([availableTabs, () => view.tab], ([available, mode]) => {
+  if (available[mode] === false) {
+    view.tab = JournalAnalysisTab.Skills;
+  }
+});
 
 const incoming = computed(
-  () => metric.value === JournalMetric.DamageTaken || metric.value === JournalMetric.HealingTaken,
+  () => view.metric === JournalMetric.DamageTaken || view.metric === JournalMetric.HealingTaken,
 );
 
-const healing = computed(() => analysis.healing(metric.value));
+const healing = computed(() => analysis.healing(view.metric));
 
 const amountMetric = computed(() => (healing.value ? JournalMetric.Healing : JournalMetric.Damage));
-
-const amountWindow = analysisWindow;
 
 const chooseActor = (id: number): void => {
   if (
     props.query.rows(segment.value, analysisWindow.value).some((row) => row.actorId === id) ===
     false
   ) {
-    scope.value = JournalScope.All;
+    view.scope = JournalScope.All;
   }
 
-  actor.value = id;
+  view.actor = id;
 };
 
 const targetRows = computed(() =>
-  props.query.rows(segment.value, amountWindow.value, JournalDetail.Targets, actor.value),
+  props.query.rows(segment.value, analysisWindow.value, JournalDetail.Targets, view.actor),
 );
 
 const targetOptions = computed(() => [
@@ -208,90 +199,81 @@ const targetOptions = computed(() => [
   ...targetRows.value.map((row) => ({ value: row.id, label: row.label })),
 ]);
 
+const targetId = computed(() => (view.target === 'all' ? null : Number(view.target)));
+
 const filtered = computed<JournalSegment>(() => ({
   ...segment.value,
   records: segment.value.records.filter(
     (record) =>
-      target.value === 'all' ||
-      String(incoming.value ? record.sourceId : record.recipientId) === target.value,
+      view.target === 'all' ||
+      String(incoming.value ? record.sourceId : record.recipientId) === view.target,
   ),
 }));
 
 const actorRow = computed(
   () =>
     props.query
-      .rows(filtered.value, amountWindow.value)
-      .find((row) => row.actorId === actor.value) ?? null,
+      .rows(filtered.value, analysisWindow.value)
+      .find((row) => row.actorId === view.actor) ?? null,
 );
 
 const summary = computed(() =>
   actorRow.value === null
     ? null
-    : analysis.row(actorRow.value, metric.value, segment.value.elapsedMs),
+    : analysis.row(actorRow.value, view.metric, segment.value.elapsedMs),
 );
 
 const entries = computed(() =>
   props.query
-    .rows(filtered.value, amountWindow.value, JournalDetail.Skills, actor.value)
-    .map((row) => analysis.row(row, metric.value, segment.value.elapsedMs)),
+    .rows(filtered.value, analysisWindow.value, JournalDetail.Skills, view.actor)
+    .map((row) => analysis.row(row, view.metric, segment.value.elapsedMs)),
 );
 
 const visible = computed(() =>
   analysis.ordered(
     entries.value.filter((entry) =>
-      entry.row.label.toLocaleLowerCase().includes(search.value.toLocaleLowerCase()),
+      entry.row.label.toLocaleLowerCase().includes(view.search.toLocaleLowerCase()),
     ),
-    sortMode.value,
+    view.sort,
   ),
 );
 
-const selected = computed(
-  () => entries.value.find((entry) => entry.row.id === skill.value) ?? null,
-);
+const selected = computed(() => entries.value.find((entry) => entry.row.id === view.skill) ?? null);
 
 const actions = computed(() =>
-  analysis.actions(
-    segment.value,
-    actor.value,
-    mergeSummons.value,
-    incoming.value,
-    target.value === 'all' ? null : Number(target.value),
-  ),
+  analysis.actions(segment.value, view.actor, view.mergeSummons, incoming.value, targetId.value),
 );
 
-const casts = computed(() =>
-  actions.value.filter((action) => action.kind === JournalActionKind.Cast),
+const full = computed(
+  () => segment.value.tracePartial !== true && (segment.value.actions?.length ?? 0) !== 0,
 );
 
 const castCounts = computed(() => {
   const counts = new Map<string, number>();
 
-  for (const action of casts.value) {
-    const key = String(action.skillId);
+  for (const action of actions.value) {
+    if (action.kind === JournalActionKind.Cast) {
+      const key = String(action.skillId);
 
-    counts.set(key, (counts.get(key) ?? 0) + 1);
+      counts.set(key, (counts.get(key) ?? 0) + 1);
+    }
   }
 
   return counts;
 });
 
 const castCount = (id: string): number | null =>
-  full.value && target.value === 'all' && !incoming.value ? (castCounts.value.get(id) ?? 0) : null;
+  full.value && view.target === 'all' && !incoming.value ? (castCounts.value.get(id) ?? 0) : null;
 
-const eventActions = computed(() =>
-  actions.value.filter((action) => skill.value === null || String(action.skillId) === skill.value),
-);
+const bySkill = (action: JournalAction): boolean =>
+  view.skill === null || String(action.skillId) === view.skill;
+
+const eventActions = computed(() => actions.value.filter(bySkill));
 
 const rotationActions = computed(() =>
   analysis
-    .actions(
-      segment.value,
-      actor.value,
-      mergeSummons.value,
-      false,
-      target.value === 'all' ? null : Number(target.value),
-    )
-    .filter((action) => skill.value === null || String(action.skillId) === skill.value),
+    .actions(segment.value, view.actor, view.mergeSummons, false, targetId.value)
+    .filter(bySkill),
 );
 
 const timelineEvents = computed(() =>
@@ -299,13 +281,23 @@ const timelineEvents = computed(() =>
     const at = (action.atUs - segment.value.startedAtUs) / 1000;
 
     return (
-      at >= interval.value[0] &&
-      (at < interval.value[1] ||
-        (interval.value[1] >= (segment.value.spanMs ?? segment.value.elapsedMs) &&
-          at === interval.value[1]))
+      at >= view.interval[0] &&
+      (at < view.interval[1] || (view.interval[1] >= duration.value && at === view.interval[1]))
     );
   }),
 );
+
+const series = (values: readonly JournalAction[], kind: JournalActionKind): readonly number[] =>
+  analysis.chart(values, kind, duration.value, segment.value.startedAtUs);
+
+const palette = [
+  JournalChartColor.Blue,
+  JournalChartColor.Violet,
+  JournalChartColor.Green,
+  JournalChartColor.Amber,
+  JournalChartColor.Red,
+  JournalChartColor.Grey,
+];
 
 const abilitySeries = computed(() => {
   const top = entries.value.slice(0, 5);
@@ -319,16 +311,14 @@ const abilitySeries = computed(() => {
 
   return groups.map((group, index) => ({
     label: group.label,
-    color: ['#83b7ed', '#b599d9', '#7bc99f', '#e6bb7a', '#dc8888', '#8b9da2'][index] ?? '#8b9da2',
-    values: analysis.chart(
+    color: palette[index] ?? JournalChartColor.Grey,
+    values: series(
       eventActions.value.filter((action) =>
         group.id === 'rest'
           ? !ids.has(String(action.skillId))
           : String(action.skillId) === group.id,
       ),
       healing.value ? JournalActionKind.Healing : JournalActionKind.Damage,
-      segment.value.spanMs ?? segment.value.elapsedMs,
-      segment.value.startedAtUs,
     ),
   }));
 });
@@ -340,8 +330,8 @@ const chartSeries = computed(() => [
         'modules.combatJournal.metrics.' +
           (incoming.value ? JournalMetric.DamageTaken : JournalMetric.Damage),
       ) + '/s',
-    color: '#83b7ed',
-    values: damage.value,
+    color: JournalChartColor.Blue,
+    values: series(eventActions.value, JournalActionKind.Damage),
   },
   {
     label:
@@ -349,112 +339,46 @@ const chartSeries = computed(() => [
         'modules.combatJournal.metrics.' +
           (incoming.value ? JournalMetric.HealingTaken : JournalMetric.Healing),
       ) + '/s',
-    color: '#7bc99f',
-    values: heals.value,
+    color: JournalChartColor.Green,
+    values: series(eventActions.value, JournalActionKind.Healing),
   },
 ]);
 
-const criticalCounters = [
-  CombatCounter.CriticalHits,
-  CombatCounter.PerfectHits,
-  CombatCounter.DoubleHits,
-  CombatCounter.BackHits,
-  CombatCounter.FrontalHits,
-  CombatCounter.ParryHits,
-  CombatCounter.ShieldBlockHits,
-  CombatCounter.AdditionalHitEvents,
-];
-
-const flags = computed(() =>
-  criticalCounters.map((counter) => ({
-    counter,
-    value: selected.value === null ? null : analysis.ratio(selected.value.row, counter),
-  })),
+const chartKey = computed(
+  () =>
+    segment.value.id +
+    ':' +
+    String(view.actor) +
+    ':' +
+    view.metric +
+    ':' +
+    view.target +
+    ':' +
+    String(view.skill),
 );
 
-const otherCounters = computed(() =>
-  Object.values(CombatCounter)
-    .map((counter) => ({ counter, value: selected.value?.row.statistics.counters[counter] ?? 0 }))
-    .filter((entry) => entry.value !== 0),
+const clearFilters = (): void => {
+  view.target = 'all';
+  view.skill = null;
+};
+
+watch(
+  [() => segment.value.id, () => view.actor, () => view.metric, () => view.mergeSummons],
+  () => {
+    if (restoring === true) {
+      return;
+    }
+
+    clearFilters();
+    view.reference = 'none';
+    view.referenceActor = '';
+    view.interval = [0, duration.value];
+  },
 );
-
-const full = computed(
-  () => segment.value.tracePartial !== true && (segment.value.actions?.length ?? 0) !== 0,
-);
-
-const damage = computed(() =>
-  analysis.chart(
-    eventActions.value,
-    JournalActionKind.Damage,
-    segment.value.spanMs ?? segment.value.elapsedMs,
-    segment.value.startedAtUs,
-  ),
-);
-
-const heals = computed(() =>
-  analysis.chart(
-    eventActions.value,
-    JournalActionKind.Healing,
-    segment.value.spanMs ?? segment.value.elapsedMs,
-    segment.value.startedAtUs,
-  ),
-);
-
-const compareOptions = computed(() => [
-  { value: 'none', label: t('modules.combatJournal.analysis.chooseFight') },
-  ...props.segments
-    .filter((entry) => entry.id !== segment.value.id && entry.endedAtUs !== null)
-    .map((entry) => ({
-      value: entry.id,
-      label:
-        props.formatter.npc(entry.npcId) +
-        ' · ' +
-        props.formatter.time(entry.elapsedMs) +
-        ' · ' +
-        new Date(entry.startedAtUs / 1000).toLocaleString(),
-    })),
-]);
-
-const other = computed(() => props.segments.find((entry) => entry.id === reference.value) ?? null);
-
-const otherActors = computed(() => props.query.rows(other.value, amountWindow.value));
-
-const otherActorOptions = computed(() =>
-  otherActors.value.map((row) => ({ value: String(row.actorId), label: row.label })),
-);
-
-const otherEntries = computed(() =>
-  props.query
-    .rows(other.value, amountWindow.value, JournalDetail.Skills, Number(referenceActor.value))
-    .map((row) => analysis.row(row, metric.value, other.value?.elapsedMs ?? 0)),
-);
-
-const compared = computed(() => {
-  const current = new Map(entries.value.map((entry) => [entry.row.id, entry]));
-
-  const old = new Map(otherEntries.value.map((entry) => [entry.row.id, entry]));
-
-  return [...new Set([...current.keys(), ...old.keys()])].map((id) => ({
-    id,
-    current: current.get(id),
-    previous: old.get(id),
-  }));
-});
-
-watch([() => segment.value.id, actor, metric, mergeSummons], () => {
-  if (restoring === true) {
-    return;
-  }
-
-  target.value = 'all';
-  skill.value = null;
-  reference.value = 'none';
-  interval.value = [0, segment.value.spanMs ?? segment.value.elapsedMs];
-});
 watch(
   () => props.actor,
   (value) => {
-    actor.value = value;
+    view.actor = value;
   },
 );
 watch(
@@ -464,57 +388,33 @@ watch(
       return;
     }
 
-    actor.value = segment.value.playerId ?? props.actor;
-    tab.value = JournalAnalysisTab.Overview;
+    view.actor = segment.value.playerId ?? props.actor;
+    view.tab = JournalAnalysisTab.Overview;
   },
 );
-watch(reference, () => {
-  if (restoring === true) {
-    return;
-  }
-
-  const same = otherActors.value.find((row) => row.label === actorRow.value?.label);
-
-  referenceActor.value = String(
-    same?.actorId ?? other.value?.playerId ?? otherActors.value[0]?.actorId ?? '',
-  );
-});
-watch(tab, (value) => {
-  if (restoring === false && value === JournalAnalysisTab.Compare) {
-    target.value = 'all';
-    skill.value = null;
-  }
-});
-watch(raidCasts, (value) => {
-  if (restoring === false && value === true) {
-    target.value = 'all';
-    skill.value = null;
-  }
-});
 watch(
-  [tab, actor, metric, target],
+  () => view.tab,
+  (value) => {
+    if (restoring === false && value === JournalAnalysisTab.Compare) {
+      clearFilters();
+    }
+  },
+);
+watch(
+  () => view.raidCasts,
+  (value) => {
+    if (restoring === false && value === true) {
+      clearFilters();
+    }
+  },
+);
+watch(
+  [() => view.tab, () => view.actor, () => view.metric, () => view.target],
   () => {
     scroll.value?.scrollTo({ top: 0, left: 0 });
   },
   { flush: 'post' },
 );
-const format = (value: number | null): string =>
-  value === null ? '—' : props.formatter.number(value, false);
-
-const percent = (value: number | null): string => (value === null ? '—' : format(value) + '%');
-
-const rateDelta = (
-  current: JournalAnalysisRow | undefined,
-  previous: JournalAnalysisRow | undefined,
-): string => {
-  const value = analysis.difference(current, previous);
-
-  if (value === null) {
-    return '—';
-  }
-
-  return (value > 0 ? '+' : '') + format(value);
-};
 
 const exportCsv = async (): Promise<void> => {
   try {
@@ -543,23 +443,7 @@ const exportCsv = async (): Promise<void> => {
   }
 };
 
-const location = (): JournalNavigationState => ({
-  fight: selectedFight.value,
-  tab: tab.value,
-  actor: actor.value,
-  metric: metric.value,
-  scope: scope.value,
-  mergeSummons: mergeSummons.value,
-  target: target.value,
-  skill: skill.value,
-  reference: reference.value,
-  referenceActor: referenceActor.value,
-  bySkill: bySkill.value,
-  raidCasts: raidCasts.value,
-  sort: sortMode.value,
-  search: search.value,
-  interval: interval.value,
-});
+const location = (): JournalNavigationState => ({ ...view });
 
 const navigation = reactive(new JournalNavigation(location()));
 
@@ -569,39 +453,30 @@ const restore = async (state: JournalNavigationState | null): Promise<void> => {
   }
 
   restoring = true;
-  selectedFight.value = state.fight;
-  tab.value = state.tab;
-  actor.value = state.actor;
-  metric.value = state.metric;
-  scope.value = state.scope;
-  mergeSummons.value = state.mergeSummons;
-  target.value = state.target;
-  skill.value = state.skill;
-  reference.value = state.reference;
-  referenceActor.value = state.referenceActor;
-  bySkill.value = state.bySkill;
-  raidCasts.value = state.raidCasts;
-  sortMode.value = state.sort;
-  search.value = state.search;
-  interval.value = state.interval;
+  Object.assign(view, state);
   await nextTick();
   restoring = false;
 };
 
+/** A change of these opens a new history entry; the rest only refine the current one. */
+const visited = [
+  'fight',
+  'tab',
+  'actor',
+  'metric',
+  'scope',
+  'mergeSummons',
+  'target',
+  'skill',
+  'reference',
+  'referenceActor',
+  'raidCasts',
+] as const;
+
+const refined = ['search', 'sort', 'bySkill', 'interval'] as const;
+
 watch(
-  [
-    selectedFight,
-    tab,
-    actor,
-    metric,
-    scope,
-    mergeSummons,
-    target,
-    skill,
-    reference,
-    referenceActor,
-    raidCasts,
-  ],
+  visited.map((key) => () => view[key]),
   () => {
     if (restoring === false) {
       navigation.visit(location());
@@ -610,7 +485,7 @@ watch(
   { flush: 'post' },
 );
 watch(
-  [search, sortMode, bySkill, interval],
+  refined.map((key) => () => view[key]),
   () => {
     if (restoring === false) {
       navigation.update(location());
@@ -651,41 +526,34 @@ const navigateKey = (event: KeyboardEvent): void => {
         :segment="segment"
         :segments="segments"
         :formatter="formatter"
-        @select="selectedFight = $event"
+        @select="view.fight = $event"
       />
     </div>
     <div class="analysis-filters analysis-scope">
       <UiSelect
         :label="t('modules.combatJournal.analysis.participants')"
-        :model-value="scope"
+        :model-value="view.scope"
         :options="
           Object.values(JournalScope).map((value) => ({
             value,
             label: t('modules.combatJournal.scopes.' + value),
           }))
         "
-        @update:model-value="scope = $event"
+        @update:model-value="view.scope = $event"
       />
-      <UiSwitch v-model="mergeSummons" :label="t('modules.combatJournal.summons')" />
+      <UiSwitch v-model="view.mergeSummons" :label="t('modules.combatJournal.summons')" />
     </div>
     <nav class="analysis-tabs" :aria-label="t('modules.combatJournal.analysis.navigation')">
       <button
         v-for="mode in Object.values(JournalAnalysisTab)"
         :key="mode"
         type="button"
-        :aria-pressed="tab === mode"
-        :title="!timelineAvailable ? t('modules.combatJournal.analysis.singleCombat') : undefined"
-        :disabled="
-          !timelineAvailable &&
-          [
-            JournalAnalysisTab.Timeline,
-            JournalAnalysisTab.Rotation,
-            JournalAnalysisTab.Effects,
-            JournalAnalysisTab.Deaths,
-            JournalAnalysisTab.Events,
-          ].includes(mode)
+        :aria-pressed="view.tab === mode"
+        :title="
+          !availableTabs[mode] ? t('modules.combatJournal.analysis.traceUnavailable') : undefined
         "
-        @click="tab = mode"
+        :disabled="!availableTabs[mode]"
+        @click="view.tab = mode"
       >
         {{ t('modules.combatJournal.analysis.tabs.' + mode) }}
       </button>
@@ -693,71 +561,79 @@ const navigateKey = (event: KeyboardEvent): void => {
     <div
       ref="scroll"
       class="analysis-scroll"
-      :class="{ 'analysis-scroll-rotation': tab === JournalAnalysisTab.Rotation }"
+      :class="{ 'analysis-scroll-rotation': view.tab === JournalAnalysisTab.Rotation }"
     >
-      <div v-if="tab === JournalAnalysisTab.Rotation" class="analysis-chart-modes cast-view-modes">
-        <button type="button" :aria-pressed="raidCasts" @click="raidCasts = true">
+      <p v-if="healing" class="analysis-note">
+        {{ t('modules.combatJournal.analysis.healingAmountHint') }}
+      </p>
+      <div
+        v-if="view.tab === JournalAnalysisTab.Rotation"
+        class="analysis-chart-modes cast-view-modes"
+      >
+        <button type="button" :aria-pressed="view.raidCasts" @click="view.raidCasts = true">
           {{ t('modules.combatJournal.analysis.allParticipants') }}
         </button>
-        <button type="button" :aria-pressed="!raidCasts" @click="raidCasts = false">
+        <button type="button" :aria-pressed="!view.raidCasts" @click="view.raidCasts = false">
           {{ t('modules.combatJournal.analysis.selectedParticipant') }}
         </button>
       </div>
       <header
         v-if="
-          tab !== JournalAnalysisTab.Overview && !(tab === JournalAnalysisTab.Rotation && raidCasts)
+          view.tab !== JournalAnalysisTab.Overview &&
+          !(view.tab === JournalAnalysisTab.Rotation && view.raidCasts)
         "
         class="analysis-context"
       >
         <div>
-          <strong>{{ actorRow?.label ?? formatter.unit(actor, segment) }}</strong
+          <strong>{{ actorRow?.label ?? formatter.unit(view.actor, segment) }}</strong
           ><small
             >{{ formatter.time(segment.elapsedMs) }} ·
-            {{ t('modules.combatJournal.metrics.' + metric) }}</small
+            {{ t('modules.combatJournal.metrics.' + view.metric) }}</small
           >
         </div>
         <UiButton
-          v-if="tab === JournalAnalysisTab.Skills || tab === JournalAnalysisTab.Compare"
+          v-if="view.tab === JournalAnalysisTab.Skills || view.tab === JournalAnalysisTab.Compare"
           @click="exportCsv"
           >CSV</UiButton
         >
       </header>
       <div
         v-if="
-          tab !== JournalAnalysisTab.Overview && !(tab === JournalAnalysisTab.Rotation && raidCasts)
+          view.tab !== JournalAnalysisTab.Overview &&
+          !(view.tab === JournalAnalysisTab.Rotation && view.raidCasts)
         "
         class="analysis-filters analysis-selector"
       >
         <UiSelect
           :label="t('modules.combatJournal.analysis.participants')"
-          :model-value="String(actor)"
+          :model-value="String(view.actor)"
           :options="actorOptions"
           @update:model-value="chooseActor(Number($event))"
         />
         <UiSelect
           v-if="quantitative"
           :label="t('modules.combatJournal.metric')"
-          :model-value="metric"
+          :model-value="view.metric"
           :options="metricOptions"
-          @update:model-value="metric = $event"
+          @update:model-value="view.metric = $event"
         />
       </div>
       <div v-if="summary && quantitative" class="analysis-summary">
         <div>
           <span>{{ t('modules.combatJournal.metrics.' + amountMetric) }}</span
-          ><b>{{ summary.row.value === null ? '≥ ' : '' }}{{ format(summary.amount) }}</b>
+          ><b>{{ summary.row.value === null ? '≥ ' : '' }}{{ formatter.amount(summary.amount) }}</b>
         </div>
         <div>
           <span>{{ healing ? 'HPS' : 'DPS' }}</span
-          ><b>{{ summary.row.value === null ? '≥ ' : '' }}{{ format(summary.rate) }}</b>
+          ><b>{{ summary.row.value === null ? '≥ ' : '' }}{{ formatter.amount(summary.rate) }}</b>
         </div>
         <div>
           <span>{{ t('modules.combatJournal.analysis.share') }}</span
-          ><b>{{ percent(summary.row.share) }}</b>
+          ><b>{{ formatter.percent(summary.row.share) }}</b>
         </div>
         <div>
           <span>{{ t('modules.combatJournal.analysis.hitEvents') }}</span
-          ><b>{{ format(summary.hits) }}</b>
+          ><b>{{ formatter.amount(summary.hits) }}</b>
         </div>
       </div>
       <p v-if="summary?.row.value === null" class="analysis-note">
@@ -765,26 +641,26 @@ const navigateKey = (event: KeyboardEvent): void => {
       </p>
       <div
         v-if="
-          tab !== JournalAnalysisTab.Overview &&
-          tab !== JournalAnalysisTab.Effects &&
-          tab !== JournalAnalysisTab.Deaths &&
-          !(tab === JournalAnalysisTab.Rotation && raidCasts)
+          view.tab !== JournalAnalysisTab.Overview &&
+          view.tab !== JournalAnalysisTab.Effects &&
+          view.tab !== JournalAnalysisTab.Deaths &&
+          !(view.tab === JournalAnalysisTab.Rotation && view.raidCasts)
         "
         class="analysis-filters"
       >
         <UiSelect
-          v-if="tab !== JournalAnalysisTab.Compare"
+          v-if="view.tab !== JournalAnalysisTab.Compare"
           :label="t('modules.combatJournal.analysis.target')"
-          :model-value="target"
+          :model-value="view.target"
           :options="targetOptions"
           @update:model-value="
-            target = $event;
-            skill = null;
+            view.target = $event;
+            view.skill = null;
           "
         />
         <input
-          v-if="tab === JournalAnalysisTab.Skills || tab === JournalAnalysisTab.Compare"
-          v-model="search"
+          v-if="view.tab === JournalAnalysisTab.Skills || view.tab === JournalAnalysisTab.Compare"
+          v-model="view.search"
           class="ui-input"
           :aria-label="t('modules.combatJournal.analysis.search')"
           :placeholder="t('modules.combatJournal.analysis.search')"
@@ -792,19 +668,19 @@ const navigateKey = (event: KeyboardEvent): void => {
       </div>
       <div
         v-if="
-          skill !== null &&
-          tab !== JournalAnalysisTab.Overview &&
-          !(tab === JournalAnalysisTab.Rotation && raidCasts)
+          view.skill !== null &&
+          view.tab !== JournalAnalysisTab.Overview &&
+          !(view.tab === JournalAnalysisTab.Rotation && view.raidCasts)
         "
         class="analysis-active-filter"
       >
-        <span>{{ selected?.row.label ?? formatter.skill(Number(skill)) }}</span
-        ><UiButton @click="skill = null">{{
+        <span>{{ selected?.row.label ?? formatter.skill(Number(view.skill)) }}</span
+        ><UiButton @click="view.skill = null">{{
           t('modules.combatJournal.analysis.allSkills')
         }}</UiButton>
       </div>
       <JournalOverview
-        v-if="tab === JournalAnalysisTab.Overview"
+        v-if="view.tab === JournalAnalysisTab.Overview"
         :segment="segment"
         :window="analysisWindow"
         :query="query"
@@ -813,22 +689,20 @@ const navigateKey = (event: KeyboardEvent): void => {
         @select="selectActor"
         @death="selectDeath"
       />
-      <template v-else-if="tab === JournalAnalysisTab.Skills">
+      <template v-else-if="view.tab === JournalAnalysisTab.Skills">
         <div v-if="timelineAvailable" class="analysis-chart-modes">
-          <button type="button" :aria-pressed="!bySkill" @click="bySkill = false">
+          <button type="button" :aria-pressed="!view.bySkill" @click="view.bySkill = false">
             {{ t('modules.combatJournal.analysis.totalChart') }}</button
-          ><button type="button" :aria-pressed="bySkill" @click="bySkill = true">
+          ><button type="button" :aria-pressed="view.bySkill" @click="view.bySkill = true">
             {{ t('modules.combatJournal.analysis.abilityChart') }}
           </button>
         </div>
         <JournalTimeline
           v-if="timelineAvailable"
-          :key="
-            segment.id + ':' + String(actor) + ':' + metric + ':' + target + ':' + String(skill)
-          "
-          :series="bySkill ? abilitySeries : chartSeries"
-          :stacked="bySkill"
-          :duration="segment.spanMs ?? segment.elapsedMs"
+          :key="chartKey"
+          :series="view.bySkill ? abilitySeries : chartSeries"
+          :stacked="view.bySkill"
+          :duration="duration"
           :formatter="formatter"
         />
         <p v-if="timelineAvailable && !full" class="analysis-warning">
@@ -837,227 +711,119 @@ const navigateKey = (event: KeyboardEvent): void => {
         <div class="analysis-table-tools">
           <UiSelect
             :label="t('modules.combatJournal.analysis.sort')"
-            :model-value="sortMode"
+            :model-value="view.sort"
             :options="
               Object.values(JournalAnalysisSort).map((value) => ({
                 value,
                 label: t('modules.combatJournal.analysis.sorts.' + value),
               }))
             "
-            @update:model-value="sortMode = $event"
+            @update:model-value="view.sort = $event"
           />
         </div>
-        <table class="analysis-table">
-          <thead>
-            <tr>
-              <th>{{ t('modules.combatJournal.analysis.skill') }}</th>
-              <th>{{ t('modules.combatJournal.analysis.amount') }}</th>
-              <th>{{ t('modules.combatJournal.analysis.hitEvents') }}</th>
-              <th>{{ t('modules.combatJournal.analysis.confirmedCasts') }}</th>
-              <th>{{ t('modules.combatJournal.analysis.average') }}</th>
-              <th>{{ t('modules.combatJournal.analysis.critical') }}</th>
-              <th>{{ t('modules.combatJournal.analysis.periodic') }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <template v-for="entry in visible" :key="entry.row.id"
-              ><tr :class="{ 'analysis-selected': skill === entry.row.id }">
-                <td>
-                  <button
-                    type="button"
-                    @click="skill = skill === entry.row.id ? null : entry.row.id"
-                  >
-                    <JournalSkillIcon :path="formatter.icon(Number(entry.row.id))" />
-                    {{ entry.row.label }}
-                  </button>
-                  <div class="analysis-share">
-                    <i :style="{ width: String(entry.row.share) + '%' }" />
-                  </div>
-                </td>
-                <td>
-                  {{ entry.row.value === null ? '≥ ' : '' }}{{ format(entry.amount)
-                  }}<small
-                    >{{ percent(entry.row.share) }} · {{ format(entry.rate)
-                    }}{{ t('modules.combatJournal.analysis.perSecond') }}</small
-                  >
-                </td>
-                <td>{{ format(entry.hits) }}</td>
-                <td>{{ format(castCount(entry.row.id)) }}</td>
-                <td>{{ format(entry.average) }}</td>
-                <td>{{ healing ? '—' : percent(entry.critical) }}</td>
-                <td>{{ format(entry.periodic) }}</td>
-              </tr>
-              <tr v-if="selected && skill === entry.row.id" class="analysis-detail-row">
-                <td colspan="7">
-                  <section class="analysis-breakdown">
-                    <h3>{{ selected.row.label }}</h3>
-                    <div class="analysis-drilldown">
-                      <UiButton v-if="timelineAvailable" @click="tab = JournalAnalysisTab.Events">{{
-                        t('modules.combatJournal.analysis.tabs.events')
-                      }}</UiButton
-                      ><UiButton
-                        v-if="timelineAvailable"
-                        @click="tab = JournalAnalysisTab.Rotation"
-                        >{{ t('modules.combatJournal.analysis.tabs.rotation') }}</UiButton
-                      ><UiButton @click="skill = null">{{
-                        t('modules.combatJournal.analysis.allSkills')
-                      }}</UiButton>
-                    </div>
-                    <p v-if="!healing" class="analysis-note">
-                      {{ t('modules.combatJournal.analysis.directDenominator') }}
-                    </p>
-                    <div v-if="!healing" class="analysis-flags">
-                      <div v-for="flag in flags" :key="flag.counter">
-                        <span>{{ t('modules.combatJournal.counters.' + flag.counter) }}</span
-                        ><b>{{ percent(flag.value) }}</b>
-                      </div>
-                    </div>
-                    <dl>
-                      <template v-if="!healing">
-                        <dt>{{ t('modules.combatJournal.analysis.minimum') }}</dt>
-                        <dd>{{ format(selected.row.statistics.minimum) }}</dd>
-                        <dt>{{ t('modules.combatJournal.analysis.maximum') }}</dt>
-                        <dd>{{ format(selected.row.statistics.maximum) }}</dd>
-                      </template>
-                      <template v-for="counter in otherCounters" :key="counter.counter"
-                        ><dt>{{ t('modules.combatJournal.counters.' + counter.counter) }}</dt>
-                        <dd>{{ format(counter.value) }}</dd></template
-                      >
-                    </dl>
-                  </section>
-                </td>
-              </tr></template
-            >
-          </tbody>
-        </table>
+        <JournalSkillsTable
+          :entries="visible"
+          :skill="view.skill"
+          :healing="healing"
+          :timeline-available="timelineAvailable"
+          :cast-count="castCount"
+          :formatter="formatter"
+          @skill="view.skill = $event"
+          @tab="view.tab = $event"
+        />
       </template>
-      <template v-else-if="tab === JournalAnalysisTab.Targets">
+      <template v-else-if="view.tab === JournalAnalysisTab.Targets">
         <button
           v-for="row in targetRows"
           :key="row.id"
           type="button"
           class="analysis-target"
           @click="
-            target = row.id;
-            tab = JournalAnalysisTab.Skills;
+            view.target = row.id;
+            view.tab = JournalAnalysisTab.Skills;
           "
         >
           <span>{{ row.label }}</span
-          ><b>{{ formatter.value(row, false, metric) }}</b
-          ><small>{{ percent(row.share) }}</small>
+          ><b>{{ formatter.value(row, false, view.metric) }}</b
+          ><small>{{ formatter.percent(row.share) }}</small>
         </button></template
       >
-      <template v-else-if="tab === JournalAnalysisTab.Timeline">
+      <template v-else-if="view.tab === JournalAnalysisTab.Timeline">
         <p v-if="!full" class="analysis-warning">
           {{ t('modules.combatJournal.analysis.tracePartial') }}
         </p>
         <JournalTimeline
-          :key="
-            segment.id + ':' + String(actor) + ':' + metric + ':' + target + ':' + String(skill)
-          "
+          :key="chartKey"
           :series="chartSeries"
-          :duration="segment.spanMs ?? segment.elapsedMs"
+          :duration="duration"
           :formatter="formatter"
-          @range="(start, end) => (interval = [start, end])"
+          @range="(start, end) => (view.interval = [start, end])"
         />
         <JournalIntervalPanel
           :actions="timelineEvents"
           :formatter="formatter"
-          :start="interval[0]"
-          :end="interval[1]"
+          :start="view.interval[0]"
+          :end="view.interval[1]"
         />
         <JournalEventsPanel :actions="timelineEvents" :segment="segment" :formatter="formatter" />
       </template>
-      <template v-else-if="tab === JournalAnalysisTab.Rotation">
+      <template v-else-if="view.tab === JournalAnalysisTab.Rotation">
         <JournalCastsPanel
-          :key="segment.id + ':' + String(actor) + ':' + String(raidCasts)"
-          :actions="raidCasts ? groupActions : rotationActions"
-          :group-actors="raidCasts"
+          :key="segment.id + ':' + String(view.actor) + ':' + String(view.raidCasts)"
+          :actions="view.raidCasts ? groupActions : rotationActions"
+          :group-actors="view.raidCasts"
           :actors="castActors"
           :actor-for="castActor"
           :segment="segment"
           :formatter="formatter"
           @actor="
             chooseActor($event);
-            raidCasts = false;
+            view.raidCasts = false;
           "
           @skill="
-            skill = $event === null ? null : String($event);
-            tab = JournalAnalysisTab.Events;
+            view.skill = $event === null ? null : String($event);
+            view.tab = JournalAnalysisTab.Events;
           "
         />
       </template>
       <JournalDeathsPanel
-        v-else-if="tab === JournalAnalysisTab.Deaths"
+        v-else-if="view.tab === JournalAnalysisTab.Deaths"
         :segment="segment"
-        :actor="actor"
+        :actor="view.actor"
         :formatter="formatter"
       />
       <JournalEventsPanel
-        v-else-if="tab === JournalAnalysisTab.Events"
+        v-else-if="view.tab === JournalAnalysisTab.Events"
         :actions="eventActions"
         :segment="segment"
         :formatter="formatter"
       />
       <JournalEffectsPanel
-        v-else-if="tab === JournalAnalysisTab.Effects"
+        v-else-if="view.tab === JournalAnalysisTab.Effects"
         :segment="segment"
-        :actor="actor"
+        :actor="view.actor"
         :formatter="formatter"
       />
-      <template v-else
-        ><div class="analysis-filters">
-          <UiSelect
-            :label="t('modules.combatJournal.analysis.reference')"
-            :model-value="reference"
-            :options="compareOptions"
-            @update:model-value="reference = $event"
-          /><UiSelect
-            v-if="other"
-            :label="t('modules.combatJournal.analysis.referenceActor')"
-            :model-value="referenceActor"
-            :options="otherActorOptions"
-            @update:model-value="referenceActor = $event"
-          />
-        </div>
-        <table v-if="other" class="analysis-table">
-          <thead>
-            <tr>
-              <th>{{ t('modules.combatJournal.analysis.skill') }}</th>
-              <th>
-                {{ t('modules.combatJournal.analysis.current')
-                }}{{ t('modules.combatJournal.analysis.perSecond') }}
-              </th>
-              <th>
-                {{ t('modules.combatJournal.analysis.reference')
-                }}{{ t('modules.combatJournal.analysis.perSecond') }}
-              </th>
-              <th>Δ {{ t('modules.combatJournal.analysis.perSecond') }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-for="entry in compared.filter((entry) =>
-                (entry.current?.row.label ?? entry.previous?.row.label ?? '')
-                  .toLocaleLowerCase()
-                  .includes(search.toLocaleLowerCase()),
-              )"
-              :key="entry.id"
-            >
-              <td>
-                <span class="analysis-skill-name"
-                  ><JournalSkillIcon :path="formatter.icon(Number(entry.id))" />{{
-                    entry.current?.row.label ?? entry.previous?.row.label
-                  }}</span
-                >
-              </td>
-              <td>{{ format(entry.current?.rate ?? 0) }}</td>
-              <td>{{ format(entry.previous?.rate ?? 0) }}</td>
-              <td>{{ rateDelta(entry.current, entry.previous) }}</td>
-            </tr>
-          </tbody>
-        </table></template
-      >
+      <JournalComparePanel
+        v-else
+        :segment="segment"
+        :segments="segments"
+        :entries="entries"
+        :window="analysisWindow"
+        :query="query"
+        :formatter="formatter"
+        :search="view.search"
+        :actor-label="actorRow?.label ?? null"
+        :reference="view.reference"
+        :reference-actor="view.referenceActor"
+        @reference="
+          (fight, actor) => {
+            view.reference = fight;
+            view.referenceActor = actor;
+          }
+        "
+        @reference-actor="view.referenceActor = $event"
+      />
       <p v-if="exportError" role="alert">{{ exportError }}</p>
     </div>
   </div>
@@ -1069,20 +835,17 @@ const navigateKey = (event: KeyboardEvent): void => {
   padding-left: 20px;
   flex-shrink: 0;
 }
-
 .analysis-toolbar {
   display: flex;
   align-items: center;
   border-bottom: 1px solid var(--prism-border);
   flex-shrink: 0;
 }
-
 .analysis-toolbar :deep(.fight-picker) {
   flex: 1;
   min-width: 0;
   border-bottom: 0;
 }
-
 .analysis-scope {
   padding-top: 12px !important;
 }
@@ -1093,7 +856,6 @@ const navigateKey = (event: KeyboardEvent): void => {
   border-radius: 4px;
   padding: 6px 10px;
 }
-
 .analysis-chart-modes {
   display: flex;
   gap: 8px;
@@ -1155,8 +917,7 @@ const navigateKey = (event: KeyboardEvent): void => {
   padding: 12px;
   background: var(--prism-panel-background);
 }
-.analysis-summary span,
-.analysis-flags span {
+.analysis-summary span {
   color: var(--prism-muted);
   font-size: 12px;
 }
@@ -1234,91 +995,6 @@ const navigateKey = (event: KeyboardEvent): void => {
   width: 180px;
   min-width: 0;
 }
-.analysis-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-variant-numeric: tabular-nums;
-}
-.analysis-table th {
-  font-size: 11px;
-  color: var(--prism-muted);
-  font-weight: 500;
-  text-align: right;
-  padding: 8px;
-  border-bottom: 1px solid var(--prism-border);
-}
-.analysis-table th:first-child,
-.analysis-table td:first-child {
-  text-align: left;
-  width: 30%;
-  white-space: normal;
-}
-.analysis-table td {
-  white-space: nowrap;
-  text-align: right;
-  padding: 12px 8px;
-  border-bottom: 1px solid var(--prism-border);
-  vertical-align: top;
-}
-.analysis-table td small {
-  display: block;
-  color: var(--prism-muted);
-  font-size: 11px;
-  margin-top: 5px;
-}
-.analysis-table button {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: none;
-  border: 0;
-  color: inherit;
-  text-align: left;
-  padding: 0;
-  cursor: pointer;
-  font: inherit;
-}
-.analysis-share {
-  height: 3px;
-  background: var(--prism-field);
-  margin-top: 7px;
-}
-.analysis-share i {
-  display: block;
-  background: var(--prism-accent);
-  height: 100%;
-}
-.analysis-selected {
-  background: var(--prism-selected);
-}
-.analysis-breakdown {
-  text-align: left;
-  white-space: normal;
-  padding: 8px 12px;
-}
-.analysis-breakdown h3 {
-  font-size: 14px;
-}
-.analysis-flags {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
-  padding: 12px 0;
-}
-.analysis-flags > div {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-}
-.analysis-breakdown dl {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr auto;
-  gap: 8px;
-}
-.analysis-breakdown dd {
-  margin: 0 20px 0 0;
-  font-variant-numeric: tabular-nums;
-}
 .analysis-note {
   font-size: 12px;
   line-height: 1.5;
@@ -1353,20 +1029,11 @@ const navigateKey = (event: KeyboardEvent): void => {
   .analysis-summary {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .analysis-flags {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
   .analysis-filters {
     grid-template-columns: 1fr;
   }
-  .analysis-table th,
-  .analysis-table td {
-    padding: 9px 4px;
-    font-size: 11px;
-  }
 }
-.analysis-active-filter,
-.analysis-drilldown {
+.analysis-active-filter {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -1376,21 +1043,7 @@ const navigateKey = (event: KeyboardEvent): void => {
   background: var(--prism-selected);
   font-size: 12px;
 }
-.analysis-skill-name {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
 .analysis-scroll > .journal-events-panel {
   margin-top: 20px;
-}
-.analysis-table tbody tr:hover {
-  background: var(--prism-field);
-}
-.analysis-table th {
-  position: sticky;
-  top: 0;
-  background: var(--prism-panel-background);
-  z-index: 1;
 }
 </style>

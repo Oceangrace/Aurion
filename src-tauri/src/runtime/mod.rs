@@ -5,6 +5,7 @@ mod localization;
 mod preferences;
 mod quit_request;
 mod tray;
+mod tray_action;
 mod window;
 
 pub(crate) use self::icons::IconProtocol;

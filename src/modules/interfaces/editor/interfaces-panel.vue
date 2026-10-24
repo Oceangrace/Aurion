@@ -361,8 +361,10 @@ watch(
               <InterfaceLibrary
                 v-if="page === EditorPage.Library"
                 :session="session"
+                :unavailable="interfaces.getSnapshot().value?.unavailable ?? []"
                 @open="openInterface"
                 @create="createInterface"
+                @remove-unavailable="void interfaces.removeUnavailable($event)"
               />
               <ImportPage
                 v-else

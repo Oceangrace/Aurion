@@ -800,6 +800,13 @@ section.interfaces-surface > .surface-header {
 .library-row-actions > .ui-icon-button:hover:not(:disabled) {
   color: #ffaaa6;
 }
+.library-unavailable .library-name > span {
+  color: var(--prism-muted);
+  font-size: 13px;
+}
+.library-unavailable .library-name small {
+  color: #e6b978;
+}
 .library-columns {
   color: var(--prism-dim);
   padding: 8px 0;

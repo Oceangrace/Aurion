@@ -77,6 +77,7 @@ pub(crate) enum GameEvent {
         entity_id: EntityId,
         health: HealthSnapshot,
         mana: super::ManaSnapshot,
+        stamina: super::StaminaSnapshot,
     },
     SkillConfirmed {
         skill_id: SkillId,

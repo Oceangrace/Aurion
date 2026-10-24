@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ImageFit } from '../model/image-fit';
 import { inject, computed, onBeforeUnmount, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { WidgetNode } from '../model/widget-node';
@@ -134,7 +135,7 @@ const timer = computed(() => {
       :alt="widget.name"
       draggable="false"
       :style="{
-        objectFit: widget.style.imageFit === 'stretch' ? 'fill' : widget.style.imageFit,
+        objectFit: widget.style.imageFit === ImageFit.Stretch ? 'fill' : widget.style.imageFit,
         filter: widget.style.desaturate ? 'grayscale(1)' : 'none',
         transform: 'scale(' + String(1 + widget.style.zoom / 100) + ')',
       }"

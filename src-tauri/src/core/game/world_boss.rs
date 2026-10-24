@@ -25,11 +25,6 @@ impl WorldBoss {
         self.alive
     }
 
-    /// Field bosses appear when the server-provided respawn deadline reaches zero.
-    pub(crate) fn alive_at(&self, now_ms: u64) -> bool {
-        self.alive || self.time_ms.is_some_and(|time| time > 0 && time <= now_ms)
-    }
-
     pub(crate) fn time_ms(&self) -> Option<u64> {
         self.time_ms
     }

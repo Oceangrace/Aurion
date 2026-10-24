@@ -5,6 +5,7 @@ pub(crate) mod geometry;
 pub(crate) mod localization;
 pub(crate) mod preferences;
 pub(crate) mod speech;
+pub(crate) mod surface;
 pub(crate) mod updates;
 
 pub(crate) mod game;

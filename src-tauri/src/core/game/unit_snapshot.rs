@@ -3,6 +3,7 @@ use super::EntityId;
 use super::HealthSnapshot;
 use super::NpcDefinitionId;
 use super::ObservedList;
+use super::StaminaSnapshot;
 use super::UnitIdentity;
 use crate::core::game::CastPreparation;
 use serde::Serialize;
@@ -17,6 +18,7 @@ pub(crate) struct UnitSnapshot {
     identity: UnitIdentity,
     health: HealthSnapshot,
     mana: super::ManaSnapshot,
+    stamina: StaminaSnapshot,
     action: Option<super::ActionSnapshot>,
     cast: Option<CastPreparation>,
     server_battle: Option<super::ServerBattle>,
@@ -42,6 +44,7 @@ impl UnitSnapshot {
             identity,
             health,
             mana: Default::default(),
+            stamina: Default::default(),
             action: None,
             cast: None,
             server_battle: None,
@@ -81,6 +84,15 @@ impl UnitSnapshot {
 
     pub(crate) fn mana(&self) -> &super::ManaSnapshot {
         &self.mana
+    }
+
+    pub(crate) fn with_stamina(mut self, stamina: StaminaSnapshot) -> Self {
+        self.stamina = stamina;
+        self
+    }
+
+    pub(crate) fn stamina(&self) -> &StaminaSnapshot {
+        &self.stamina
     }
 
     pub(crate) fn action(&self) -> Option<&super::ActionSnapshot> {

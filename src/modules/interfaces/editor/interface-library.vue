@@ -6,10 +6,15 @@ import type { EditorSession } from './editor-session';
 import UiButton from '../../../renderer/components/ui/ui-button.vue';
 import UiIconButton from '../../../renderer/components/ui/ui-icon-button.vue';
 import UiConfirmDialog from '../../../renderer/components/ui/ui-confirm-dialog.vue';
+import UiMessage from '../../../renderer/components/ui/ui-message.vue';
+import type { UnavailableProfile } from '../model/unavailable-profile';
 
-const props = defineProps<{ session: EditorSession }>();
+const props = defineProps<{
+  session: EditorSession;
+  unavailable: readonly UnavailableProfile[];
+}>();
 
-const emit = defineEmits<{ open: [id: string]; create: [] }>();
+const emit = defineEmits<{ open: [id: string]; create: []; removeUnavailable: [folder: string] }>();
 
 const { t, locale } = useI18n();
 
@@ -44,6 +49,18 @@ watch(removing, (entry) => {
     removalId.value = null;
   }
 });
+
+const unavailableRemoval = ref<string | null>(null);
+
+const confirmUnavailableRemove = (): void => {
+  const folder = unavailableRemoval.value;
+
+  unavailableRemoval.value = null;
+
+  if (folder !== null) {
+    emit('removeUnavailable', folder);
+  }
+};
 
 const confirmRemove = (): void => {
   const entry = removing.value;
@@ -112,8 +129,34 @@ const confirmRemove = (): void => {
           ></UiIconButton>
         </span>
       </div>
+      <div
+        v-for="entry in unavailable"
+        :key="'unavailable:' + entry.folder"
+        class="library-row library-unavailable"
+        role="row"
+      >
+        <div role="cell" class="library-name">
+          <span>{{ entry.folder }}</span>
+          <small>{{ t('modules.interfaces.unavailable.title') }}</small>
+        </div>
+        <span role="cell">—</span>
+        <span role="cell">—</span>
+        <span role="cell" class="library-counts"><UiMessage :text="entry.reason" /></span>
+        <span role="cell" class="library-row-actions"
+          ><UiIconButton
+            :label="t('modules.interfaces.information.remove') + ' · ' + entry.folder"
+            :disabled="state.readOnly"
+            @click="unavailableRemoval = entry.folder"
+            ><svg viewBox="0 0 20 20" aria-hidden="true">
+              <path d="M4 6h12 M7 6V3h6v3 M5 6l1 11h8l1-11 M8 9v5 M12 9v5" /></svg
+          ></UiIconButton>
+        </span>
+      </div>
     </div>
-    <p v-if="documents.length === 0" class="hint">{{ t('modules.interfaces.emptyFilter') }}</p>
+    <p v-if="documents.length === 0 && unavailable.length === 0" class="hint">
+      {{ t('modules.interfaces.emptyFilter') }}
+    </p>
+    <p v-if="unavailable.length > 0" class="hint">{{ t('modules.interfaces.unavailable.hint') }}</p>
     <UiConfirmDialog
       :open="removing !== null"
       :title="t('modules.interfaces.confirmRemove', { name: removing?.name ?? '' })"
@@ -122,6 +165,15 @@ const confirmRemove = (): void => {
       :confirm-label="t('modules.interfaces.confirm')"
       @cancel="removalId = null"
       @confirm="confirmRemove"
+    />
+    <UiConfirmDialog
+      :open="unavailableRemoval !== null"
+      :title="t('modules.interfaces.confirmRemove', { name: unavailableRemoval ?? '' })"
+      :message="t('modules.interfaces.unavailable.deleteMessage')"
+      :cancel-label="t('modules.interfaces.cancel')"
+      :confirm-label="t('modules.interfaces.confirm')"
+      @cancel="unavailableRemoval = null"
+      @confirm="confirmUnavailableRemove"
     />
   </section>
 </template>

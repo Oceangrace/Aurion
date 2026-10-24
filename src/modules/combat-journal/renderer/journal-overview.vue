@@ -8,6 +8,7 @@ import type { JournalQuery } from '../runtime/journal-query';
 import { JournalMetric } from '../model/journal-metric';
 import { JournalActionKind } from '../model/journal-action-kind';
 import { JournalAnalysis } from '../runtime/journal-analysis';
+import { JournalChartColor } from '../model/journal-chart-color';
 import JournalTimeline from './journal-timeline.vue';
 
 const props = defineProps<{
@@ -82,7 +83,9 @@ const series = computed(() =>
       label:
         t('modules.combatJournal.metrics.' + table.metric) +
         t('modules.combatJournal.analysis.perSecond'),
-      color: ['#83b7ed', '#7bc99f', '#dc8888'][index] ?? '#83b7ed',
+      color:
+        [JournalChartColor.Blue, JournalChartColor.Green, JournalChartColor.Red][index] ??
+        JournalChartColor.Blue,
       values: analysis.chart(
         actions,
         table.metric === JournalMetric.Healing

@@ -20,6 +20,7 @@ impl JournalResource {
             entity_id,
             health,
             mana,
+            ..
         } = record.event()
         else {
             return None;

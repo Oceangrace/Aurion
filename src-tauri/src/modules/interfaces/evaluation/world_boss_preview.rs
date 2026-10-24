@@ -1,3 +1,5 @@
+use super::PreviewText;
+use super::WorldBossStatus;
 use crate::modules::interfaces::document::WidgetNode;
 use serde_json::Value;
 use serde_json::json;
@@ -9,6 +11,7 @@ impl WorldBossPreview {
     pub(super) fn rows(
         node: &WidgetNode,
         fields: &HashMap<String, Value>,
+        text: &PreviewText,
     ) -> Vec<HashMap<String, Value>> {
         node.binding
             .as_ref()
@@ -24,8 +27,17 @@ impl WorldBossPreview {
                             .cloned()
                             .unwrap_or_else(|| json!(format!("#{id}"))),
                     ),
-                    ("row.status".into(), json!("waiting")),
-                    ("row.timer".into(), Value::Null),
+                    ("row.status".into(), json!(WorldBossStatus::Waiting)),
+                    ("row.state".into(), json!(WorldBossStatus::Waiting)),
+                    (
+                        "row.statusText".into(),
+                        json!(text.world_boss(WorldBossStatus::Waiting)),
+                    ),
+                    ("row.restored".into(), json!(false)),
+                    (
+                        "row.timer".into(),
+                        json!(text.world_boss(WorldBossStatus::Waiting)),
+                    ),
                     ("row.remaining".into(), Value::Null),
                     ("row.observedAge".into(), Value::Null),
                 ])

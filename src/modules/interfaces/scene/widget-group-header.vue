@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { GroupButtonPlacement } from '../model/rules/group-button-placement';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { WidgetNode } from '../model/widget-node';
@@ -8,6 +9,9 @@ import { CombatMetric } from '../model/rules/combat-metric';
 import UiSelect from '../../../renderer/components/ui/ui-select.vue';
 import GroupButtonIcon from './group-button-icon.vue';
 const props = defineProps<{ widget: WidgetNode; session: EditorSession; collapsed: boolean }>();
+
+const buttons = (placement: GroupButtonPlacement): WidgetNode['headerButtons'] =>
+  props.widget.headerButtons.filter((button) => button.placement === placement);
 
 const emit = defineEmits<{ collapse: []; edit: [] }>();
 
@@ -92,7 +96,7 @@ const panels = computed(() =>
   >
     <span class="header-buttons"
       ><button
-        v-for="button in widget.headerButtons.filter((value) => value.placement === 'left')"
+        v-for="button in buttons(GroupButtonPlacement.Left)"
         :key="button.id"
         type="button"
         data-overlay-interactive
@@ -111,7 +115,7 @@ const panels = computed(() =>
     <span class="header-title">{{ widget.group.headerText || widget.name }}</span>
     <span class="header-buttons"
       ><button
-        v-for="button in widget.headerButtons.filter((value) => value.placement === 'right')"
+        v-for="button in buttons(GroupButtonPlacement.Right)"
         :key="button.id"
         type="button"
         data-overlay-interactive

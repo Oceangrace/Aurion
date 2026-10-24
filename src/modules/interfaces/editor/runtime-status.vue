@@ -21,9 +21,19 @@ const active = computed(
     props.error === null,
 );
 
+const failed = computed(() =>
+  Object.entries(props.frame?.documentErrors ?? {})
+    .map(([name, error]) => `${name}: ${error}`)
+    .join(' · '),
+);
+
 const label = computed(() => {
   if (props.error !== null) {
     return `${t('modules.interfaces.runtime.error')} · ${props.error}`;
+  }
+
+  if (failed.value !== '') {
+    return `${t('modules.interfaces.runtime.documentError')} · ${failed.value}`;
   }
 
   if (status.value === SourceStatus.Live && props.frame?.characterDataComplete !== true) {
@@ -37,7 +47,7 @@ const label = computed(() => {
   <span
     class="runtime-status"
     :data-state="status"
-    :class="{ 'has-error': error !== null, 'is-active': active }"
+    :class="{ 'has-error': error !== null || failed !== '', 'is-active': active }"
     :title="label"
     :aria-label="label"
     role="status"

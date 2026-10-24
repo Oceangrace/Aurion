@@ -16,6 +16,8 @@ pub(super) struct JournalAction {
     value: u32,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     duration_ms: Option<u32>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    skill_effect_id: Option<u32>,
 }
 
 impl JournalAction {
@@ -118,6 +120,13 @@ impl JournalAction {
             value,
             duration_ms: match record.event() {
                 GameEvent::CastStarted { preparation, .. } => Some(preparation.duration_ms()),
+                _ => None,
+            },
+            skill_effect_id: match record.event() {
+                GameEvent::Damage { hit, .. } => hit.skill_effect_id(),
+                GameEvent::Healing { hit, .. } => {
+                    hit.as_ref().and_then(|hit| hit.skill_effect_id())
+                }
                 _ => None,
             },
         })

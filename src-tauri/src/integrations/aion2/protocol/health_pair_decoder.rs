@@ -3,6 +3,7 @@ use crate::core::game::EntityId;
 use crate::core::game::GameEvent;
 use crate::core::game::HealthSnapshot;
 use crate::core::game::ManaSnapshot;
+use crate::core::game::StaminaSnapshot;
 
 pub(super) struct HealthPairDecoder;
 
@@ -23,6 +24,7 @@ impl HealthPairDecoder {
             entity_id,
             health: HealthSnapshot::new(Some(current), Some(maximum)),
             mana: ManaSnapshot::default(),
+            stamina: StaminaSnapshot::default(),
         }])
     }
 }

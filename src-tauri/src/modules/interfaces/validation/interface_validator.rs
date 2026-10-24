@@ -8,6 +8,7 @@ use crate::modules::interfaces::validation::AdvancedValidator;
 use crate::modules::interfaces::validation::WidgetVisualValidator;
 use std::collections::HashSet;
 
+#[derive(Clone)]
 pub(crate) struct InterfaceValidator {
     identities: HashSet<String>,
     count: usize,
@@ -30,15 +31,21 @@ impl InterfaceValidator {
         }
 
         for document in &workspace.documents {
-            document.localization.validate()?;
-            document.display.validate()?;
-            self.document(document)?;
+            self.add(document)?;
+        }
 
-            for locale in document.localization.translations.keys() {
-                let localized = DocumentLocalizer::apply(document, locale);
+        Ok(())
+    }
 
-                Self::new().document(&localized)?;
-            }
+    pub(crate) fn add(&mut self, document: &InterfaceDocument) -> Result<(), String> {
+        document.localization.validate()?;
+        document.display.validate()?;
+        self.document(document)?;
+
+        for locale in document.localization.translations.keys() {
+            let localized = DocumentLocalizer::apply(document, locale);
+
+            Self::new().document(&localized)?;
         }
 
         Ok(())

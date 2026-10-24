@@ -1,3 +1,4 @@
+import { Direction } from '../model/direction';
 import { defaultLoadRules } from '../model/load-rules';
 import { defaultWidgetSounds } from '../model/widget-sounds';
 import { defaultWidgetStyle } from '../model/widget-style';
@@ -40,7 +41,7 @@ export class WidgetFactory {
       style: {
         ...defaultWidgetStyle,
         borderWidth: group ? 0 : 1,
-        barDirection: kind === WidgetKind.Bar ? 'right' : null,
+        barDirection: kind === WidgetKind.Bar ? Direction.Right : null,
       },
       group: { ...defaultGroupSettings, fillEnabled: false },
       conditions: [],

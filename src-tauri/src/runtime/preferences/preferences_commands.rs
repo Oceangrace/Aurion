@@ -1,4 +1,5 @@
 use crate::core::preferences::OverlayPreferences;
+use crate::core::surface::Surface;
 use crate::runtime::PreferencesRepository;
 use crate::runtime::Tray;
 use std::sync::Mutex;
@@ -9,9 +10,7 @@ pub(crate) fn preferences_read(
     window: WebviewWindow,
     repository: State<'_, Mutex<PreferencesRepository>>,
 ) -> Result<OverlayPreferences, String> {
-    if window.label() != "editor" {
-        return Err("Editor access required".into());
-    }
+    Surface::Editor.require(window.label())?;
 
     repository
         .lock()
@@ -25,9 +24,7 @@ pub(crate) fn preferences_save(
     repository: State<'_, Mutex<PreferencesRepository>>,
     preferences: OverlayPreferences,
 ) -> Result<(), String> {
-    if window.label() != "editor" {
-        return Err("Editor access required".into());
-    }
+    Surface::Editor.require(window.label())?;
 
     let repository = repository.lock().map_err(|_| "Preferences unavailable")?;
 

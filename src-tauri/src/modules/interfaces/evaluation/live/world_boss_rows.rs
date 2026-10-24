@@ -1,8 +1,9 @@
 use super::live_inputs::LiveInputs;
 use super::live_row::LiveRow;
-use super::world_boss_status::WorldBossStatus;
+use crate::integrations::aion2::WorldBossObservation;
 use crate::integrations::aion2::catalog::FieldBossCatalog;
 use crate::modules::interfaces::document::WidgetNode;
+use crate::modules::interfaces::evaluation::WorldBossStatus;
 use serde_json::json;
 use std::collections::HashMap;
 
@@ -38,23 +39,11 @@ impl WorldBossRows {
             .iter()
             .find(|list| list.map_id().get() == definition.map_id);
 
-        let observed =
-            list.and_then(|list| list.bosses().iter().find(|boss| boss.world_map_id() == id));
+        let observation = WorldBossObservation::new(list, id, now);
 
-        let age = list.map(|list| now.saturating_sub(list.observed_at_us()));
+        let remaining = observation.remaining();
 
-        let remaining = observed
-            .filter(|boss| !boss.alive())
-            .and_then(|boss| boss.time_ms())
-            .filter(|time| *time > now / 1000)
-            .map(|time| time - now / 1000);
-
-        let (rank, status) = match observed {
-            Some(boss) if boss.alive_at(now / 1000) => (0, WorldBossStatus::ObservedAlive),
-            Some(_) if remaining.is_some() => (1, WorldBossStatus::Countdown),
-            Some(_) => (2, WorldBossStatus::Refresh),
-            None => (3, WorldBossStatus::Waiting),
-        };
+        let status = WorldBossStatus::resolve(&observation);
 
         let name = inputs
             .resolver()
@@ -64,15 +53,27 @@ impl WorldBossRows {
         let fields = HashMap::from([
             ("row.id".into(), json!(id.to_string())),
             ("row.name".into(), json!(name)),
-            ("row.status".into(), json!(status)),
+            ("row.status".into(), json!(status.compatible())),
+            ("row.state".into(), json!(status)),
             ("row.remaining".into(), json!(remaining)),
-            ("row.timer".into(), json!(remaining.map(Self::timer))),
-            ("row.observedAge".into(), json!(age.map(|age| age / 1000))),
+            (
+                "row.timer".into(),
+                json!(
+                    remaining
+                        .map_or_else(|| inputs.text().world_boss(status).to_owned(), Self::timer)
+                ),
+            ),
+            (
+                "row.statusText".into(),
+                json!(inputs.text().world_boss(status)),
+            ),
+            ("row.restored".into(), json!(observation.restored())),
+            ("row.observedAge".into(), json!(observation.age_ms())),
             ("row.mapId".into(), json!(definition.map_id)),
         ]);
 
         Some((
-            rank,
+            status.rank(),
             remaining.unwrap_or(0),
             LiveRow::new(id.to_string(), None, fields),
         ))

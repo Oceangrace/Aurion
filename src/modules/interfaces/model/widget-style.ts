@@ -1,3 +1,5 @@
+import { ImageSource } from './image-source';
+import type { Direction } from './direction';
 import { AnimationChange } from './animation-change';
 import { ClassColorSource } from './class-color-source';
 import { ClassColorTarget } from './class-color-target';
@@ -25,7 +27,7 @@ export interface WidgetStyle {
   readonly overhealColor: string;
   readonly overhealTexture: BarTexture;
   readonly overhealTextureSize: number;
-  readonly barDirection: string | null;
+  readonly barDirection: Direction | null;
   readonly fontFamily: FontFamily;
   readonly bold: boolean;
   readonly alignment: TextAlignment;
@@ -85,7 +87,7 @@ export interface WidgetStyle {
   readonly showMotion: MotionKind;
   readonly hideMotion: MotionKind;
   readonly motionDuration: number;
-  readonly imageSource: string;
+  readonly imageSource: ImageSource;
   readonly imageSkillId: number | null;
   readonly imageEffectId: number | null;
   readonly animationColor: string;
@@ -161,7 +163,7 @@ export const defaultWidgetStyle: WidgetStyle = {
   showMotion: MotionKind.None,
   hideMotion: MotionKind.None,
   motionDuration: 250,
-  imageSource: 'automatic',
+  imageSource: ImageSource.Automatic,
   imageSkillId: null,
   imageEffectId: null,
   animationColor: '#d6b26e',

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ImageSource } from '../model/image-source';
 import UiMessage from '../../../renderer/components/ui/ui-message.vue';
 import ClassColorFields from './class-color-fields.vue';
 import ImageCatalogFields from './image-catalog-fields.vue';
@@ -62,7 +63,7 @@ const loadImage = async (): Promise<void> => {
       props.session.updateSelected((node) => ({
         ...node,
         appearance: { ...node.appearance, customImage },
-        style: { ...node.style, imageSource: 'custom' },
+        style: { ...node.style, imageSource: ImageSource.Custom },
       }));
     }
 

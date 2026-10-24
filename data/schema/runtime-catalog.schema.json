@@ -164,6 +164,16 @@
       },
       "type": "object"
     },
+    "nonHealthSkillEffects": {
+      "default": [],
+      "items": {
+        "format": "uint32",
+        "minimum": 1,
+        "type": "integer"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
     "npcs": {
       "additionalProperties": false,
       "patternProperties": {

@@ -76,9 +76,15 @@ impl LiveEvaluator {
 
             let inputs = frame_inputs.with_formulas(&document.formulas);
 
-            for node in &document.roots {
-                self.node(node, &inputs, &mut frame)?;
-            }
+            let mut part = LiveFrame::new(game.header().status(), None);
+
+            let result = document
+                .roots
+                .iter()
+                .try_for_each(|node| self.node(node, &inputs, &mut part))
+                .map(|()| part);
+
+            frame.absorb(&document.name, result);
         }
 
         self.events.finish();

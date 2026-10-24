@@ -10,4 +10,5 @@ export interface LiveFrame {
   readonly error: string | null;
   readonly visuals: Readonly<Record<string, PreviewVisual>>;
   readonly states: Readonly<Record<string, TriggerState>>;
+  readonly documentErrors: Readonly<Record<string, string>>;
 }

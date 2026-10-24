@@ -4,6 +4,7 @@ use super::identity_decoder::IdentityDecoder;
 use crate::core::game::GameEvent;
 use crate::core::game::HealthSnapshot;
 use crate::core::game::ManaSnapshot;
+use crate::core::game::StaminaSnapshot;
 
 pub(super) struct PlayerVitalsDecoder;
 
@@ -71,6 +72,7 @@ impl PlayerVitalsDecoder {
             entity_id,
             health: HealthSnapshot::new(Some(current), Some(maximum)),
             mana: ManaSnapshot::new(Some(mana), Some(maximum_mana)),
+            stamina: StaminaSnapshot::default(),
         }))
     }
 

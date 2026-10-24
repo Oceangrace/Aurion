@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ImageSource } from '../model/image-source';
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { WidgetNode } from '../model/widget-node';
@@ -33,7 +34,12 @@ const automatic = async (): Promise<void> => {
         ...node,
         imageSelection: null,
         appearance: { ...node.appearance, customImage: null, iconPath: record?.item?.icon ?? null },
-        style: { ...node.style, imageSource: 'automatic', imageSkillId: null, imageEffectId: null },
+        style: {
+          ...node.style,
+          imageSource: ImageSource.Automatic,
+          imageSkillId: null,
+          imageEffectId: null,
+        },
       }));
     }
   } catch (error) {
@@ -48,7 +54,7 @@ const choose = (selection: CatalogSelection, item: CatalogItem, form: CatalogFor
     appearance: { ...node.appearance, iconPath: item.icon, customImage: null },
     style: {
       ...node.style,
-      imageSource: effect.value ? 'effect' : 'skill',
+      imageSource: effect.value ? ImageSource.Effect : ImageSource.Skill,
       imageSkillId: effect.value ? null : (form.matchIds[0] ?? null),
       imageEffectId: effect.value ? (form.matchIds[0] ?? null) : null,
     },
@@ -58,7 +64,7 @@ const choose = (selection: CatalogSelection, item: CatalogItem, form: CatalogFor
 </script>
 <template>
   <div class="choice-row image-source-actions">
-    <UiButton :active="widget.style.imageSource === 'automatic'" @click="automatic">{{
+    <UiButton :active="widget.style.imageSource === ImageSource.Automatic" @click="automatic">{{
       t('modules.interfaces.advanced.automaticImage')
     }}</UiButton>
     <UiButton @click="open = !open">{{ t('modules.interfaces.advanced.imageCatalog') }}</UiButton>
