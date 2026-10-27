@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A profile that cannot be loaded no longer blocks other profiles. Its files are preserved,
   and the library explains the problem, including when a newer Aurion may be needed.
 - A failing HUD no longer interrupts other interfaces or the DPS/HPS meters.
+- Restored missing skills, effects and enemy variants in the HUD editor, including
+  hidden sources of boss mechanics. Catalog search supports IDs and loading more results.
 
 ### Changed
 
@@ -27,7 +29,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Widget templates for skill cooldowns, effects, resources, cast timers and enemy skill warnings
+  in the HUD editor.
 - Player stamina for HUD bars, text and conditions, with current, maximum and percentage values.
+- World boss rows expose `row.state` for profiles: `waiting`, `countdown`, `observed-alive`,
+  `last-seen-alive`, `expected` and `refresh`.
 
 ## [0.1.4] - 2026-10-24
 

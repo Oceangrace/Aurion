@@ -4,7 +4,6 @@ use crate::core::game::GameEvent;
 use crate::core::game::InstanceTimer;
 use crate::core::game::MapId;
 use crate::core::game::OdyleEnergy;
-use crate::core::game::WorldBossList;
 use crate::core::game::WorldSnapshot;
 use std::collections::BTreeMap;
 
@@ -16,10 +15,6 @@ pub(super) struct WorldTracker {
 }
 
 impl WorldTracker {
-    pub(super) fn restore_bosses(&mut self, lists: &[WorldBossList], server: Option<u16>) {
-        self.bosses.restore(lists, server);
-    }
-
     pub(super) fn boss_cache(&self) -> &WorldBossCache {
         self.bosses.cache()
     }

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "clientBuild": 31,
-  "catalogVersion": "build31-normalized-v1",
+  "catalogVersion": "build31-normalized-v2",
   "effects": {
     "100": {
       "disposition": "debuff",
@@ -5289,6 +5289,48 @@
       "remainingTimeVisible": true
     },
     "4122": {
+      "disposition": "passive",
+      "stackLimit": 1,
+      "icon": null,
+      "iconVisible": false,
+      "remainingTimeVisible": true
+    },
+    "4123": {
+      "disposition": "passive",
+      "stackLimit": 1,
+      "icon": null,
+      "iconVisible": false,
+      "remainingTimeVisible": true
+    },
+    "4124": {
+      "disposition": "passive",
+      "stackLimit": 1,
+      "icon": null,
+      "iconVisible": false,
+      "remainingTimeVisible": true
+    },
+    "4125": {
+      "disposition": "passive",
+      "stackLimit": 1,
+      "icon": null,
+      "iconVisible": false,
+      "remainingTimeVisible": true
+    },
+    "4126": {
+      "disposition": "passive",
+      "stackLimit": 1,
+      "icon": null,
+      "iconVisible": false,
+      "remainingTimeVisible": true
+    },
+    "4127": {
+      "disposition": "passive",
+      "stackLimit": 1,
+      "icon": null,
+      "iconVisible": false,
+      "remainingTimeVisible": true
+    },
+    "4128": {
       "disposition": "passive",
       "stackLimit": 1,
       "icon": null,
@@ -47207,48 +47249,6 @@
       "icon": "Skill/ICON_GT_SKILL_Passive_010",
       "iconVisible": false,
       "remainingTimeVisible": false
-    },
-    "4123": {
-      "disposition": "passive",
-      "stackLimit": 1,
-      "icon": null,
-      "iconVisible": false,
-      "remainingTimeVisible": true
-    },
-    "4124": {
-      "disposition": "passive",
-      "stackLimit": 1,
-      "icon": null,
-      "iconVisible": false,
-      "remainingTimeVisible": true
-    },
-    "4125": {
-      "disposition": "passive",
-      "stackLimit": 1,
-      "icon": null,
-      "iconVisible": false,
-      "remainingTimeVisible": true
-    },
-    "4126": {
-      "disposition": "passive",
-      "stackLimit": 1,
-      "icon": null,
-      "iconVisible": false,
-      "remainingTimeVisible": true
-    },
-    "4127": {
-      "disposition": "passive",
-      "stackLimit": 1,
-      "icon": null,
-      "iconVisible": false,
-      "remainingTimeVisible": true
-    },
-    "4128": {
-      "disposition": "passive",
-      "stackLimit": 1,
-      "icon": null,
-      "iconVisible": false,
-      "remainingTimeVisible": true
     }
   },
   "skills": {

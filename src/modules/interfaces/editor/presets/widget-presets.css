@@ -1,0 +1,113 @@
+.element-preset-picker {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+  padding: 12px 0 8px;
+}
+.element-preset-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.element-preset-choice {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px;
+  min-height: 48px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--prism-text);
+  text-align: left;
+}
+.element-preset-choice:hover:not(:disabled) {
+  background: var(--prism-raised);
+}
+.element-preset-choice[aria-pressed='true'] {
+  background: var(--prism-selected);
+}
+.element-preset-choice > svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: var(--prism-muted);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.element-preset-choice[aria-pressed='true'] > svg {
+  stroke: var(--prism-accent);
+}
+.element-preset-choice .element-copy small {
+  font-size: 11px;
+}
+.element-preset-settings {
+  display: flex;
+  flex-direction: column;
+  align-self: start;
+  gap: 14px;
+  min-width: 0;
+  padding-top: 4px;
+}
+.element-preset-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+.element-enemy-preset-fields {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+.element-enemy-preset-fields > .hint {
+  margin: 0;
+}
+.element-preset-preview {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  padding: 12px;
+  border-radius: var(--prism-radius-control);
+  background: var(--prism-child);
+}
+.element-preset-preview > small {
+  color: var(--prism-muted);
+  font-size: 11px;
+}
+.element-preset-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 64px;
+  min-width: 0;
+}
+.element-preset-stage > .widget-kind-icon {
+  width: 36px;
+  height: 36px;
+  color: var(--prism-muted);
+}
+.element-preset-widget {
+  display: flex;
+  position: relative;
+  flex-shrink: 1;
+  max-width: 100%;
+  border: 0;
+}
+.element-preset-group-preview {
+  display: flex;
+  gap: 8px;
+  color: var(--prism-muted);
+}
+.element-preset-group-preview > svg {
+  width: 32px;
+  height: 32px;
+}
+@container (max-width: 720px) {
+  .element-preset-picker {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}

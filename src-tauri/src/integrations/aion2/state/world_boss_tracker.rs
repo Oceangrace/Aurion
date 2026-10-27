@@ -76,18 +76,6 @@ impl WorldBossTracker {
         }
     }
 
-    pub(super) fn restore(&mut self, lists: &[WorldBossList], server: Option<u16>) {
-        self.bind(server);
-
-        let Some(server) = self.server else {
-            return;
-        };
-
-        for list in lists.iter().take(Self::MAX_MAPS) {
-            self.cache.observe(server, list);
-        }
-    }
-
     pub(super) fn snapshot(&self, now_us: u64) -> Vec<WorldBossList> {
         let Some(server) = self.server else {
             return Vec::new();

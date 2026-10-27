@@ -6,3 +6,10 @@
 .catalog-picker .ui-field {
   min-width: 0;
 }
+.catalog-picker-footer {
+  display: grid;
+  flex-shrink: 0;
+  gap: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--prism-border);
+}

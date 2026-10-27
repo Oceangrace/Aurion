@@ -14,7 +14,6 @@ use crate::core::game::GameSnapshot;
 use crate::core::game::MapId;
 use crate::core::game::SnapshotHeader;
 use crate::core::game::SourceStatus;
-use crate::core::game::WorldBossList;
 use crate::integrations::aion2::StreamReset;
 use crate::integrations::aion2::catalog::RuntimeCatalog;
 use std::sync::Arc;
@@ -89,10 +88,6 @@ impl GameState {
         self.apply(&recovery.identity(), 0)?;
         self.skills.restore_book(recovery.skills().clone());
         self.entities.restore_player(recovery)
-    }
-
-    pub(crate) fn restore_bosses(&mut self, lists: &[WorldBossList]) {
-        self.world.restore_bosses(lists, self.entities.server());
     }
 
     pub(crate) fn restore_npcs(

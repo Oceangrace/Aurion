@@ -1,0 +1,17 @@
+export enum WidgetPreset {
+  Empty = 'empty',
+  Cooldown = 'cooldown',
+  Ready = 'ready',
+  Buff = 'buff',
+  Debuff = 'debuff',
+  Health = 'health',
+  Mana = 'mana',
+  Stamina = 'stamina',
+  Cast = 'cast',
+  HealthPercent = 'health-percent',
+  Name = 'name',
+  CastTimer = 'cast-timer',
+  Buffs = 'buffs',
+  EnemyCast = 'enemy-cast',
+  EventCountdown = 'event-countdown',
+}

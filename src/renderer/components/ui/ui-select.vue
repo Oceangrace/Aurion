@@ -25,7 +25,11 @@ const props = withDefaults(
 
 const emit = defineEmits<{ 'update:modelValue': [value: T]; search: [query: string] }>();
 
-defineSlots<{ option?(props: { option: UiSelectOption<T> }): VNode[] }>();
+const slots = defineSlots<{
+  option?(props: { option: UiSelectOption<T> }): VNode[];
+  footer?(): VNode[];
+}>();
+
 const id = useId();
 
 const { t } = useI18n();
@@ -149,6 +153,10 @@ const search = (event: Event): void => {
 };
 
 const searchKeydown = (event: KeyboardEvent): void => {
+  if (event.key === 'Tab' && event.shiftKey === false && slots.footer !== undefined) {
+    return;
+  }
+
   if (['ArrowDown', 'ArrowUp', 'Enter', 'Escape', 'Tab'].includes(event.key) === true) {
     controller?.keydown(event);
   }
@@ -196,6 +204,7 @@ onUnmounted(() => {
           maxHeight: `${state.maxHeight}px`,
           fontSize: `${state.fontSize}px`,
         }"
+        @keydown.esc="controller?.close()"
       >
         <input
           ref="searchInput"
@@ -246,6 +255,7 @@ onUnmounted(() => {
           </UiSelectBranch>
           <p v-if="sections.length === 0" class="ui-select-empty">{{ t('select.empty') }}</p>
         </div>
+        <slot name="footer" />
       </div>
     </Teleport>
   </span>

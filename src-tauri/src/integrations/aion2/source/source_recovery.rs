@@ -84,7 +84,6 @@ impl SourceRecovery {
         }
 
         state.restore_player(checkpoint.player())?;
-        state.restore_bosses(checkpoint.legacy_bosses());
         state.restore_npcs(checkpoint.map_id(), checkpoint.npcs(), now_us)?;
         self.pending = None;
 

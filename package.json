@@ -29,6 +29,7 @@
     "schema:check": "cargo run --manifest-path src-tauri/Cargo.toml --features schema --bin aurion-schema -- --check",
     "catalog:check": "node checks/catalog-manifest.mjs && node checks/game-icon-audit.mjs",
     "catalog:manifest": "node checks/catalog-manifest.mjs --write",
+    "catalog:rebuild": "node checks/catalog-rebuild.mjs",
     "icons:cdn-check": "node checks/icons-cdn-check.mjs"
   },
   "devDependencies": {

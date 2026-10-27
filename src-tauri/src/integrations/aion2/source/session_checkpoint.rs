@@ -1,6 +1,5 @@
 use crate::core::game::GameSnapshot;
 use crate::core::game::MapId;
-use crate::core::game::WorldBossList;
 use crate::integrations::aion2::capture::CaptureProcess;
 use crate::integrations::aion2::network::StreamKey;
 use crate::integrations::aion2::state::NpcRecovery;
@@ -13,8 +12,6 @@ pub(super) struct SessionCheckpoint {
     process: CaptureProcess,
     stream: StreamKey,
     player: PlayerRecovery,
-    #[serde(default, rename = "bosses", skip_serializing)]
-    legacy_bosses: Vec<WorldBossList>,
     #[serde(default)]
     map_id: Option<MapId>,
     #[serde(default)]
@@ -28,14 +25,9 @@ impl SessionCheckpoint {
             process,
             stream,
             player,
-            legacy_bosses: Vec::new(),
             map_id: None,
             npcs: Vec::new(),
         }
-    }
-
-    pub(super) fn legacy_bosses(&self) -> &[WorldBossList] {
-        &self.legacy_bosses
     }
 
     pub(super) fn with_npcs(mut self, game: &GameSnapshot) -> Self {

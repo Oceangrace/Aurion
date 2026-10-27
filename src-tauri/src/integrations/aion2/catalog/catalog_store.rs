@@ -191,8 +191,10 @@ impl CatalogStore {
         for enemy in &self.enemies {
             let name = self.localization.translate(enemy, locale).name;
 
-            for id in enemy.match_ids() {
-                labels.npcs.entry(id).or_insert_with(|| name.clone());
+            if enemy.name_known {
+                for id in enemy.match_ids() {
+                    labels.npcs.entry(id).or_insert_with(|| name.clone());
+                }
             }
 
             self.add_labels(
@@ -249,6 +251,13 @@ impl CatalogStore {
         }
 
         for id in self.runtime.effect_ids() {
+            if let Some(name) = self
+                .localization
+                .entry_name(&format!("effect-id:{id}"), locale)
+            {
+                labels.effects.insert(id, name);
+            }
+
             if let Some(effect) = self.runtime.effect(id) {
                 labels.effect_kinds.insert(id, effect.disposition());
 
@@ -289,7 +298,7 @@ impl CatalogStore {
         items: &[CatalogItem],
         locale: &str,
     ) {
-        for item in items {
+        for item in items.iter().filter(|item| item.name_known) {
             let name = self.localization.translate(item, locale).name;
 
             for id in item.match_ids() {
@@ -332,13 +341,17 @@ impl CatalogStore {
     }
 
     pub(crate) fn effect_icon(&self, id: u32) -> Option<&str> {
-        self.icons.effect(id)
+        self.runtime
+            .effect(id)
+            .and_then(|effect| effect.icon())
+            .or_else(|| self.icons.effect(id))
     }
 
     pub(crate) fn npc_name(&self, id: u32, locale: &str) -> Option<String> {
         let mut matches = self
             .enemies
             .iter()
+            .filter(|item| item.name_known)
             .filter(|item| item.forms.iter().any(|form| form.match_ids.contains(&id)));
 
         if let Some(item) = matches.next()
@@ -355,6 +368,7 @@ impl CatalogStore {
             .skills
             .iter()
             .chain(self.enemy_skills.values().flatten())
+            .filter(|item| item.name_known)
             .filter(|item| item.forms.iter().any(|form| form.match_ids.contains(&id)))
             .map(|item| self.localization.translate(item, locale).name);
 
@@ -403,7 +417,30 @@ impl CatalogStore {
         locale: &str,
     ) -> Option<CatalogItem> {
         self.find(scope, context, key)
-            .map(|item| self.localization.translate(item, locale))
+            .map(|item| self.localize(item, self.parent(scope, context), locale))
+    }
+
+    fn parent(&self, scope: &CatalogScope, context: Option<&str>) -> Option<&CatalogItem> {
+        if !matches!(
+            scope,
+            CatalogScope::EnemySkills | CatalogScope::EnemyEffects
+        ) {
+            return None;
+        }
+
+        self.find(&CatalogScope::Enemies, None, context?)
+    }
+
+    fn localize(
+        &self,
+        item: &CatalogItem,
+        parent: Option<&CatalogItem>,
+        locale: &str,
+    ) -> CatalogItem {
+        match parent {
+            Some(parent) => self.localization.child(item, parent, locale),
+            None => self.localization.translate(item, locale),
+        }
     }
 
     pub(crate) fn search(&self, request: CatalogSearch) -> Result<CatalogPage, String> {
@@ -421,7 +458,13 @@ impl CatalogStore {
 
         let mut matches = Vec::new();
 
+        let parent = self.parent(&request.scope, request.context_key.as_deref());
+
         for item in self.items(&request.scope, request.context_key.as_deref()) {
+            if !request.source.matches(item) {
+                continue;
+            }
+
             if request
                 .match_ids
                 .as_ref()
@@ -430,7 +473,7 @@ impl CatalogStore {
                 continue;
             }
 
-            let item = self.localization.translate(item, &request.locale);
+            let item = self.localize(item, parent, &request.locale);
 
             if self.text_matches(&item, &request.text, &request.locale)? {
                 matches.push(item);
@@ -465,7 +508,7 @@ impl CatalogStore {
             catalog_version: self.version.clone(),
             total: matches.len(),
             available_categories,
-            items: matches.into_iter().take(80).collect(),
+            items: matches.into_iter().skip(request.offset).take(80).collect(),
         })
     }
 
@@ -481,15 +524,23 @@ impl CatalogStore {
 
     fn text_matches(&self, item: &CatalogItem, query: &str, locale: &str) -> Result<bool, String> {
         let text = format!(
-            "{} {} {}",
+            "{} {} {} {}",
             item.name,
             item.context,
-            item.source_classes.join(" ")
+            item.source_classes.join(" "),
+            item.key
         );
 
         let locale = self.localization.effective_locale(locale);
 
         for word in query.split_whitespace() {
+            if word
+                .parse::<u32>()
+                .is_ok_and(|id| item.match_ids().contains(&id))
+            {
+                continue;
+            }
+
             if !self.matcher.contains(locale, &text, word)? {
                 return Ok(false);
             }

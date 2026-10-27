@@ -158,6 +158,11 @@ const addElement = (): void => {
   page.value = EditorPage.Create;
 };
 
+const finishCreation = (): void => {
+  inspectorTab.value = InspectorTab.Display;
+  page.value = selected.value === null ? EditorPage.Interface : EditorPage.Widget;
+};
+
 const openInterface = (id: string): void => {
   session.selectDocument(id);
   page.value = EditorPage.Interface;
@@ -378,8 +383,9 @@ watch(
             v-else-if="page === EditorPage.Create"
             :key="state.documentId ?? 'new'"
             :session="session"
+            :catalog="interfaces.catalog"
             :parent-id="creationParent"
-            @done="page = selected === null ? EditorPage.Interface : EditorPage.Widget"
+            @done="finishCreation"
           />
           <template v-else-if="document !== null && snapshot !== null">
             <WidgetInspector

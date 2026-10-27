@@ -243,6 +243,16 @@
       "findSkill": "Skill name",
       "findEffect": "Effect name",
       "category": "Category",
+      "catalogSources": {
+        "all": "All effects",
+        "class-skills": "Class skill effects"
+      },
+      "catalogGroups": {
+        "commonSkills": "Common skills",
+        "sharedSkills": "Shared class skills",
+        "sharedEffects": "Shared class effects",
+        "otherEffects": "Other effects"
+      },
       "categories": {
         "all": "All categories",
         "ability": "Skills",
@@ -273,7 +283,8 @@
       "changeSelection": "Change selection",
       "noResults": "No results",
       "loading": "Loading…",
-      "moreResults": "Found {total}. Showing the first {shown} — refine your search.",
+      "moreResults": "Showing {shown} of {total}.",
+      "loadMore": "Show more",
       "duration": "Duration",
       "durationHint": "This controls your notification duration, not the skill duration or cooldown.",
       "whileEffect": "While the effect is confirmed active",
@@ -310,6 +321,53 @@
         "emptyInterface": "Empty interface",
         "elements": "Elements",
         "destination": "Add to"
+      },
+      "presets": {
+        "title": "Element templates",
+        "preview": "Example",
+        "showTimer": "Show timer",
+        "enemy": {
+          "afterSkill": "After the enemy uses",
+          "expectedSkill": "Expected skill",
+          "countdownSeconds": "Time until the expected skill, sec.",
+          "warningSeconds": "Show warning before, sec.",
+          "sound": "Sound warning",
+          "estimateHint": "Set the interval manually. This is an estimate; a phase change or a different skill order may invalidate it."
+        },
+        "names": {
+          "empty": "Empty template",
+          "cooldown": "Skill cooldown",
+          "ready": "Skill ready",
+          "buff": "Player buff",
+          "debuff": "Target debuff",
+          "health": "Health",
+          "mana": "Mana",
+          "stamina": "Stamina",
+          "cast": "Cast bar",
+          "health-percent": "Health percentage",
+          "name": "Character name",
+          "cast-timer": "Cast timer",
+          "buffs": "Player buffs",
+          "enemy-cast": "Enemy casting",
+          "event-countdown": "Countdown after an event"
+        },
+        "descriptions": {
+          "empty": "No data sources or visibility rules",
+          "cooldown": "Icon and time until the skill is ready",
+          "ready": "Show the icon when the skill is ready",
+          "buff": "An effect on the player and its remaining time",
+          "debuff": "An effect on the current target and its remaining time",
+          "health": "Current and maximum health",
+          "mana": "Current and maximum mana",
+          "stamina": "My character's stamina",
+          "cast": "Progress until the cast finishes",
+          "health-percent": "Health as a percentage",
+          "name": "Player or current target name",
+          "cast-timer": "Time until the cast finishes",
+          "buffs": "An automatic list of the player's active buffs",
+          "enemy-cast": "Warning and cast time for a selected enemy skill",
+          "event-countdown": "A warning at a set interval after an enemy skill"
+        }
       },
       "toggleInterface": "Collapse or expand interface",
       "resetPositions": "Return to center",
