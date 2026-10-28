@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "clientBuild": 31,
-  "catalogVersion": "build31-normalized-v2",
+  "clientBuild": 32,
+  "catalogVersion": "build32-normalized-v1",
   "entries": {
     "enemy:2300471": {
       "name": "Transcendent Bakarma",
@@ -66181,7 +66181,7 @@
       }
     },
     "enemy:2700872:effect:12161302": {
-      "name": "HP Regen",
+      "name": "Restore HP",
       "context": "Mushroom Cave Fungie · Mysterious Mushroom Cave · Enemy · Level 10",
       "forms": {
         "enemy:2700872:effect:12161302": {
@@ -66199,7 +66199,7 @@
       }
     },
     "enemy:2701590:effect:12161302": {
-      "name": "HP Regen",
+      "name": "Restore HP",
       "context": "Cave Fungie · Fungie Habitat · Enemy · Level 35",
       "forms": {
         "enemy:2701590:effect:12161302": {
@@ -107695,7 +107695,7 @@
       "name": "Aullaeu Mage"
     },
     "npc:2090004": {
-      "name": "Midsize Monster"
+      "name": "Medium Monster"
     },
     "npc:2090005": {
       "name": "Illusion Fragment"
@@ -107728,10 +107728,10 @@
       "name": "Snail-Bearing Fungie"
     },
     "npc:2090020": {
-      "name": "Midsize Monster"
+      "name": "Medium Monster"
     },
     "npc:2090021": {
-      "name": "Midsize Monster"
+      "name": "Medium Monster"
     },
     "npc:2090022": {
       "name": "Unnamed source"
@@ -108250,31 +108250,31 @@
       "name": "Aultross"
     },
     "npc:2090242": {
-      "name": "Midsize Monster"
+      "name": "Medium Monster"
     },
     "npc:2090243": {
-      "name": "Midsize Monster"
+      "name": "Medium Monster"
     },
     "npc:2090244": {
-      "name": "Midsize Monster"
+      "name": "Medium Monster"
     },
     "npc:2090245": {
-      "name": "Midsize Monster"
+      "name": "Medium Monster"
     },
     "npc:2090246": {
-      "name": "Midsize Monster"
+      "name": "Medium Monster"
     },
     "npc:2090247": {
-      "name": "Midsize Monster"
+      "name": "Medium Monster"
     },
     "npc:2090248": {
-      "name": "Midsize Monster"
+      "name": "Medium Monster"
     },
     "npc:2090249": {
       "name": "Odyle Spider"
     },
     "npc:2090250": {
-      "name": "Midsize Monster"
+      "name": "Medium Monster"
     },
     "npc:2090251": {
       "name": "Monster (Specimen)"
@@ -108286,10 +108286,10 @@
       "name": "Silver Blade Rotan (Specimen)"
     },
     "npc:2090254": {
-      "name": "Midsize Monster"
+      "name": "Medium Monster"
     },
     "npc:2090255": {
-      "name": "Midsize Monster"
+      "name": "Medium Monster"
     },
     "npc:2090269": {
       "name": "Monster (Specimen)"
@@ -130930,7 +130930,7 @@
       "name": "Mutated Aullaeu Guardian"
     },
     "npc:2920033": {
-      "name": "Midsize Monster"
+      "name": "Medium Monster"
     },
     "npc:2920035": {
       "name": "Manager Nasium"
@@ -153049,10 +153049,10 @@
       "context": "ID 12157501"
     },
     "effect:restored:12159201": {
-      "name": "HP Regen",
+      "name": "Restore HP",
       "forms": {
         "effect-id:12159201": {
-          "name": "HP Regen"
+          "name": "Restore HP"
         }
       },
       "context": "ID 12159201"
@@ -153085,10 +153085,10 @@
       "context": "ID 12160801"
     },
     "effect:restored:12161302": {
-      "name": "HP Regen",
+      "name": "Restore HP",
       "forms": {
         "effect-id:12161302": {
-          "name": "HP Regen"
+          "name": "Restore HP"
         }
       },
       "context": "Attack · ID 12161302"
@@ -153310,10 +153310,10 @@
       "context": "ID 12174001"
     },
     "effect:restored:12176402": {
-      "name": "HP Regen",
+      "name": "Restore HP",
       "forms": {
         "effect-id:12176402": {
-          "name": "HP Regen"
+          "name": "Restore HP"
         }
       },
       "context": "Shield Defense · ID 12176402"
@@ -153895,10 +153895,10 @@
       "context": "Attack · ID 12286702"
     },
     "effect:restored:12288501": {
-      "name": "HP Regen",
+      "name": "Restore HP",
       "forms": {
         "effect-id:12288501": {
-          "name": "HP Regen"
+          "name": "Restore HP"
         }
       },
       "context": "Unnamed ability · ID 12288501"
@@ -156937,10 +156937,10 @@
       "context": "Unnamed ability · ID 19802651"
     },
     "effect:restored:19804201": {
-      "name": "HP Regen",
+      "name": "Restore HP",
       "forms": {
         "effect-id:19804201": {
-          "name": "HP Regen"
+          "name": "Restore HP"
         }
       },
       "context": "Unnamed ability · ID 19804201"
@@ -159736,10 +159736,10 @@
       "context": "ID 151500002"
     },
     "effect:restored:151600202": {
-      "name": "HP Regen",
+      "name": "Restore HP",
       "forms": {
         "effect-id:151600202": {
-          "name": "HP Regen"
+          "name": "Restore HP"
         }
       },
       "context": "ID 151600202"
@@ -335073,7 +335073,7 @@
       "name": "Frenzy"
     },
     "effect-id:10000010": {
-      "name": "HP Regen when HP is 1% or less"
+      "name": "Restores HP when HP is 1% or less"
     },
     "effect-id:10000015": {
       "name": "Frenzy"
@@ -335433,7 +335433,7 @@
       "name": "Knock Back"
     },
     "effect-id:12159201": {
-      "name": "HP Regen"
+      "name": "Restore HP"
     },
     "effect-id:12159601": {
       "name": "Physical Attack Increase"
@@ -335448,7 +335448,7 @@
       "name": "Polymorph: Fungie"
     },
     "effect-id:12161302": {
-      "name": "HP Regen"
+      "name": "Restore HP"
     },
     "effect-id:12162311": {
       "name": "Damage Absorption"
@@ -335550,7 +335550,7 @@
       "name": "Shield Defense"
     },
     "effect-id:12176402": {
-      "name": "HP Regen"
+      "name": "Restore HP"
     },
     "effect-id:12176701": {
       "name": "Pulled"
@@ -335856,7 +335856,7 @@
       "name": "Pulled"
     },
     "effect-id:12288501": {
-      "name": "HP Regen"
+      "name": "Restore HP"
     },
     "effect-id:12288601": {
       "name": "Defense Increase"
@@ -337383,13 +337383,13 @@
       "name": "Odyle Flight Frenzy"
     },
     "effect-id:19000013": {
-      "name": "HP Regen"
+      "name": "Restore HP"
     },
     "effect-id:19000014": {
       "name": "Odyle Drop"
     },
     "effect-id:19000015": {
-      "name": "MP Regen"
+      "name": "Restore MP"
     },
     "effect-id:19000016": {
       "name": "Restore Stamina"
@@ -337950,7 +337950,7 @@
       "name": "Poison Aura"
     },
     "effect-id:19804201": {
-      "name": "HP Regen"
+      "name": "Restore HP"
     },
     "effect-id:19804202": {
       "name": "Defense Increase"
@@ -341817,7 +341817,7 @@
       "name": "Steel Barrier"
     },
     "effect-id:151600202": {
-      "name": "HP Regen"
+      "name": "Restore HP"
     },
     "effect-id:151600301": {
       "name": "Steel Barrier"
@@ -343435,6 +343435,487 @@
     },
     "effect-id:188000001": {
       "name": "Wind's Promise"
+    },
+    "enemy:2300277": {
+      "name": "Ludra Follower Drakan",
+      "context": "Enemy · Level 76 · ID 2300277",
+      "forms": {}
+    },
+    "enemy:2300278": {
+      "name": "Ludra Follower Beast",
+      "context": "Enemy · Level 76 · ID 2300278",
+      "forms": {}
+    },
+    "enemy:2300279": {
+      "name": "Ludra Follower Warmage",
+      "context": "Enemy · Level 76 · ID 2300279",
+      "forms": {}
+    },
+    "enemy:2300280": {
+      "name": "Ludra Follower Officer",
+      "context": "Enemy · Level 76 · ID 2300280",
+      "forms": {}
+    },
+    "enemy:2300281": {
+      "name": "Ludra Follower Scout",
+      "context": "Enemy · Level 76 · ID 2300281",
+      "forms": {}
+    },
+    "enemy:2300282": {
+      "name": "Isolation Specialist Rahu",
+      "context": "Boss · Level 76 · ID 2300282",
+      "forms": {}
+    },
+    "enemy:2300283": {
+      "name": "Abyssal Wings Ketu",
+      "context": "Boss · Level 76 · ID 2300283",
+      "forms": {}
+    },
+    "enemy:2300284": {
+      "name": "Central Abyss Fusion Reactor",
+      "context": "Boss · Level 76 · ID 2300284",
+      "forms": {}
+    },
+    "enemy:2300285": {
+      "name": "Auxiliary Abyss Fusion Reactor",
+      "context": "Enemy · Level 76 · ID 2300285",
+      "forms": {}
+    },
+    "enemy:2300288": {
+      "name": "Auxiliary Abyss Fusion Reactor",
+      "context": "Enemy · Level 76 · ID 2300288",
+      "forms": {}
+    },
+    "enemy:2300289": {
+      "name": "Auxiliary Abyss Fusion Reactor",
+      "context": "Enemy · Level 76 · ID 2300289",
+      "forms": {}
+    },
+    "enemy:2300290": {
+      "name": "Eternal Ludra",
+      "context": "Boss · Level 76 · ID 2300290",
+      "forms": {}
+    },
+    "enemy:2300294": {
+      "name": "Abyssal Drakan Armed Soldier",
+      "context": "Enemy · Level 76 · ID 2300294",
+      "forms": {}
+    },
+    "enemy:2300295": {
+      "name": "Abyssal Beast",
+      "context": "Enemy · Level 76 · ID 2300295",
+      "forms": {}
+    },
+    "enemy:2300296": {
+      "name": "Abyssal Drakan Mage Officer",
+      "context": "Enemy · Level 76 · ID 2300296",
+      "forms": {}
+    },
+    "enemy:2300297": {
+      "name": "Abyssal Drakan Chief",
+      "context": "Enemy · Level 76 · ID 2300297",
+      "forms": {}
+    },
+    "enemy:2300298": {
+      "name": "Abyssal Drakan Scout Officer",
+      "context": "Enemy · Level 76 · ID 2300298",
+      "forms": {}
+    },
+    "enemy:2300277:skill:1239190": {
+      "name": "Attack"
+    },
+    "enemy:2300277:skill:1239200": {
+      "name": "Attack"
+    },
+    "enemy:2300277:skill:1239210": {
+      "name": "Attack"
+    },
+    "enemy:2300277:skill:1239220": {
+      "name": "Attack"
+    },
+    "enemy:2300278:skill:1239390": {
+      "name": "Attack"
+    },
+    "enemy:2300278:skill:1239400": {
+      "name": "Attack"
+    },
+    "enemy:2300278:skill:1239410": {
+      "name": "Attack"
+    },
+    "enemy:2300278:skill:1239420": {
+      "name": "Attack"
+    },
+    "enemy:2300279:skill:1239350": {
+      "name": "Attack"
+    },
+    "enemy:2300279:skill:1239360": {
+      "name": "Attack"
+    },
+    "enemy:2300279:skill:1239370": {
+      "name": "Attack"
+    },
+    "enemy:2300279:skill:1239380": {
+      "name": "Attack"
+    },
+    "enemy:2300279:skill:1239365": {
+      "name": "Attack"
+    },
+    "enemy:2300279:effect:12206901": {
+      "name": "Instant Heal"
+    },
+    "enemy:2300280:skill:1239260": {
+      "name": "Attack"
+    },
+    "enemy:2300280:skill:1239300": {
+      "name": "Attack"
+    },
+    "enemy:2300280:skill:1239280": {
+      "name": "Attack"
+    },
+    "enemy:2300280:skill:1239290": {
+      "name": "Attack"
+    },
+    "enemy:2300280:skill:1239310": {
+      "name": "Attack"
+    },
+    "enemy:2300280:effect:12199701": {
+      "name": "Push"
+    },
+    "enemy:2300280:effect:12199811": {
+      "name": "Knockdown"
+    },
+    "enemy:2300281:skill:1239230": {
+      "name": "Attack"
+    },
+    "enemy:2300281:skill:1239240": {
+      "name": "Attack"
+    },
+    "enemy:2300281:skill:1239250": {
+      "name": "Attack"
+    },
+    "enemy:2300282:skill:1802690": {
+      "name": "Attack"
+    },
+    "enemy:2300282:skill:1802700": {
+      "name": "Attack"
+    },
+    "enemy:2300282:skill:1802710": {
+      "name": "Attack"
+    },
+    "enemy:2300282:skill:1802720": {
+      "name": "Soul Strike"
+    },
+    "enemy:2300282:skill:1802730": {
+      "name": "Attack"
+    },
+    "enemy:2300282:skill:1802740": {
+      "name": "Attack"
+    },
+    "enemy:2300282:skill:1802750": {
+      "name": "Attack"
+    },
+    "enemy:2300282:skill:1802760": {
+      "name": "Attack"
+    },
+    "enemy:2300282:skill:1802800": {
+      "name": "Attack"
+    },
+    "enemy:2300282:skill:1802810": {
+      "name": "Attack"
+    },
+    "enemy:2300282:skill:1802820": {
+      "name": "Attack"
+    },
+    "enemy:2300282:skill:1802840": {
+      "name": "Attack"
+    },
+    "enemy:2300282:skill:1802860": {
+      "name": "Attack"
+    },
+    "enemy:2300282:effect:18027101": {
+      "name": "Abyss Corrosion"
+    },
+    "enemy:2300283:skill:1801800": {
+      "name": "Attack"
+    },
+    "enemy:2300283:skill:1801810": {
+      "name": "Attack"
+    },
+    "enemy:2300283:skill:1801820": {
+      "name": "Attack"
+    },
+    "enemy:2300283:skill:1801830": {
+      "name": "Attack"
+    },
+    "enemy:2300283:skill:1801840": {
+      "name": "Attack"
+    },
+    "enemy:2300283:skill:1801850": {
+      "name": "Attack"
+    },
+    "enemy:2300283:skill:1801860": {
+      "name": "Attack"
+    },
+    "enemy:2300283:effect:12000001": {
+      "name": "Stun"
+    },
+    "enemy:2300283:effect:12000151": {
+      "name": "Bleed"
+    },
+    "enemy:2300284:skill:1802580": {
+      "name": "Attack"
+    },
+    "enemy:2300284:skill:1802510": {
+      "name": "Attack"
+    },
+    "enemy:2300284:skill:1802515": {
+      "name": "Attack"
+    },
+    "enemy:2300284:skill:1802520": {
+      "name": "Attack"
+    },
+    "enemy:2300284:skill:1802530": {
+      "name": "Attack"
+    },
+    "enemy:2300284:skill:1802540": {
+      "name": "Attack"
+    },
+    "enemy:2300284:skill:1802550": {
+      "name": "Attack"
+    },
+    "enemy:2300284:skill:1802555": {
+      "name": "Attack"
+    },
+    "enemy:2300284:skill:1802570": {
+      "name": "Attack"
+    },
+    "enemy:2300284:effect:18025401": {
+      "name": "Debuff"
+    },
+    "enemy:2300284:effect:18025501": {
+      "name": "Slow"
+    },
+    "enemy:2300285:skill:1239320": {
+      "name": "Attack"
+    },
+    "enemy:2300285:skill:1239321": {
+      "name": "Attack"
+    },
+    "enemy:2300285:skill:1239330": {
+      "name": "Attack"
+    },
+    "enemy:2300285:skill:1239340": {
+      "name": "Attack"
+    },
+    "enemy:2300285:skill:1239341": {
+      "name": "Attack"
+    },
+    "enemy:2300285:effect:12000001": {
+      "name": "Stun"
+    },
+    "enemy:2300288:skill:1239320": {
+      "name": "Attack"
+    },
+    "enemy:2300288:skill:1239321": {
+      "name": "Attack"
+    },
+    "enemy:2300288:skill:1239330": {
+      "name": "Attack"
+    },
+    "enemy:2300288:skill:1239340": {
+      "name": "Attack"
+    },
+    "enemy:2300288:skill:1239341": {
+      "name": "Attack"
+    },
+    "enemy:2300288:effect:12000001": {
+      "name": "Stun"
+    },
+    "enemy:2300289:skill:1239320": {
+      "name": "Attack"
+    },
+    "enemy:2300289:skill:1239321": {
+      "name": "Attack"
+    },
+    "enemy:2300289:skill:1239330": {
+      "name": "Attack"
+    },
+    "enemy:2300289:skill:1239340": {
+      "name": "Attack"
+    },
+    "enemy:2300289:skill:1239341": {
+      "name": "Attack"
+    },
+    "enemy:2300289:effect:12000001": {
+      "name": "Stun"
+    },
+    "enemy:2300290:skill:1803000": {
+      "name": "Unnamed ability"
+    },
+    "enemy:2300294:skill:1239190": {
+      "name": "Attack"
+    },
+    "enemy:2300294:skill:1239200": {
+      "name": "Attack"
+    },
+    "enemy:2300294:skill:1239210": {
+      "name": "Attack"
+    },
+    "enemy:2300294:skill:1239220": {
+      "name": "Attack"
+    },
+    "enemy:2300295:skill:1239390": {
+      "name": "Attack"
+    },
+    "enemy:2300295:skill:1239400": {
+      "name": "Attack"
+    },
+    "enemy:2300295:skill:1239410": {
+      "name": "Attack"
+    },
+    "enemy:2300295:skill:1239420": {
+      "name": "Attack"
+    },
+    "enemy:2300296:skill:1239350": {
+      "name": "Attack"
+    },
+    "enemy:2300296:skill:1239360": {
+      "name": "Attack"
+    },
+    "enemy:2300296:skill:1239370": {
+      "name": "Attack"
+    },
+    "enemy:2300296:skill:1239380": {
+      "name": "Attack"
+    },
+    "enemy:2300296:skill:1239365": {
+      "name": "Attack"
+    },
+    "enemy:2300296:effect:12206901": {
+      "name": "Instant Heal"
+    },
+    "enemy:2300297:skill:1239260": {
+      "name": "Attack"
+    },
+    "enemy:2300297:skill:1239300": {
+      "name": "Attack"
+    },
+    "enemy:2300297:skill:1239280": {
+      "name": "Attack"
+    },
+    "enemy:2300297:skill:1239290": {
+      "name": "Attack"
+    },
+    "enemy:2300297:skill:1239310": {
+      "name": "Attack"
+    },
+    "enemy:2300297:effect:12199701": {
+      "name": "Push"
+    },
+    "enemy:2300297:effect:12199811": {
+      "name": "Knockdown"
+    },
+    "enemy:2300298:skill:1239230": {
+      "name": "Attack"
+    },
+    "enemy:2300298:skill:1239240": {
+      "name": "Attack"
+    },
+    "enemy:2300298:skill:1239250": {
+      "name": "Attack"
+    },
+    "skill-id:1604383": {
+      "name": "Attack"
+    },
+    "npc-skill:1604383": {
+      "name": "Attack"
+    },
+    "skill-id:1803440": {
+      "name": "Attack"
+    },
+    "npc-skill:1803440": {
+      "name": "Attack"
+    },
+    "skill-id:1803450": {
+      "name": "Attack"
+    },
+    "npc-skill:1803450": {
+      "name": "Attack"
+    },
+    "skill-id:1803451": {
+      "name": "Attack"
+    },
+    "npc-skill:1803451": {
+      "name": "Attack"
+    },
+    "npc:2300277": {
+      "name": "Ludra Follower Drakan"
+    },
+    "npc:2300278": {
+      "name": "Ludra Follower Beast"
+    },
+    "npc:2300279": {
+      "name": "Ludra Follower Warmage"
+    },
+    "npc:2300280": {
+      "name": "Ludra Follower Officer"
+    },
+    "npc:2300281": {
+      "name": "Ludra Follower Scout"
+    },
+    "npc:2300282": {
+      "name": "Isolation Specialist Rahu"
+    },
+    "npc:2300283": {
+      "name": "Abyssal Wings Ketu"
+    },
+    "npc:2300284": {
+      "name": "Central Abyss Fusion Reactor"
+    },
+    "npc:2300285": {
+      "name": "Auxiliary Abyss Fusion Reactor"
+    },
+    "npc:2300286": {
+      "name": "Laser"
+    },
+    "npc:2300287": {
+      "name": "Laser"
+    },
+    "npc:2300288": {
+      "name": "Auxiliary Abyss Fusion Reactor"
+    },
+    "npc:2300289": {
+      "name": "Auxiliary Abyss Fusion Reactor"
+    },
+    "npc:2300290": {
+      "name": "Eternal Ludra"
+    },
+    "npc:2300294": {
+      "name": "Abyssal Drakan Armed Soldier"
+    },
+    "npc:2300295": {
+      "name": "Abyssal Beast"
+    },
+    "npc:2300296": {
+      "name": "Abyssal Drakan Mage Officer"
+    },
+    "npc:2300297": {
+      "name": "Abyssal Drakan Chief"
+    },
+    "npc:2300298": {
+      "name": "Abyssal Drakan Scout Officer"
+    },
+    "npc:2920747": {
+      "name": "Eternal Ludra"
+    },
+    "npc:2920748": {
+      "name": "Eternal Ludra"
+    },
+    "npc:2921505": {
+      "name": "Eternal Ludra"
+    },
+    "npc:2921506": {
+      "name": "Eternal Ludra"
     }
   },
   "zones": {

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "clientBuild": 31,
-  "catalogVersion": "build31-normalized-v2",
+  "clientBuild": 32,
+  "catalogVersion": "build32-normalized-v1",
   "effects": {
     "100": {
       "disposition": "debuff",
@@ -102010,6 +102010,16 @@
       "chainPrevious": null,
       "chainWindowMs": 0
     },
+    "1604383": {
+      "cooldownGroup": 1604380,
+      "cooldownMs": 45000,
+      "castingMs": 2167,
+      "manaOnly": false,
+      "healingOnly": false,
+      "icon": "Skill/ICON_TE_SKILL_001",
+      "chainPrevious": null,
+      "chainWindowMs": 0
+    },
     "1604390": {
       "cooldownGroup": 1604390,
       "cooldownMs": 8000,
@@ -116859,7 +116869,7 @@
     },
     "1803170": {
       "cooldownGroup": 1803170,
-      "cooldownMs": 60000,
+      "cooldownMs": 40000,
       "castingMs": 2000,
       "manaOnly": false,
       "healingOnly": false,
@@ -117357,7 +117367,7 @@
     },
     "1803350": {
       "cooldownGroup": 1803350,
-      "cooldownMs": 1000,
+      "cooldownMs": 40000,
       "castingMs": 2000,
       "manaOnly": false,
       "healingOnly": false,
@@ -161941,7 +161951,7 @@
     },
     "13310000": {
       "cooldownGroup": 13310000,
-      "cooldownMs": 90000,
+      "cooldownMs": 60000,
       "castingMs": 0,
       "manaOnly": false,
       "healingOnly": false,
@@ -161952,7 +161962,7 @@
     },
     "13310010": {
       "cooldownGroup": 13310000,
-      "cooldownMs": 90000,
+      "cooldownMs": 60000,
       "castingMs": 0,
       "manaOnly": false,
       "healingOnly": false,
@@ -161963,7 +161973,7 @@
     },
     "13310020": {
       "cooldownGroup": 13310000,
-      "cooldownMs": 90000,
+      "cooldownMs": 60000,
       "castingMs": 0,
       "manaOnly": false,
       "healingOnly": false,
@@ -161974,7 +161984,7 @@
     },
     "13310030": {
       "cooldownGroup": 13310000,
-      "cooldownMs": 90000,
+      "cooldownMs": 60000,
       "castingMs": 0,
       "manaOnly": false,
       "healingOnly": false,
@@ -161985,7 +161995,7 @@
     },
     "13310040": {
       "cooldownGroup": 13310000,
-      "cooldownMs": 90000,
+      "cooldownMs": 60000,
       "castingMs": 0,
       "manaOnly": false,
       "healingOnly": false,
@@ -218076,10 +218086,6 @@
       "boss": false,
       "playerSummon": false
     },
-    "2090446": {
-      "boss": false,
-      "playerSummon": false
-    },
     "2090447": {
       "boss": false,
       "playerSummon": false
@@ -225270,6 +225276,94 @@
     },
     "2300276": {
       "boss": true,
+      "playerSummon": false
+    },
+    "2300277": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300278": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300279": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300280": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300281": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300282": {
+      "boss": true,
+      "playerSummon": false
+    },
+    "2300283": {
+      "boss": true,
+      "playerSummon": false
+    },
+    "2300284": {
+      "boss": true,
+      "playerSummon": false
+    },
+    "2300285": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300286": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300287": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300288": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300289": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300290": {
+      "boss": true,
+      "playerSummon": false
+    },
+    "2300291": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300292": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300293": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300294": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300295": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300296": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300297": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300298": {
+      "boss": false,
       "playerSummon": false
     },
     "2300299": {
@@ -254153,6 +254247,14 @@
       "playerSummon": false
     },
     "2921434": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2921505": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2921506": {
       "boss": false,
       "playerSummon": false
     },

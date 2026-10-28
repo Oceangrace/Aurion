@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "clientBuild": 31,
-  "catalogVersion": "build31-normalized-v2",
+  "clientBuild": 32,
+  "catalogVersion": "build32-normalized-v1",
   "entries": [
     {
       "entry": {
@@ -24220,6 +24220,11 @@
               "key": "enemy:2320812:skill:1604380",
               "name": "Exact variant",
               "matchIds": [1604380]
+            },
+            {
+              "key": "skill-id:1604383",
+              "name": "Variant · ID 1604383",
+              "matchIds": [1604383]
             }
           ]
         },
@@ -197882,7 +197887,7 @@
       "effects": [
         {
           "key": "enemy:2700872:effect:12161302",
-          "name": "HP Regen",
+          "name": "Restore HP",
           "icon": "Skill/ICON_Common_Abnormal_Hot",
           "categories": ["buff"],
           "classes": [],
@@ -197973,7 +197978,7 @@
       "effects": [
         {
           "key": "enemy:2701590:effect:12161302",
-          "name": "HP Regen",
+          "name": "Restore HP",
           "icon": "Skill/ICON_Common_Abnormal_Hot",
           "categories": ["buff"],
           "classes": [],
@@ -599622,6 +599627,1771 @@
               "key": "enemy:2980269:skill:1606360",
               "name": "Exact variant",
               "matchIds": [1606360]
+            }
+          ]
+        }
+      ],
+      "effects": []
+    },
+    {
+      "entry": {
+        "key": "enemy:2300277",
+        "name": "Ludra Follower Drakan",
+        "icon": null,
+        "categories": [],
+        "classes": [],
+        "forms": [
+          {
+            "key": "enemy:2300277",
+            "name": "Exact variant",
+            "matchIds": [2300277]
+          }
+        ]
+      },
+      "context": "Enemy · Level 76 · ID 2300277",
+      "skills": [
+        {
+          "key": "enemy:2300277:skill:1239190",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300277:skill:1239190",
+              "name": "Exact variant",
+              "matchIds": [1239190]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300277:skill:1239200",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300277:skill:1239200",
+              "name": "Exact variant",
+              "matchIds": [1239200]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300277:skill:1239210",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300277:skill:1239210",
+              "name": "Exact variant",
+              "matchIds": [1239210]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300277:skill:1239220",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300277:skill:1239220",
+              "name": "Exact variant",
+              "matchIds": [1239220]
+            }
+          ]
+        }
+      ],
+      "effects": []
+    },
+    {
+      "entry": {
+        "key": "enemy:2300278",
+        "name": "Ludra Follower Beast",
+        "icon": null,
+        "categories": [],
+        "classes": [],
+        "forms": [
+          {
+            "key": "enemy:2300278",
+            "name": "Exact variant",
+            "matchIds": [2300278]
+          }
+        ]
+      },
+      "context": "Enemy · Level 76 · ID 2300278",
+      "skills": [
+        {
+          "key": "enemy:2300278:skill:1239390",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300278:skill:1239390",
+              "name": "Exact variant",
+              "matchIds": [1239390]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300278:skill:1239400",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300278:skill:1239400",
+              "name": "Exact variant",
+              "matchIds": [1239400]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300278:skill:1239410",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300278:skill:1239410",
+              "name": "Exact variant",
+              "matchIds": [1239410]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300278:skill:1239420",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300278:skill:1239420",
+              "name": "Exact variant",
+              "matchIds": [1239420]
+            }
+          ]
+        }
+      ],
+      "effects": []
+    },
+    {
+      "entry": {
+        "key": "enemy:2300279",
+        "name": "Ludra Follower Warmage",
+        "icon": null,
+        "categories": [],
+        "classes": [],
+        "forms": [
+          {
+            "key": "enemy:2300279",
+            "name": "Exact variant",
+            "matchIds": [2300279]
+          }
+        ]
+      },
+      "context": "Enemy · Level 76 · ID 2300279",
+      "skills": [
+        {
+          "key": "enemy:2300279:skill:1239350",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300279:skill:1239350",
+              "name": "Exact variant",
+              "matchIds": [1239350]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300279:skill:1239360",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300279:skill:1239360",
+              "name": "Exact variant",
+              "matchIds": [1239360]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300279:skill:1239370",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300279:skill:1239370",
+              "name": "Exact variant",
+              "matchIds": [1239370]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300279:skill:1239380",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300279:skill:1239380",
+              "name": "Exact variant",
+              "matchIds": [1239380]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300279:skill:1239365",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300279:skill:1239365",
+              "name": "Exact variant",
+              "matchIds": [1239365]
+            }
+          ]
+        }
+      ],
+      "effects": [
+        {
+          "key": "enemy:2300279:effect:12206901",
+          "name": "Instant Heal",
+          "icon": "Skill/ICON_Common_Abnormal_Hot",
+          "categories": ["buff"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300279:effect:12206901",
+              "name": "Exact variant",
+              "matchIds": [12206901]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": {
+        "key": "enemy:2300280",
+        "name": "Ludra Follower Officer",
+        "icon": null,
+        "categories": [],
+        "classes": [],
+        "forms": [
+          {
+            "key": "enemy:2300280",
+            "name": "Exact variant",
+            "matchIds": [2300280]
+          }
+        ]
+      },
+      "context": "Enemy · Level 76 · ID 2300280",
+      "skills": [
+        {
+          "key": "enemy:2300280:skill:1239260",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300280:skill:1239260",
+              "name": "Exact variant",
+              "matchIds": [1239260]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300280:skill:1239300",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300280:skill:1239300",
+              "name": "Exact variant",
+              "matchIds": [1239300]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300280:skill:1239280",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300280:skill:1239280",
+              "name": "Exact variant",
+              "matchIds": [1239280]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300280:skill:1239290",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300280:skill:1239290",
+              "name": "Exact variant",
+              "matchIds": [1239290]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300280:skill:1239310",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300280:skill:1239310",
+              "name": "Exact variant",
+              "matchIds": [1239310]
+            }
+          ]
+        }
+      ],
+      "effects": [
+        {
+          "key": "enemy:2300280:effect:12199701",
+          "name": "Push",
+          "icon": "Skill/ICON_Abnormal_Move",
+          "categories": ["debuff"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300280:effect:12199701",
+              "name": "Exact variant",
+              "matchIds": [12199701]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300280:effect:12199811",
+          "name": "Knockdown",
+          "icon": "Skill/ICON_Abnormal_Knockdown",
+          "categories": ["debuff"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300280:effect:12199811",
+              "name": "Exact variant",
+              "matchIds": [12199811]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": {
+        "key": "enemy:2300281",
+        "name": "Ludra Follower Scout",
+        "icon": null,
+        "categories": [],
+        "classes": [],
+        "forms": [
+          {
+            "key": "enemy:2300281",
+            "name": "Exact variant",
+            "matchIds": [2300281]
+          }
+        ]
+      },
+      "context": "Enemy · Level 76 · ID 2300281",
+      "skills": [
+        {
+          "key": "enemy:2300281:skill:1239230",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300281:skill:1239230",
+              "name": "Exact variant",
+              "matchIds": [1239230]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300281:skill:1239240",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300281:skill:1239240",
+              "name": "Exact variant",
+              "matchIds": [1239240]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300281:skill:1239250",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300281:skill:1239250",
+              "name": "Exact variant",
+              "matchIds": [1239250]
+            }
+          ]
+        }
+      ],
+      "effects": []
+    },
+    {
+      "entry": {
+        "key": "enemy:2300282",
+        "name": "Isolation Specialist Rahu",
+        "icon": null,
+        "categories": [],
+        "classes": [],
+        "forms": [
+          {
+            "key": "enemy:2300282",
+            "name": "Exact variant",
+            "matchIds": [2300282]
+          }
+        ]
+      },
+      "context": "Boss · Level 76 · ID 2300282",
+      "skills": [
+        {
+          "key": "enemy:2300282:skill:1802690",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300282:skill:1802690",
+              "name": "Exact variant",
+              "matchIds": [1802690]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300282:skill:1802700",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300282:skill:1802700",
+              "name": "Exact variant",
+              "matchIds": [1802700]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300282:skill:1802710",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300282:skill:1802710",
+              "name": "Exact variant",
+              "matchIds": [1802710]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300282:skill:1802720",
+          "name": "Soul Strike",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300282:skill:1802720",
+              "name": "Exact variant",
+              "matchIds": [1802720]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300282:skill:1802730",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300282:skill:1802730",
+              "name": "Exact variant",
+              "matchIds": [1802730]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300282:skill:1802740",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300282:skill:1802740",
+              "name": "Exact variant",
+              "matchIds": [1802740]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300282:skill:1802750",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300282:skill:1802750",
+              "name": "Exact variant",
+              "matchIds": [1802750]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300282:skill:1802760",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300282:skill:1802760",
+              "name": "Exact variant",
+              "matchIds": [1802760]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300282:skill:1802800",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300282:skill:1802800",
+              "name": "Exact variant",
+              "matchIds": [1802800]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300282:skill:1802810",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300282:skill:1802810",
+              "name": "Exact variant",
+              "matchIds": [1802810]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300282:skill:1802820",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300282:skill:1802820",
+              "name": "Exact variant",
+              "matchIds": [1802820]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300282:skill:1802840",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300282:skill:1802840",
+              "name": "Exact variant",
+              "matchIds": [1802840]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300282:skill:1802860",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300282:skill:1802860",
+              "name": "Exact variant",
+              "matchIds": [1802860]
+            }
+          ]
+        }
+      ],
+      "effects": [
+        {
+          "key": "enemy:2300282:effect:18027101",
+          "name": "Abyss Corrosion",
+          "icon": "Skill/ICON_Abnormal_Curse",
+          "categories": ["debuff"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300282:effect:18027101",
+              "name": "Exact variant",
+              "matchIds": [18027101]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": {
+        "key": "enemy:2300283",
+        "name": "Abyssal Wings Ketu",
+        "icon": null,
+        "categories": [],
+        "classes": [],
+        "forms": [
+          {
+            "key": "enemy:2300283",
+            "name": "Exact variant",
+            "matchIds": [2300283]
+          }
+        ]
+      },
+      "context": "Boss · Level 76 · ID 2300283",
+      "skills": [
+        {
+          "key": "enemy:2300283:skill:1801800",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300283:skill:1801800",
+              "name": "Exact variant",
+              "matchIds": [1801800]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300283:skill:1801810",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300283:skill:1801810",
+              "name": "Exact variant",
+              "matchIds": [1801810]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300283:skill:1801820",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300283:skill:1801820",
+              "name": "Exact variant",
+              "matchIds": [1801820]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300283:skill:1801830",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300283:skill:1801830",
+              "name": "Exact variant",
+              "matchIds": [1801830]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300283:skill:1801840",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300283:skill:1801840",
+              "name": "Exact variant",
+              "matchIds": [1801840]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300283:skill:1801850",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300283:skill:1801850",
+              "name": "Exact variant",
+              "matchIds": [1801850]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300283:skill:1801860",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300283:skill:1801860",
+              "name": "Exact variant",
+              "matchIds": [1801860]
+            }
+          ]
+        }
+      ],
+      "effects": [
+        {
+          "key": "enemy:2300283:effect:12000001",
+          "name": "Stun",
+          "icon": "Skill/ICON_Abnormal_Stun",
+          "categories": ["debuff"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300283:effect:12000001",
+              "name": "Exact variant",
+              "matchIds": [12000001]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300283:effect:12000151",
+          "name": "Bleed",
+          "icon": "Skill/ICON_Common_Abnormal_Bleed",
+          "categories": ["debuff"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300283:effect:12000151",
+              "name": "Exact variant",
+              "matchIds": [12000151]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": {
+        "key": "enemy:2300284",
+        "name": "Central Abyss Fusion Reactor",
+        "icon": null,
+        "categories": [],
+        "classes": [],
+        "forms": [
+          {
+            "key": "enemy:2300284",
+            "name": "Exact variant",
+            "matchIds": [2300284]
+          }
+        ]
+      },
+      "context": "Boss · Level 76 · ID 2300284",
+      "skills": [
+        {
+          "key": "enemy:2300284:skill:1802580",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300284:skill:1802580",
+              "name": "Exact variant",
+              "matchIds": [1802580]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300284:skill:1802510",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300284:skill:1802510",
+              "name": "Exact variant",
+              "matchIds": [1802510]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300284:skill:1802515",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300284:skill:1802515",
+              "name": "Exact variant",
+              "matchIds": [1802515]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300284:skill:1802520",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300284:skill:1802520",
+              "name": "Exact variant",
+              "matchIds": [1802520]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300284:skill:1802530",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300284:skill:1802530",
+              "name": "Exact variant",
+              "matchIds": [1802530]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300284:skill:1802540",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300284:skill:1802540",
+              "name": "Exact variant",
+              "matchIds": [1802540]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300284:skill:1802550",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300284:skill:1802550",
+              "name": "Exact variant",
+              "matchIds": [1802550]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300284:skill:1802555",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300284:skill:1802555",
+              "name": "Exact variant",
+              "matchIds": [1802555]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300284:skill:1802570",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300284:skill:1802570",
+              "name": "Exact variant",
+              "matchIds": [1802570]
+            }
+          ]
+        }
+      ],
+      "effects": [
+        {
+          "key": "enemy:2300284:effect:18025401",
+          "name": "Debuff",
+          "icon": "Skill/ICON_Common_Abnormal_DefenseDown",
+          "categories": ["debuff"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300284:effect:18025401",
+              "name": "Exact variant",
+              "matchIds": [18025401]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300284:effect:18025501",
+          "name": "Slow",
+          "icon": "Skill/ICON_Common_Abnormal_MoveSpeedDown",
+          "categories": ["debuff"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300284:effect:18025501",
+              "name": "Exact variant",
+              "matchIds": [18025501]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": {
+        "key": "enemy:2300285",
+        "name": "Auxiliary Abyss Fusion Reactor",
+        "icon": null,
+        "categories": [],
+        "classes": [],
+        "forms": [
+          {
+            "key": "enemy:2300285",
+            "name": "Exact variant",
+            "matchIds": [2300285]
+          }
+        ]
+      },
+      "context": "Enemy · Level 76 · ID 2300285",
+      "skills": [
+        {
+          "key": "enemy:2300285:skill:1239320",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300285:skill:1239320",
+              "name": "Exact variant",
+              "matchIds": [1239320]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300285:skill:1239321",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300285:skill:1239321",
+              "name": "Exact variant",
+              "matchIds": [1239321]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300285:skill:1239330",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300285:skill:1239330",
+              "name": "Exact variant",
+              "matchIds": [1239330]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300285:skill:1239340",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300285:skill:1239340",
+              "name": "Exact variant",
+              "matchIds": [1239340]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300285:skill:1239341",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300285:skill:1239341",
+              "name": "Exact variant",
+              "matchIds": [1239341]
+            }
+          ]
+        }
+      ],
+      "effects": [
+        {
+          "key": "enemy:2300285:effect:12000001",
+          "name": "Stun",
+          "icon": "Skill/ICON_Abnormal_Stun",
+          "categories": ["debuff"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300285:effect:12000001",
+              "name": "Exact variant",
+              "matchIds": [12000001]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": {
+        "key": "enemy:2300288",
+        "name": "Auxiliary Abyss Fusion Reactor",
+        "icon": null,
+        "categories": [],
+        "classes": [],
+        "forms": [
+          {
+            "key": "enemy:2300288",
+            "name": "Exact variant",
+            "matchIds": [2300288]
+          }
+        ]
+      },
+      "context": "Enemy · Level 76 · ID 2300288",
+      "skills": [
+        {
+          "key": "enemy:2300288:skill:1239320",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300288:skill:1239320",
+              "name": "Exact variant",
+              "matchIds": [1239320]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300288:skill:1239321",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300288:skill:1239321",
+              "name": "Exact variant",
+              "matchIds": [1239321]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300288:skill:1239330",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300288:skill:1239330",
+              "name": "Exact variant",
+              "matchIds": [1239330]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300288:skill:1239340",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300288:skill:1239340",
+              "name": "Exact variant",
+              "matchIds": [1239340]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300288:skill:1239341",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300288:skill:1239341",
+              "name": "Exact variant",
+              "matchIds": [1239341]
+            }
+          ]
+        }
+      ],
+      "effects": [
+        {
+          "key": "enemy:2300288:effect:12000001",
+          "name": "Stun",
+          "icon": "Skill/ICON_Abnormal_Stun",
+          "categories": ["debuff"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300288:effect:12000001",
+              "name": "Exact variant",
+              "matchIds": [12000001]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": {
+        "key": "enemy:2300289",
+        "name": "Auxiliary Abyss Fusion Reactor",
+        "icon": null,
+        "categories": [],
+        "classes": [],
+        "forms": [
+          {
+            "key": "enemy:2300289",
+            "name": "Exact variant",
+            "matchIds": [2300289]
+          }
+        ]
+      },
+      "context": "Enemy · Level 76 · ID 2300289",
+      "skills": [
+        {
+          "key": "enemy:2300289:skill:1239320",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300289:skill:1239320",
+              "name": "Exact variant",
+              "matchIds": [1239320]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300289:skill:1239321",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300289:skill:1239321",
+              "name": "Exact variant",
+              "matchIds": [1239321]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300289:skill:1239330",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300289:skill:1239330",
+              "name": "Exact variant",
+              "matchIds": [1239330]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300289:skill:1239340",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300289:skill:1239340",
+              "name": "Exact variant",
+              "matchIds": [1239340]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300289:skill:1239341",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300289:skill:1239341",
+              "name": "Exact variant",
+              "matchIds": [1239341]
+            }
+          ]
+        }
+      ],
+      "effects": [
+        {
+          "key": "enemy:2300289:effect:12000001",
+          "name": "Stun",
+          "icon": "Skill/ICON_Abnormal_Stun",
+          "categories": ["debuff"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300289:effect:12000001",
+              "name": "Exact variant",
+              "matchIds": [12000001]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": {
+        "key": "enemy:2300290",
+        "name": "Eternal Ludra",
+        "icon": null,
+        "categories": [],
+        "classes": [],
+        "forms": [
+          {
+            "key": "enemy:2300290",
+            "name": "Exact variant",
+            "matchIds": [2300290]
+          }
+        ]
+      },
+      "context": "Boss · Level 76 · ID 2300290",
+      "skills": [
+        {
+          "key": "enemy:2300290:skill:1803000",
+          "name": "Unnamed ability",
+          "nameKnown": false,
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300290:skill:1803000",
+              "name": "Exact variant",
+              "matchIds": [1803000]
+            }
+          ]
+        }
+      ],
+      "effects": []
+    },
+    {
+      "entry": {
+        "key": "enemy:2300294",
+        "name": "Abyssal Drakan Armed Soldier",
+        "icon": null,
+        "categories": [],
+        "classes": [],
+        "forms": [
+          {
+            "key": "enemy:2300294",
+            "name": "Exact variant",
+            "matchIds": [2300294]
+          }
+        ]
+      },
+      "context": "Enemy · Level 76 · ID 2300294",
+      "skills": [
+        {
+          "key": "enemy:2300294:skill:1239190",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300294:skill:1239190",
+              "name": "Exact variant",
+              "matchIds": [1239190]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300294:skill:1239200",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300294:skill:1239200",
+              "name": "Exact variant",
+              "matchIds": [1239200]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300294:skill:1239210",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300294:skill:1239210",
+              "name": "Exact variant",
+              "matchIds": [1239210]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300294:skill:1239220",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300294:skill:1239220",
+              "name": "Exact variant",
+              "matchIds": [1239220]
+            }
+          ]
+        }
+      ],
+      "effects": []
+    },
+    {
+      "entry": {
+        "key": "enemy:2300295",
+        "name": "Abyssal Beast",
+        "icon": null,
+        "categories": [],
+        "classes": [],
+        "forms": [
+          {
+            "key": "enemy:2300295",
+            "name": "Exact variant",
+            "matchIds": [2300295]
+          }
+        ]
+      },
+      "context": "Enemy · Level 76 · ID 2300295",
+      "skills": [
+        {
+          "key": "enemy:2300295:skill:1239390",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300295:skill:1239390",
+              "name": "Exact variant",
+              "matchIds": [1239390]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300295:skill:1239400",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300295:skill:1239400",
+              "name": "Exact variant",
+              "matchIds": [1239400]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300295:skill:1239410",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300295:skill:1239410",
+              "name": "Exact variant",
+              "matchIds": [1239410]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300295:skill:1239420",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300295:skill:1239420",
+              "name": "Exact variant",
+              "matchIds": [1239420]
+            }
+          ]
+        }
+      ],
+      "effects": []
+    },
+    {
+      "entry": {
+        "key": "enemy:2300296",
+        "name": "Abyssal Drakan Mage Officer",
+        "icon": null,
+        "categories": [],
+        "classes": [],
+        "forms": [
+          {
+            "key": "enemy:2300296",
+            "name": "Exact variant",
+            "matchIds": [2300296]
+          }
+        ]
+      },
+      "context": "Enemy · Level 76 · ID 2300296",
+      "skills": [
+        {
+          "key": "enemy:2300296:skill:1239350",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300296:skill:1239350",
+              "name": "Exact variant",
+              "matchIds": [1239350]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300296:skill:1239360",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300296:skill:1239360",
+              "name": "Exact variant",
+              "matchIds": [1239360]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300296:skill:1239370",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300296:skill:1239370",
+              "name": "Exact variant",
+              "matchIds": [1239370]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300296:skill:1239380",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300296:skill:1239380",
+              "name": "Exact variant",
+              "matchIds": [1239380]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300296:skill:1239365",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300296:skill:1239365",
+              "name": "Exact variant",
+              "matchIds": [1239365]
+            }
+          ]
+        }
+      ],
+      "effects": [
+        {
+          "key": "enemy:2300296:effect:12206901",
+          "name": "Instant Heal",
+          "icon": "Skill/ICON_Common_Abnormal_Hot",
+          "categories": ["buff"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300296:effect:12206901",
+              "name": "Exact variant",
+              "matchIds": [12206901]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": {
+        "key": "enemy:2300297",
+        "name": "Abyssal Drakan Chief",
+        "icon": null,
+        "categories": [],
+        "classes": [],
+        "forms": [
+          {
+            "key": "enemy:2300297",
+            "name": "Exact variant",
+            "matchIds": [2300297]
+          }
+        ]
+      },
+      "context": "Enemy · Level 76 · ID 2300297",
+      "skills": [
+        {
+          "key": "enemy:2300297:skill:1239260",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300297:skill:1239260",
+              "name": "Exact variant",
+              "matchIds": [1239260]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300297:skill:1239300",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300297:skill:1239300",
+              "name": "Exact variant",
+              "matchIds": [1239300]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300297:skill:1239280",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300297:skill:1239280",
+              "name": "Exact variant",
+              "matchIds": [1239280]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300297:skill:1239290",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300297:skill:1239290",
+              "name": "Exact variant",
+              "matchIds": [1239290]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300297:skill:1239310",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300297:skill:1239310",
+              "name": "Exact variant",
+              "matchIds": [1239310]
+            }
+          ]
+        }
+      ],
+      "effects": [
+        {
+          "key": "enemy:2300297:effect:12199701",
+          "name": "Push",
+          "icon": "Skill/ICON_Abnormal_Move",
+          "categories": ["debuff"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300297:effect:12199701",
+              "name": "Exact variant",
+              "matchIds": [12199701]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300297:effect:12199811",
+          "name": "Knockdown",
+          "icon": "Skill/ICON_Abnormal_Knockdown",
+          "categories": ["debuff"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300297:effect:12199811",
+              "name": "Exact variant",
+              "matchIds": [12199811]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "entry": {
+        "key": "enemy:2300298",
+        "name": "Abyssal Drakan Scout Officer",
+        "icon": null,
+        "categories": [],
+        "classes": [],
+        "forms": [
+          {
+            "key": "enemy:2300298",
+            "name": "Exact variant",
+            "matchIds": [2300298]
+          }
+        ]
+      },
+      "context": "Enemy · Level 76 · ID 2300298",
+      "skills": [
+        {
+          "key": "enemy:2300298:skill:1239230",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300298:skill:1239230",
+              "name": "Exact variant",
+              "matchIds": [1239230]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300298:skill:1239240",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300298:skill:1239240",
+              "name": "Exact variant",
+              "matchIds": [1239240]
+            }
+          ]
+        },
+        {
+          "key": "enemy:2300298:skill:1239250",
+          "name": "Attack",
+          "icon": "Skill/ICON_TE_SKILL_001",
+          "categories": ["ability"],
+          "classes": [],
+          "forms": [
+            {
+              "key": "enemy:2300298:skill:1239250",
+              "name": "Exact variant",
+              "matchIds": [1239250]
             }
           ]
         }

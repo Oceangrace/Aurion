@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "clientBuild": 31,
-  "catalogVersion": "build31-normalized-v2",
+  "clientBuild": 32,
+  "catalogVersion": "build32-normalized-v1",
   "skills": [
     {
       "key": "skill:1102:common",
@@ -47683,7 +47683,7 @@
     },
     {
       "key": "effect:restored:12159201",
-      "name": "HP Regen",
+      "name": "Restore HP",
       "icon": "Skill/ICON_Common_Abnormal_Hot",
       "categories": ["buff"],
       "classes": [],
@@ -47739,7 +47739,7 @@
     },
     {
       "key": "effect:restored:12161302",
-      "name": "HP Regen",
+      "name": "Restore HP",
       "icon": "Skill/ICON_Common_Abnormal_Hot",
       "categories": ["buff"],
       "classes": [],
@@ -48089,7 +48089,7 @@
     },
     {
       "key": "effect:restored:12176402",
-      "name": "HP Regen",
+      "name": "Restore HP",
       "icon": "Skill/ICON_Common_Abnormal_Hot",
       "categories": ["buff"],
       "classes": [],
@@ -48999,7 +48999,7 @@
     },
     {
       "key": "effect:restored:12288501",
-      "name": "HP Regen",
+      "name": "Restore HP",
       "icon": "Skill/ICON_Common_Abnormal_Hot",
       "categories": ["buff"],
       "classes": [],
@@ -53731,7 +53731,7 @@
     },
     {
       "key": "effect:restored:19804201",
-      "name": "HP Regen",
+      "name": "Restore HP",
       "icon": "Skill/ICON_Common_Abnormal_Hot",
       "categories": ["buff"],
       "classes": [],
@@ -58109,7 +58109,7 @@
     },
     {
       "key": "effect:restored:151600202",
-      "name": "HP Regen",
+      "name": "Restore HP",
       "icon": "Skill/ICON_SO_SKILL_016",
       "categories": ["buff"],
       "classes": [],

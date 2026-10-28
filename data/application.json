@@ -1,7 +1,7 @@
 {
   "catalog": {
-    "directory": "catalog/v31",
-    "clientBuild": 31,
+    "directory": "catalog/v32",
+    "clientBuild": 32,
     "manifest": "manifest.json",
     "player": "player.json",
     "enemy": "enemies.json",
@@ -20,13 +20,13 @@
         "id": "ru",
         "label": "Русский",
         "ui": "locales/ru/ui.json",
-        "catalog": "catalog/v31/translations/ru.json"
+        "catalog": "catalog/v32/translations/ru.json"
       },
       {
         "id": "en",
         "label": "English",
         "ui": "locales/en/ui.json",
-        "catalog": "catalog/v31/translations/en.json"
+        "catalog": "catalog/v32/translations/en.json"
       }
     ],
     "package": {
@@ -57,7 +57,7 @@
     "journal": "combat-journal.json"
   },
   "protocol": {
-    "table": "protocol/v31/opcodes.json",
+    "table": "protocol/v32/opcodes.json",
     "capture": {
       "processName": "AION2.exe",
       "library": "System32/Npcap/wpcap.dll",

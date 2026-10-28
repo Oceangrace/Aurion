@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Updated the game catalog for AION 2 client build 32.
 - Updated the Cleric HUD import with a stamina bar below mana and player and target
   health bars aligned with mana.
 - The journal initially shows the current fight; the full run remains available as Σ.
