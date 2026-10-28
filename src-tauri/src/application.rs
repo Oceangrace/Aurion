@@ -4,6 +4,7 @@ use crate::core::geometry::Viewport;
 use crate::core::icons::IconCache;
 use crate::core::icons::IconManifest;
 use crate::core::localization::LocaleRegistry;
+use crate::core::surface::Surface;
 use crate::core::updates::ReleaseInfo;
 use crate::integrations::aion2::PacketPipeline;
 use crate::integrations::aion2::catalog::CatalogLabels;
@@ -72,6 +73,7 @@ impl Application {
                 window_commands::app_minimize,
                 window_commands::app_wait_for_game,
                 interface_commands::interfaces_save,
+                interface_commands::interfaces_remove_unavailable,
                 interface_commands::interfaces_preview,
                 interface_commands::interfaces_live,
                 interface_commands::interfaces_import,
@@ -92,7 +94,7 @@ impl Application {
 
                 let window_configuration = configurations
                     .iter()
-                    .find(|window| window.label == "editor")
+                    .find(|window| window.label == Surface::Editor.label())
                     .ok_or("Missing application window")?
                     .clone();
 
@@ -255,7 +257,7 @@ impl Application {
                 Ok(())
             })
             .on_window_event(|window, event| {
-                if window.label() == "editor"
+                if window.label() == Surface::Editor.label()
                     && let tauri::WindowEvent::CloseRequested { api, .. } = event
                 {
                     api.prevent_close();
@@ -289,9 +291,7 @@ fn catalog_labels(
     window: WebviewWindow,
     labels: State<'_, HashMap<String, CatalogLabels>>,
 ) -> Result<HashMap<String, CatalogLabels>, String> {
-    if window.label() != "editor" {
-        return Err("Unknown surface".into());
-    }
+    Surface::Editor.require(window.label())?;
 
     Ok(labels.inner().clone())
 }
@@ -301,18 +301,14 @@ fn icon_files(
     window: WebviewWindow,
     cache: State<'_, Arc<IconCache>>,
 ) -> Result<Vec<String>, String> {
-    if window.label() != "editor" {
-        return Err("Unknown surface".into());
-    }
+    Surface::Editor.require(window.label())?;
 
     Ok(cache.files())
 }
 
 #[tauri::command]
 async fn app_release_check(window: WebviewWindow) -> Result<ReleaseInfo, String> {
-    if window.label() != "editor" {
-        return Err("Unknown surface".into());
-    }
+    Surface::Editor.require(window.label())?;
 
     tauri::async_runtime::spawn_blocking(WindowsReleases::check)
         .await
@@ -321,18 +317,14 @@ async fn app_release_check(window: WebviewWindow) -> Result<ReleaseInfo, String>
 
 #[tauri::command]
 fn app_version(window: WebviewWindow) -> Result<&'static str, String> {
-    if window.label() != "editor" {
-        return Err("Unknown surface".into());
-    }
+    Surface::Editor.require(window.label())?;
 
     Ok(env!("CARGO_PKG_VERSION"))
 }
 
 #[tauri::command]
 fn app_release_open(window: WebviewWindow) -> Result<(), String> {
-    if window.label() != "editor" {
-        return Err("Unknown surface".into());
-    }
+    Surface::Editor.require(window.label())?;
 
     WindowsReleases::open()
 }

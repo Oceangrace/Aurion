@@ -19,6 +19,7 @@ mod text_template;
 mod visual_changes;
 mod widget_visual_resolver;
 mod world_boss_preview;
+mod world_boss_status;
 
 pub(crate) use self::condition_evaluator::ConditionEvaluator;
 pub(crate) use self::formulas::FormulaDefinition;
@@ -42,6 +43,7 @@ pub(crate) use self::rule_evaluator::RuleEvaluator;
 pub(crate) use self::text_template::TextTemplate;
 pub(crate) use self::visual_changes::VisualChanges;
 pub(crate) use self::widget_visual_resolver::WidgetVisualResolver;
+pub(crate) use self::world_boss_status::WorldBossStatus;
 
 mod document_localizer;
 pub(crate) use self::document_localizer::DocumentLocalizer;

@@ -16,6 +16,7 @@ pub(crate) struct HitDetails {
     protections: Vec<u32>,
     pool_remaining: Option<u32>,
     pool_effect_row: Option<u8>,
+    skill_effect_id: Option<u32>,
 }
 
 impl HitDetails {
@@ -37,6 +38,7 @@ impl HitDetails {
             protections: Vec::new(),
             pool_remaining: None,
             pool_effect_row: None,
+            skill_effect_id: None,
         }
     }
 
@@ -63,6 +65,16 @@ impl HitDetails {
         self.pool_effect_row = Some(effect_row);
 
         self
+    }
+
+    pub(crate) fn with_skill_effect(mut self, id: u32) -> Self {
+        self.skill_effect_id = Some(id);
+
+        self
+    }
+
+    pub(crate) fn skill_effect_id(&self) -> Option<u32> {
+        self.skill_effect_id
     }
 
     pub(crate) fn pool_remaining(&self) -> Option<u32> {

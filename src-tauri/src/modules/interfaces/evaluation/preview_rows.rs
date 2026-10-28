@@ -40,7 +40,7 @@ impl PreviewRows {
             .binding
             .as_ref()
             .filter(|binding| binding.source == GroupDataSource::WorldBosses)
-            .map(|_| WorldBossPreview::rows(node, fields));
+            .map(|_| WorldBossPreview::rows(node, fields, context.text()));
         let history_rows = node
             .binding
             .as_ref()

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "clientBuild": 31,
-  "catalogVersion": "build31-normalized-v1",
+  "clientBuild": 32,
+  "catalogVersion": "build32-normalized-v1",
   "effects": {
     "100": {
       "disposition": "debuff",
@@ -5289,6 +5289,48 @@
       "remainingTimeVisible": true
     },
     "4122": {
+      "disposition": "passive",
+      "stackLimit": 1,
+      "icon": null,
+      "iconVisible": false,
+      "remainingTimeVisible": true
+    },
+    "4123": {
+      "disposition": "passive",
+      "stackLimit": 1,
+      "icon": null,
+      "iconVisible": false,
+      "remainingTimeVisible": true
+    },
+    "4124": {
+      "disposition": "passive",
+      "stackLimit": 1,
+      "icon": null,
+      "iconVisible": false,
+      "remainingTimeVisible": true
+    },
+    "4125": {
+      "disposition": "passive",
+      "stackLimit": 1,
+      "icon": null,
+      "iconVisible": false,
+      "remainingTimeVisible": true
+    },
+    "4126": {
+      "disposition": "passive",
+      "stackLimit": 1,
+      "icon": null,
+      "iconVisible": false,
+      "remainingTimeVisible": true
+    },
+    "4127": {
+      "disposition": "passive",
+      "stackLimit": 1,
+      "icon": null,
+      "iconVisible": false,
+      "remainingTimeVisible": true
+    },
+    "4128": {
       "disposition": "passive",
       "stackLimit": 1,
       "icon": null,
@@ -47207,48 +47249,6 @@
       "icon": "Skill/ICON_GT_SKILL_Passive_010",
       "iconVisible": false,
       "remainingTimeVisible": false
-    },
-    "4123": {
-      "disposition": "passive",
-      "stackLimit": 1,
-      "icon": null,
-      "iconVisible": false,
-      "remainingTimeVisible": true
-    },
-    "4124": {
-      "disposition": "passive",
-      "stackLimit": 1,
-      "icon": null,
-      "iconVisible": false,
-      "remainingTimeVisible": true
-    },
-    "4125": {
-      "disposition": "passive",
-      "stackLimit": 1,
-      "icon": null,
-      "iconVisible": false,
-      "remainingTimeVisible": true
-    },
-    "4126": {
-      "disposition": "passive",
-      "stackLimit": 1,
-      "icon": null,
-      "iconVisible": false,
-      "remainingTimeVisible": true
-    },
-    "4127": {
-      "disposition": "passive",
-      "stackLimit": 1,
-      "icon": null,
-      "iconVisible": false,
-      "remainingTimeVisible": true
-    },
-    "4128": {
-      "disposition": "passive",
-      "stackLimit": 1,
-      "icon": null,
-      "iconVisible": false,
-      "remainingTimeVisible": true
     }
   },
   "skills": {
@@ -102010,6 +102010,16 @@
       "chainPrevious": null,
       "chainWindowMs": 0
     },
+    "1604383": {
+      "cooldownGroup": 1604380,
+      "cooldownMs": 45000,
+      "castingMs": 2167,
+      "manaOnly": false,
+      "healingOnly": false,
+      "icon": "Skill/ICON_TE_SKILL_001",
+      "chainPrevious": null,
+      "chainWindowMs": 0
+    },
     "1604390": {
       "cooldownGroup": 1604390,
       "cooldownMs": 8000,
@@ -116859,7 +116869,7 @@
     },
     "1803170": {
       "cooldownGroup": 1803170,
-      "cooldownMs": 60000,
+      "cooldownMs": 40000,
       "castingMs": 2000,
       "manaOnly": false,
       "healingOnly": false,
@@ -117357,7 +117367,7 @@
     },
     "1803350": {
       "cooldownGroup": 1803350,
-      "cooldownMs": 1000,
+      "cooldownMs": 40000,
       "castingMs": 2000,
       "manaOnly": false,
       "healingOnly": false,
@@ -161941,7 +161951,7 @@
     },
     "13310000": {
       "cooldownGroup": 13310000,
-      "cooldownMs": 90000,
+      "cooldownMs": 60000,
       "castingMs": 0,
       "manaOnly": false,
       "healingOnly": false,
@@ -161952,7 +161962,7 @@
     },
     "13310010": {
       "cooldownGroup": 13310000,
-      "cooldownMs": 90000,
+      "cooldownMs": 60000,
       "castingMs": 0,
       "manaOnly": false,
       "healingOnly": false,
@@ -161963,7 +161973,7 @@
     },
     "13310020": {
       "cooldownGroup": 13310000,
-      "cooldownMs": 90000,
+      "cooldownMs": 60000,
       "castingMs": 0,
       "manaOnly": false,
       "healingOnly": false,
@@ -161974,7 +161984,7 @@
     },
     "13310030": {
       "cooldownGroup": 13310000,
-      "cooldownMs": 90000,
+      "cooldownMs": 60000,
       "castingMs": 0,
       "manaOnly": false,
       "healingOnly": false,
@@ -161985,7 +161995,7 @@
     },
     "13310040": {
       "cooldownGroup": 13310000,
-      "cooldownMs": 90000,
+      "cooldownMs": 60000,
       "castingMs": 0,
       "manaOnly": false,
       "healingOnly": false,
@@ -218076,10 +218086,6 @@
       "boss": false,
       "playerSummon": false
     },
-    "2090446": {
-      "boss": false,
-      "playerSummon": false
-    },
     "2090447": {
       "boss": false,
       "playerSummon": false
@@ -225270,6 +225276,94 @@
     },
     "2300276": {
       "boss": true,
+      "playerSummon": false
+    },
+    "2300277": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300278": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300279": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300280": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300281": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300282": {
+      "boss": true,
+      "playerSummon": false
+    },
+    "2300283": {
+      "boss": true,
+      "playerSummon": false
+    },
+    "2300284": {
+      "boss": true,
+      "playerSummon": false
+    },
+    "2300285": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300286": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300287": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300288": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300289": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300290": {
+      "boss": true,
+      "playerSummon": false
+    },
+    "2300291": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300292": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300293": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300294": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300295": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300296": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300297": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2300298": {
+      "boss": false,
       "playerSummon": false
     },
     "2300299": {
@@ -254156,6 +254250,14 @@
       "boss": false,
       "playerSummon": false
     },
+    "2921505": {
+      "boss": false,
+      "playerSummon": false
+    },
+    "2921506": {
+      "boss": false,
+      "playerSummon": false
+    },
     "2930000": {
       "boss": false,
       "playerSummon": false
@@ -269944,5 +270046,28 @@
       "boss": false,
       "playerSummon": false
     }
-  }
+  },
+  "nonHealthSkillEffects": [
+    51, 91581, 91591, 91601, 91611, 91621, 91631, 91641, 91651, 91873, 91874, 91875, 91876, 91877,
+    91878, 91879, 91880, 92451, 92461, 92471, 92481, 94161, 94171, 94181, 94191, 95841, 95851,
+    95861, 95871, 500211, 501013, 502013, 503013, 803012, 19005041, 19009082, 19009102, 19009112,
+    101001011, 180698311, 190030511, 201020111, 201020211, 201020311, 201020411, 201030111,
+    201030211, 201030311, 201030411, 201040111, 201040211, 201150112, 201150212, 400030111,
+    450010112, 450020112, 450030112, 450035112, 450040112, 450050112, 450060112, 450065112,
+    450090112, 1101004711, 1105001711, 1105001811, 1106001711, 1111000811, 1111000812, 1111000911,
+    1111000912, 1126002013, 1126012013, 1126023014, 1126024013, 1126025013, 1126123014, 1126124013,
+    1126125013, 1126234014, 1126235014, 1126245013, 1136001711, 1211000811, 1211000812, 1211004811,
+    1211004812, 1226002013, 1226023013, 1226024013, 1226025013, 1226234013, 1226235013, 1226245013,
+    1243001711, 1308000811, 1308000812, 1308004711, 1308004712, 1317000012, 1326002013, 1326023013,
+    1326024013, 1326025013, 1326234013, 1326235013, 1326245013, 1336001711, 1426002013, 1426012013,
+    1426023014, 1426024013, 1426025013, 1426123014, 1426124013, 1426125013, 1426234014, 1426235014,
+    1426245013, 1516000711, 1524002013, 1524012013, 1524023014, 1524024013, 1524025013, 1524123014,
+    1524124013, 1524125013, 1524234014, 1524235014, 1524245013, 1531003711, 1576000711, 1576000811,
+    1606000111, 1606003111, 1620002013, 1620023014, 1620024013, 1620025013, 1620234014, 1620235014,
+    1620245013, 1699000211, 1716002711, 1716005711, 1724002013, 1724023014, 1724024013, 1724025013,
+    1724234014, 1724235014, 1724245013, 1732000022, 1814000711, 1814000712, 1814004711, 1814004712,
+    1817002013, 1817003013, 1817004013, 1820002013, 1820023014, 1820024013, 1820025013, 1820234014,
+    1820235014, 1820245013, 1821001111, 1923001111, 1928000111, 1935000211, 1935000212, 1945002013,
+    1945023014, 1945024013, 1945025013, 1945234014, 1945235014, 1945245013, 1977000211
+  ]
 }

@@ -223,7 +223,7 @@ export class SoundPlayer {
     const text = request.text?.trim() ?? '';
 
     if (text === '') {
-      throw new Error('Введите фразу для озвучки');
+      throw new Error('Enter a phrase to speak');
     }
 
     const key = this.cacheKey(request);

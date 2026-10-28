@@ -1,3 +1,4 @@
+use super::unit_state::UnitState;
 use crate::core::game::EntityId;
 use crate::core::game::PartyRoster;
 use crate::core::game::UnitSnapshot;
@@ -12,7 +13,7 @@ impl PartyTracker {
     pub(super) fn defeated(
         &self,
         player: Option<EntityId>,
-        entities: &BTreeMap<EntityId, super::unit_state::UnitState>,
+        entities: &BTreeMap<EntityId, UnitState>,
     ) -> bool {
         if player
             .and_then(|id| entities.get(&id))
@@ -33,11 +34,7 @@ impl PartyTracker {
         })
     }
 
-    pub(super) fn contains(
-        &self,
-        id: EntityId,
-        entities: &BTreeMap<EntityId, super::unit_state::UnitState>,
-    ) -> bool {
+    pub(super) fn contains(&self, id: EntityId, entities: &BTreeMap<EntityId, UnitState>) -> bool {
         let Some(unit) = entities.get(&id) else {
             return false;
         };

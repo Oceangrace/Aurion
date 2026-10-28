@@ -18,6 +18,7 @@ export class CatalogPickerController {
   private sequence = 0;
   private restoreSequence = 0;
   private timer: ReturnType<typeof setTimeout> | null = null;
+  private request: CatalogSearch | null = null;
 
   public constructor(private readonly client: CatalogClient) {}
 
@@ -28,17 +29,35 @@ export class CatalogPickerController {
   public schedule(request: CatalogSearch): void {
     const sequence = ++this.sequence;
 
+    this.request = { ...request, offset: 0 };
+
     if (this.timer !== null) {
       clearTimeout(this.timer);
     }
 
     this.state.value = { ...this.state.value, loading: true };
     this.timer = setTimeout(() => {
-      void this.search(request, sequence);
+      void this.search({ ...request, offset: 0 }, sequence, false);
     }, 150);
   }
 
-  private async search(request: CatalogSearch, sequence: number): Promise<void> {
+  public async more(): Promise<void> {
+    const state = this.state.value;
+
+    if (
+      this.request === null ||
+      state.loading === true ||
+      state.page.items.length >= state.page.total === true
+    ) {
+      return;
+    }
+
+    this.state.value = { ...state, loading: true };
+
+    await this.search({ ...this.request, offset: state.page.items.length }, ++this.sequence, true);
+  }
+
+  private async search(request: CatalogSearch, sequence: number, append: boolean): Promise<void> {
     try {
       const page = await this.client.search(request);
 
@@ -46,7 +65,16 @@ export class CatalogPickerController {
         return;
       }
 
-      this.state.value = { ...this.state.value, page, loading: false, error: null };
+      const previous = this.state.value.page;
+
+      const items = append ? [...previous.items, ...page.items] : page.items;
+
+      this.state.value = {
+        ...this.state.value,
+        page: { ...page, items },
+        loading: false,
+        error: null,
+      };
     } catch (error) {
       if (sequence === this.sequence) {
         this.state.value = { ...this.state.value, loading: false, error: String(error) };

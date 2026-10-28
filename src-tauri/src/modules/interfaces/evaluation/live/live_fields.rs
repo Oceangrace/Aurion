@@ -1,4 +1,5 @@
 use super::selection_resolver::SelectionResolver;
+use super::stamina_fields::StaminaFields;
 use crate::core::game::GameSnapshot;
 use crate::core::game::SourceStatus;
 use crate::core::game::TargetObservation;
@@ -30,6 +31,7 @@ impl LiveFields {
 
         if let Some(player) = game.player_id().and_then(|id| game.entities().get(&id)) {
             Self::unit(&mut fields, "player", player, game.header().at_us());
+            StaminaFields::collect(&mut fields, player);
 
             if let Some(statistics) =
                 super::combat_projection::CombatProjection::actor(game, player.id())

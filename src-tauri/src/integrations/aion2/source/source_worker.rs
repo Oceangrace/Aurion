@@ -1,3 +1,4 @@
+use super::boss_recovery::BossRecovery;
 use super::source_recovery::SourceRecovery;
 use super::source_request::SourceRequest;
 use crate::config::CaptureConfiguration;
@@ -23,6 +24,7 @@ pub(super) struct SourceWorker {
     state: GameState,
     last_message_us: Option<u64>,
     recovery: SourceRecovery,
+    bosses: BossRecovery,
 }
 
 impl SourceWorker {
@@ -44,6 +46,7 @@ impl SourceWorker {
             pipeline,
             state,
             last_message_us: None,
+            bosses: BossRecovery::new(recovery_path.with_file_name("world-boss-cache.json")),
             recovery: SourceRecovery::new(recovery_path),
         }
     }
@@ -80,6 +83,7 @@ impl SourceWorker {
             transport.process(),
             self.pipeline.active_stream(),
         );
+        self.bosses.flush(self.state.boss_cache());
         transport.stop();
 
         result
@@ -136,6 +140,8 @@ impl SourceWorker {
 
                 let snapshot = self.state.snapshot(now, status);
 
+                self.bosses.save(self.state.boss_cache());
+
                 self.recovery.save(
                     &snapshot,
                     transport.process(),
@@ -157,6 +163,13 @@ impl SourceWorker {
         server_ports: &[u16],
         process: Option<&CaptureProcess>,
     ) -> Result<bool, String> {
+        if let Some(process) = process
+            && let Some(cache) = self.bosses.synchronize(process, packet.timestamp_us())
+        {
+            self.reset();
+            self.state.set_boss_cache(cache);
+        }
+
         let update = self.pipeline.push(packet, server_ports);
 
         let closing = update.reset().is_some();

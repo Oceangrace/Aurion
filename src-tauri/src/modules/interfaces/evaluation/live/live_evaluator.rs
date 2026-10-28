@@ -76,9 +76,15 @@ impl LiveEvaluator {
 
             let inputs = frame_inputs.with_formulas(&document.formulas);
 
-            for node in &document.roots {
-                self.node(node, &inputs, &mut frame)?;
-            }
+            let mut part = LiveFrame::new(game.header().status(), None);
+
+            let result = document
+                .roots
+                .iter()
+                .try_for_each(|node| self.node(node, &inputs, &mut part))
+                .map(|()| part);
+
+            frame.absorb(&document.name, result);
         }
 
         self.events.finish();
@@ -386,7 +392,7 @@ impl LiveEvaluator {
                     return Some(false);
                 };
 
-                if !ids.contains(&skill_id.get()) {
+                if !resolver.matches_skill(&ids, skill_id.get()) {
                     return Some(false);
                 }
 
@@ -521,18 +527,20 @@ impl LiveEvaluator {
                     (trigger.duration_ms, trigger.delay_ms.unwrap_or(0.0)),
                     |event| {
                         if !selected.is_empty() && event.event_type() == Some(actual.event) {
-                            let id = if matches!(
+                            let selected_event = if matches!(
                                 actual.event,
                                 GameEventType::EffectApplied
                                     | GameEventType::EffectUpdated
                                     | GameEventType::EffectRemoved
                             ) {
-                                event.effect_id().map(|id| id.get())
+                                event.effect_id().map(|id| selected.contains(&id.get()))
                             } else {
-                                event.skill_id().map(|id| id.get())
+                                event
+                                    .skill_id()
+                                    .map(|id| resolver.matches_skill(&selected, id.get()))
                             }?;
 
-                            if !selected.contains(&id) {
+                            if !selected_event {
                                 return Some(false);
                             }
                         }

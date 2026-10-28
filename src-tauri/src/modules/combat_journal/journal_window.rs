@@ -42,7 +42,7 @@ impl Default for JournalWindow {
             height: 200.0,
             metric: JournalMetric::Dps,
             scope: JournalScope::Group,
-            period: JournalPeriod::Run,
+            period: JournalPeriod::Current,
             limit: 20,
             merge_summons: true,
         }

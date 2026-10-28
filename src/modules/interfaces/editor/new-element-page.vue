@@ -2,11 +2,18 @@
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { EditorSession } from './editor-session';
+import type { CatalogClient } from '../triggers/catalog-client';
+import type { WidgetNode } from '../model/widget-node';
 import { WidgetKind } from '../model/widget-kind';
 import UiField from '../../../renderer/components/ui/ui-field.vue';
 import UiSelect from '../../../renderer/components/ui/ui-select.vue';
 import WidgetKindIcon from './widget-kind-icon.vue';
-const props = defineProps<{ session: EditorSession; parentId: string | null }>();
+import WidgetPresetPicker from './presets/widget-preset-picker.vue';
+const props = defineProps<{
+  session: EditorSession;
+  catalog: CatalogClient;
+  parentId: string | null;
+}>();
 
 const emit = defineEmits<{ done: [] }>();
 
@@ -15,6 +22,8 @@ const { t } = useI18n();
 const state = props.session.getState();
 
 const destination = ref(props.parentId ?? '');
+
+const expanded = ref<WidgetKind | null>(null);
 
 const sections = {
   display: [WidgetKind.Text, WidgetKind.Icon, WidgetKind.Bar],
@@ -39,16 +48,20 @@ const destinations = computed(() => [
   ...groups.value,
 ]);
 
-const add = (kind: WidgetKind): void => {
+const toggle = (kind: WidgetKind): void => {
+  expanded.value = expanded.value === kind ? null : kind;
+};
+
+const add = (widget: WidgetNode): void => {
+  if (props.session.isReadOnly() === true) {
+    return;
+  }
+
   if (props.session.document() === null) {
     props.session.createDocument(t('modules.interfaces.defaultInterface'));
   }
 
-  props.session.createWidget(
-    kind,
-    t('modules.interfaces.types.' + kind),
-    destination.value === '' ? null : destination.value,
-  );
+  props.session.createWidget(widget, destination.value === '' ? null : destination.value);
   emit('done');
 };
 
@@ -78,24 +91,34 @@ const createInterface = (): void => {
       <section v-for="(kinds, section) in sections" :key="section">
         <h2>{{ t('modules.interfaces.create.sections.' + section) }}</h2>
         <div class="element-tiles">
-          <button
-            v-for="kind in kinds"
-            :key="kind"
-            type="button"
-            class="element-tile"
-            :disabled="state.readOnly"
-            :data-kind="kind"
-            @click="add(kind)"
-          >
-            <WidgetKindIcon :kind="kind" />
-            <span class="element-copy">
-              <strong>{{ t('modules.interfaces.types.' + kind) }}</strong>
-              <small>{{ t('modules.interfaces.create.descriptions.' + kind) }}</small>
-            </span>
-            <svg class="element-add" viewBox="0 0 20 20" aria-hidden="true">
-              <path d="M10 3v14 M3 10h14" />
-            </svg>
-          </button>
+          <div v-for="kind in kinds" :key="kind">
+            <button
+              type="button"
+              class="element-tile"
+              :disabled="state.readOnly"
+              :data-kind="kind"
+              :aria-expanded="expanded === kind"
+              :aria-controls="'element-presets-' + kind"
+              @click="toggle(kind)"
+            >
+              <WidgetKindIcon :kind="kind" />
+              <span class="element-copy">
+                <strong>{{ t('modules.interfaces.types.' + kind) }}</strong>
+                <small>{{ t('modules.interfaces.create.descriptions.' + kind) }}</small>
+              </span>
+              <svg class="element-add" viewBox="0 0 20 20" aria-hidden="true">
+                <path :d="expanded === kind ? 'm5 12 5-5 5 5' : 'm5 8 5 5 5-5'" />
+              </svg>
+            </button>
+            <WidgetPresetPicker
+              v-if="expanded === kind"
+              :id="'element-presets-' + kind"
+              :kind="kind"
+              :catalog="catalog"
+              :disabled="state.readOnly"
+              @create="add"
+            />
+          </div>
         </div>
       </section>
     </div>

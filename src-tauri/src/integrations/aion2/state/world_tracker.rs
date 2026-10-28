@@ -1,8 +1,9 @@
+use super::world_boss_cache::WorldBossCache;
+use super::world_boss_tracker::WorldBossTracker;
 use crate::core::game::GameEvent;
 use crate::core::game::InstanceTimer;
 use crate::core::game::MapId;
 use crate::core::game::OdyleEnergy;
-use crate::core::game::WorldBossList;
 use crate::core::game::WorldSnapshot;
 use std::collections::BTreeMap;
 
@@ -10,11 +11,27 @@ use std::collections::BTreeMap;
 pub(super) struct WorldTracker {
     energy: Option<OdyleEnergy>,
     timers: BTreeMap<(MapId, u8), InstanceTimer>,
-    boss_lists: BTreeMap<MapId, WorldBossList>,
+    bosses: WorldBossTracker,
 }
 
 impl WorldTracker {
-    pub(super) fn observe(&mut self, event: &GameEvent) {
+    pub(super) fn boss_cache(&self) -> &WorldBossCache {
+        self.bosses.cache()
+    }
+
+    pub(super) fn replace_boss_cache(&mut self, cache: WorldBossCache) {
+        self.bosses.replace_cache(cache);
+    }
+
+    pub(super) fn reset(&mut self) {
+        self.energy = None;
+        self.timers.clear();
+        self.bosses.reset();
+    }
+
+    pub(super) fn observe(&mut self, event: &GameEvent, server: Option<u16>) {
+        self.bosses.observe(event, server);
+
         match event {
             GameEvent::OdyleEnergy { energy } => self.energy = Some(energy.clone()),
             GameEvent::InstanceTimer { timer } => {
@@ -26,12 +43,6 @@ impl WorldTracker {
                 }
             }
 
-            GameEvent::WorldBossList { list } => {
-                if self.boss_lists.len() < 32 || self.boss_lists.contains_key(&list.map_id()) {
-                    self.boss_lists.insert(list.map_id(), list.clone());
-                }
-            }
-
             GameEvent::MapChanged { map_id } => {
                 self.timers.retain(|(map, _), _| map == map_id);
             }
@@ -40,11 +51,11 @@ impl WorldTracker {
         }
     }
 
-    pub(super) fn snapshot(&self) -> WorldSnapshot {
+    pub(super) fn snapshot(&self, now_us: u64) -> WorldSnapshot {
         WorldSnapshot::new(
             self.energy.clone(),
             self.timers.values().cloned().collect(),
-            self.boss_lists.values().cloned().collect(),
+            self.bosses.snapshot(now_us),
         )
     }
 }

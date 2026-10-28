@@ -1,3 +1,4 @@
+import { Direction } from '../model/direction';
 import { GroupScale } from './group-scale';
 import type { PreviewVisual } from '../model/preview-visual';
 import type { WidgetNode } from '../model/widget-node';
@@ -208,9 +209,9 @@ export class ChildLayout {
       ? Math.min(1, Math.max(0, remaining / parent.group.spanSeconds))
       : sample;
 
-    const vertical = parent.group.travel === 'up' || parent.group.travel === 'down';
+    const vertical = parent.group.travel === Direction.Up || parent.group.travel === Direction.Down;
 
-    const reverse = parent.group.travel === 'left' || parent.group.travel === 'up';
+    const reverse = parent.group.travel === Direction.Left || parent.group.travel === Direction.Up;
 
     const available = vertical
       ? content.height - this.scale.frame(node).height

@@ -90,6 +90,10 @@
 .element-tile:hover:not(:disabled) .element-add {
   color: var(--prism-accent);
 }
+.element-tile[aria-expanded='true'] {
+  border-color: var(--prism-accent);
+  background: var(--prism-selected);
+}
 .create-interface {
   display: flex;
   align-items: center;

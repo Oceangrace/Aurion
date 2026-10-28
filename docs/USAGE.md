@@ -175,7 +175,8 @@ Data directory: `%APPDATA%/aurion` (or `AURION_DATA_DIRECTORY`).
 preferences.json          application settings
 combat-journal.json       journal windows and appearance
 combat-reports.json       fight history (50 by default, up to 100)
-game-session.json         saved character, resources, skill book, boss timers and NPC data
+game-session.json         saved character, resources, skill book and NPC data
+world-boss-cache.json     world boss observations for the current game process, grouped by server
 icon-cache/               icons downloaded from assets.playnccdn.com
 aurion.log                icon download errors
 profiles/

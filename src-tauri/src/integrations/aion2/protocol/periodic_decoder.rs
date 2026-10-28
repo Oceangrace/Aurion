@@ -27,6 +27,10 @@ impl PeriodicDecoder {
         // This field stores a SkillEffect identifier; its final two digits identify the effect row.
         let effect = reader.u32()?;
 
+        if catalog.non_health_skill_effect(effect) {
+            return Ok(Vec::new());
+        }
+
         let effect_skill = effect / 100;
 
         let effect_row = (effect % 100) as u8;
@@ -71,7 +75,8 @@ impl PeriodicDecoder {
 
         let value = value as u32;
 
-        let hit = HitDetails::new(None, Vec::new(), kind.periodic(), None);
+        let hit =
+            HitDetails::new(None, Vec::new(), kind.periodic(), None).with_skill_effect(effect);
 
         let hit = match pool_remaining {
             Some(remaining) => hit.with_pool_remaining(remaining, effect_row),

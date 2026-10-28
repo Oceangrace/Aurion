@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "clientBuild": 31,
-  "catalogVersion": "build31-normalized-v1",
+  "clientBuild": 32,
+  "catalogVersion": "build32-normalized-v1",
   "zones": {
     "(Unused)": [840032],
     "Abandoned Archon Jail": [320012],
@@ -22,7 +22,7 @@
     "Abyss Corridor": [
       503001, 503002, 503003, 503004, 503005, 503006, 504001, 504002, 504003, 504004, 504005, 504006
     ],
-    "Abyssal Forge: Ludra": [600082],
+    "Abyssal Forge: Ludra": [600082, 600083],
     "Abyssal Horn Den": [610070, 610071, 610072, 610073],
     "Accursed Sword": [500002, 500019, 500020, 500031, 502001, 510013, 510014, 510026],
     "Akilo Thieves Den": [310027],

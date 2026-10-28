@@ -626,7 +626,6 @@ watch([previewEnabled, selected, () => props.window.period, () => props.window.s
       :window="window"
       :query="query"
       :formatter="formatter"
-      :timeline-available="selected !== latest.value || window.period === JournalPeriod.Current"
       :export-file="(text) => journal.exportReport(text)"
     />
   </FloatingSurface>

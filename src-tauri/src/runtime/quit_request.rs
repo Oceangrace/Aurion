@@ -1,4 +1,5 @@
 use crate::core::diagnostics::PageHeartbeat;
+use crate::core::surface::Surface;
 use std::sync::Arc;
 use tauri::{AppHandle, Emitter, Manager};
 
@@ -11,7 +12,7 @@ impl QuitRequest {
             .is_some_and(|heartbeat| heartbeat.responsive());
 
         if responsive {
-            let _ = app.emit_to("editor", "app:quit-requested", ());
+            let _ = app.emit_to(Surface::Editor.label(), "app:quit-requested", ());
 
             return;
         }

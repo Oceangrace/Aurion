@@ -1,4 +1,5 @@
 use crate::core::localization::LocaleRegistry;
+use crate::core::surface::Surface;
 use std::sync::Arc;
 use tauri::{State, WebviewWindow};
 
@@ -7,9 +8,7 @@ pub(crate) fn localization_read(
     window: WebviewWindow,
     locales: State<'_, Arc<LocaleRegistry>>,
 ) -> Result<serde_json::Value, String> {
-    if window.label() != "editor" {
-        return Err("Editor access required".into());
-    }
+    Surface::Editor.require(window.label())?;
 
     Ok(locales.snapshot())
 }

@@ -1,3 +1,4 @@
+import { Direction } from './direction';
 import { GroupGrow } from './group-grow';
 import { GroupSort } from './group-sort';
 import { TextAlignment } from './text-alignment';
@@ -22,7 +23,7 @@ export interface GroupSettings {
   readonly grow: GroupGrow;
   readonly limit: number;
   readonly motionMs: number;
-  readonly travel: string;
+  readonly travel: Direction;
   readonly spanSeconds: number;
   readonly fillOpacity: number | null;
   readonly headerOpacity: number | null;
@@ -47,7 +48,7 @@ export const defaultGroupSettings: GroupSettings = {
   grow: GroupGrow.Forward,
   limit: 0,
   motionMs: 0,
-  travel: 'left',
+  travel: Direction.Left,
   spanSeconds: 30,
   fillOpacity: null,
   headerOpacity: null,

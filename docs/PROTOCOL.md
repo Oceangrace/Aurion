@@ -5,7 +5,7 @@
 [User guide](USAGE.md) · [Development](DEVELOPMENT.md) · **Protocol**
 
 Aurion reads incoming game traffic through Npcap or replays a PCAP recording.
-The current parser uses client build 31 data.
+The current parser uses client build 32 data.
 
 ## Game data
 
@@ -45,7 +45,7 @@ The current parser uses client build 31 data.
 </table>
 
 Per-message support and limitations are listed in
-[opcodes.json](../data/protocol/v31/opcodes.json).
+[opcodes.json](../data/protocol/v32/opcodes.json).
 
 ## Limitations
 
@@ -58,5 +58,5 @@ Per-message support and limitations are listed in
 ## Implementation
 
 [Packet parsing](../src-tauri/src/integrations/aion2/protocol/)
-converts messages into game events. [Game catalogs](../data/catalog/v31/)
+converts messages into game events. [Game catalogs](../data/catalog/v32/)
 provide names, icons, and skill properties.

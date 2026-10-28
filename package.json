@@ -1,6 +1,6 @@
 {
   "name": "aurion",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": true,
   "license": "GPL-3.0-or-later",
   "type": "module",
@@ -29,6 +29,7 @@
     "schema:check": "cargo run --manifest-path src-tauri/Cargo.toml --features schema --bin aurion-schema -- --check",
     "catalog:check": "node checks/catalog-manifest.mjs && node checks/game-icon-audit.mjs",
     "catalog:manifest": "node checks/catalog-manifest.mjs --write",
+    "catalog:rebuild": "node checks/catalog-rebuild.mjs",
     "icons:cdn-check": "node checks/icons-cdn-check.mjs"
   },
   "devDependencies": {

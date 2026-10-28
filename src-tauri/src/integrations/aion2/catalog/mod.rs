@@ -9,6 +9,7 @@ mod catalog_page;
 mod catalog_record;
 mod catalog_scope;
 mod catalog_search;
+mod catalog_source;
 mod catalog_store;
 mod effect_metadata;
 mod field_boss_catalog;

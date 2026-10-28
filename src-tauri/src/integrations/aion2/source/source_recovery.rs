@@ -84,7 +84,6 @@ impl SourceRecovery {
         }
 
         state.restore_player(checkpoint.player())?;
-        state.restore_bosses(checkpoint.bosses());
         state.restore_npcs(checkpoint.map_id(), checkpoint.npcs(), now_us)?;
         self.pending = None;
 
@@ -150,9 +149,7 @@ impl SourceRecovery {
             return;
         };
 
-        let checkpoint = SessionCheckpoint::new(process, stream.clone(), player)
-            .with_bosses(game.world().boss_lists().to_vec())
-            .with_npcs(game);
+        let checkpoint = SessionCheckpoint::new(process, stream.clone(), player).with_npcs(game);
 
         if let Err(error) = self.write(&checkpoint) {
             self.failed_at = Some(Instant::now());

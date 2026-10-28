@@ -4,7 +4,7 @@ export class WidgetImageLoader {
       file.size > 149_900 === true ||
       ['image/png', 'image/jpeg', 'image/webp'].includes(file.type) === false
     ) {
-      throw new Error('Нужен PNG, JPEG или WebP до 150 КБ');
+      throw new Error('Use a PNG, JPEG or WebP up to 150 KB');
     }
 
     return new Promise((resolve, reject) => {
@@ -14,12 +14,12 @@ export class WidgetImageLoader {
         if (typeof reader.result === 'string') {
           resolve(reader.result);
         } else {
-          reject(new Error('Не удалось прочитать изображение'));
+          reject(new Error('Could not read image'));
         }
       };
 
       reader.onerror = (): void => {
-        reject(new Error('Не удалось прочитать изображение'));
+        reject(new Error('Could not read image'));
       };
 
       reader.readAsDataURL(file);

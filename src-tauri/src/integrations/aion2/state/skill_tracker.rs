@@ -2,12 +2,16 @@ use super::cooldown_state::CooldownState;
 use crate::core::game::ComboAvailability;
 use crate::core::game::CooldownGroupId;
 use crate::core::game::CooldownSnapshot;
+use crate::core::game::EntityId;
+use crate::core::game::GameEvent;
+use crate::core::game::SkillBook;
 use crate::core::game::SkillId;
 use crate::integrations::aion2::catalog::RuntimeCatalog;
 use std::collections::BTreeMap;
 
 #[derive(Default)]
 pub(super) struct SkillTracker {
+    book: SkillBook,
     cooldowns: BTreeMap<CooldownGroupId, CooldownState>,
     combos: BTreeMap<SkillId, ComboAvailability>,
 }
@@ -15,7 +19,54 @@ pub(super) struct SkillTracker {
 impl SkillTracker {
     const MAX_ENTRIES: usize = 4096;
 
-    pub(super) fn used(
+    pub(super) fn book(&self) -> &SkillBook {
+        &self.book
+    }
+
+    pub(super) fn restore_book(&mut self, book: SkillBook) {
+        self.book = book;
+    }
+
+    pub(super) fn reset(&mut self, interrupted: bool) {
+        self.cooldowns.clear();
+        self.combos.clear();
+
+        if !interrupted {
+            self.book = SkillBook::default();
+        }
+    }
+
+    pub(super) fn observe(
+        &mut self,
+        event: &GameEvent,
+        at_us: u64,
+        player: Option<EntityId>,
+        catalog: &RuntimeCatalog,
+    ) -> Result<(), String> {
+        match event {
+            GameEvent::CooldownChanged {
+                group_id,
+                remaining_ms,
+            } => self.remaining(*group_id, *remaining_ms, at_us)?,
+            GameEvent::SkillConfirmed { skill_id } => self.used(*skill_id, at_us, true, catalog)?,
+            GameEvent::ComboAvailable { skill_id, .. } => self.combo(*skill_id, true, at_us)?,
+            GameEvent::ComboUnavailable { skill_id } => self.combo(*skill_id, false, at_us)?,
+            GameEvent::SkillsLearned { skills } => self.book.learn(skills.clone()),
+            GameEvent::SkillLevelChanged { skill } => self.book.update(skill.clone()),
+            GameEvent::SkillFormsListed { skills } => self.book.select_forms(skills.clone()),
+            GameEvent::SkillUsed {
+                source_id,
+                skill_id,
+                ..
+            } if player == Some(*source_id) => self.used(*skill_id, at_us, false, catalog)?,
+            GameEvent::MapChanged { .. } => self.reset(true),
+            _ => {}
+        }
+
+        Ok(())
+    }
+
+    fn used(
         &mut self,
         skill_id: SkillId,
         at_us: u64,
@@ -57,7 +108,7 @@ impl SkillTracker {
         Ok(())
     }
 
-    pub(super) fn remaining(
+    fn remaining(
         &mut self,
         group: CooldownGroupId,
         remaining_ms: u32,
@@ -79,12 +130,7 @@ impl SkillTracker {
         Ok(())
     }
 
-    pub(super) fn combo(
-        &mut self,
-        skill: SkillId,
-        available: bool,
-        at_us: u64,
-    ) -> Result<(), String> {
+    fn combo(&mut self, skill: SkillId, available: bool, at_us: u64) -> Result<(), String> {
         if self.combos.len() >= Self::MAX_ENTRIES && !self.combos.contains_key(&skill) {
             return Err("Observed combo limit".into());
         }

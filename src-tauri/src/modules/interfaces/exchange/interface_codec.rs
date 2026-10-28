@@ -42,8 +42,13 @@ impl InterfaceCodec {
                 .map_err(|_| "An !AURION string or interface JSON is required")?
         };
 
-        let document: InterfaceDocument = serde_json::from_value(value)
-            .map_err(|error| format!("Unsupported structure: {error}"))?;
+        let document: InterfaceDocument = serde_json::from_value(value).map_err(|error| {
+            if DocumentFormat::unsupported(&error) {
+                format!("Profile uses unsupported fields or values; a newer Aurion may be required: {error}")
+            } else {
+                format!("Unsupported structure: {error}")
+            }
+        })?;
 
         Ok(ImportPreview { document })
     }

@@ -8,6 +8,8 @@ pub(crate) struct WorldBossList {
     map_id: MapId,
     observed_at_us: u64,
     bosses: Vec<WorldBoss>,
+    #[serde(default)]
+    restored: bool,
 }
 
 impl WorldBossList {
@@ -16,6 +18,7 @@ impl WorldBossList {
             map_id,
             observed_at_us,
             bosses,
+            restored: false,
         }
     }
 
@@ -29,5 +32,14 @@ impl WorldBossList {
 
     pub(crate) fn bosses(&self) -> &[WorldBoss] {
         &self.bosses
+    }
+
+    pub(crate) fn with_restored(mut self) -> Self {
+        self.restored = true;
+        self
+    }
+
+    pub(crate) fn restored(&self) -> bool {
+        self.restored
     }
 }

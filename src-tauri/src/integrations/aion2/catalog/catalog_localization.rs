@@ -33,6 +33,35 @@ impl CatalogLocalization {
         translated
     }
 
+    pub(crate) fn child(
+        &self,
+        item: &CatalogItem,
+        parent: &CatalogItem,
+        locale: &str,
+    ) -> CatalogItem {
+        let mut translated = self.translate(item, locale);
+
+        let locale = self.locales.effective(locale);
+
+        let explicit_context = [locale, self.locales.fallback_locale()]
+            .into_iter()
+            .any(|locale| {
+                self.locales.pack(locale).catalog()["entries"][&item.key]["context"].is_string()
+            });
+
+        if !explicit_context {
+            let parent = self.translate(parent, locale);
+
+            translated.context = format!("{} · {}", parent.name, parent.context);
+
+            if let Some(id) = item.match_ids().first() {
+                translated.context.push_str(&format!(" · ID {id}"));
+            }
+        }
+
+        translated
+    }
+
     fn apply(&self, item: &mut CatalogItem, catalog: &Value) {
         let row = &catalog["entries"][&item.key];
 

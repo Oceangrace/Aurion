@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Direction } from '../model/direction';
 import { computed } from 'vue';
 import type { CatalogClient } from '../triggers/catalog-client';
 import { useI18n } from 'vue-i18n';
@@ -129,7 +130,7 @@ const setSource = (source: GroupDataSource): void => {
         ...node.group,
         flow: GroupFlow.Timeline,
         spanSeconds: 8,
-        travel: 'left',
+        travel: Direction.Left,
         motionMs: 100,
       },
     }));
@@ -248,7 +249,7 @@ const selectors = computed(() =>
       ><UiSelect
         :model-value="widget.group.travel"
         :options="
-          ['left', 'right', 'up', 'down'].map((value) => ({
+          [Direction.Left, Direction.Right, Direction.Up, Direction.Down].map((value) => ({
             value,
             label: t('modules.interfaces.advanced.options.' + value),
           }))

@@ -14,6 +14,7 @@ use crate::modules::interfaces::document::DocumentFormat;
 use crate::modules::interfaces::document::InterfaceDocument;
 use crate::modules::interfaces::document::InterfaceSnapshot;
 use crate::modules::interfaces::document::InterfaceWorkspace;
+use crate::modules::interfaces::document::UnavailableProfile;
 use crate::modules::interfaces::document::WidgetNode;
 use crate::modules::interfaces::evaluation::DocumentLocalizer;
 use crate::modules::interfaces::evaluation::LiveDelivery;
@@ -39,6 +40,7 @@ pub(crate) struct InterfaceService {
     repository: InterfaceRepository,
     catalog: CatalogStore,
     snapshot: InterfaceSnapshot,
+    persisted: (InterfaceWorkspace, Vec<UnavailableProfile>),
     live: LiveEvaluator,
     delivery: LiveDelivery,
     zones: ZoneCatalog,
@@ -63,13 +65,19 @@ impl InterfaceService {
                 workspace: InterfaceWorkspace::empty(),
                 viewport,
                 load_error: None,
+                unavailable: Vec::new(),
             },
+            persisted: (InterfaceWorkspace::empty(), Vec::new()),
         }
     }
 
     pub(crate) fn start(&mut self) {
         match self.repository.load() {
-            Ok(workspace) => self.snapshot.workspace = workspace,
+            Ok((workspace, unavailable)) => {
+                self.persisted = (workspace.clone(), unavailable.clone());
+                self.snapshot.workspace = workspace;
+                self.snapshot.unavailable = unavailable;
+            }
             Err(error) => self.snapshot.load_error = Some(error),
         }
     }
@@ -77,6 +85,13 @@ impl InterfaceService {
     pub(crate) fn validate_loaded(&self) -> Result<(), String> {
         if let Some(error) = &self.snapshot.load_error {
             return Err(error.clone());
+        }
+
+        if let Some(profile) = self.snapshot.unavailable.first() {
+            return Err(format!(
+                "Profile {} was not loaded: {}",
+                profile.folder, profile.reason
+            ));
         }
 
         self.validate(&self.snapshot.workspace)
@@ -221,8 +236,41 @@ impl InterfaceService {
         let expected = workspace.revision;
 
         workspace.revision = expected.checked_add(1).ok_or("Revision overflow")?;
-        self.repository.save(&workspace, &self.snapshot.workspace)?;
+        self.persisted =
+            self.repository
+                .save(&workspace, &self.snapshot.unavailable, &self.persisted)?;
         self.snapshot.workspace = workspace;
+        self.snapshot
+            .unavailable
+            .retain(|profile| profile.fingerprint.is_some());
+
+        Ok(self.read())
+    }
+
+    pub(crate) fn remove_unavailable(&mut self, folder: &str) -> Result<InterfaceSnapshot, String> {
+        if self.snapshot.load_error.is_some() {
+            return Err("Saving is disabled: the original file needs recovery".into());
+        }
+
+        let keep: Vec<_> = self
+            .snapshot
+            .unavailable
+            .iter()
+            .filter(|profile| profile.folder != folder)
+            .cloned()
+            .collect();
+
+        if keep.len() == self.snapshot.unavailable.len() {
+            return Err("Unknown unavailable profile".into());
+        }
+
+        self.persisted = self
+            .repository
+            .save(&self.snapshot.workspace, &keep, &self.persisted)?;
+        self.snapshot.unavailable = keep
+            .into_iter()
+            .filter(|profile| profile.fingerprint.is_some())
+            .collect();
 
         Ok(self.read())
     }

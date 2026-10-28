@@ -2,6 +2,7 @@ use super::live_inputs::LiveInputs;
 use super::trigger_match::TriggerMatch;
 use super::trigger_result::TriggerResult;
 use super::trigger_state::TriggerState;
+use crate::integrations::aion2::WorldBossObservation;
 use crate::integrations::aion2::catalog::FieldBossCatalog;
 use crate::modules::interfaces::rules::BossEvent;
 use crate::modules::interfaces::rules::BossTrigger;
@@ -20,24 +21,17 @@ impl BossMatcher {
 
         let now = game.header().at_us() as f64 / 1000.0;
 
-        let boss = game
+        let list = game
             .world()
             .boss_lists()
             .iter()
-            .find(|list| list.map_id().get() == definition.map_id)
-            .and_then(|list| {
-                list.bosses()
-                    .iter()
-                    .find(|boss| boss.world_map_id() == trigger.boss_id)
-            });
+            .find(|list| list.map_id().get() == definition.map_id);
 
-        let deadline = boss
-            .and_then(|boss| boss.time_ms())
-            .filter(|time| *time > 0);
+        let observation = WorldBossObservation::new(list, trigger.boss_id, game.header().at_us());
 
-        let alive = boss.is_some_and(|boss| boss.alive_at(game.header().at_us() / 1000));
+        let deadline = observation.respawns_at();
 
-        let known = alive || deadline.is_some();
+        let known = observation.known();
 
         let starts = deadline.map(|time| {
             time as f64
@@ -52,10 +46,10 @@ impl BossMatcher {
 
         let active = match trigger.event {
             BossEvent::Unknown => Some(!known),
-            BossEvent::Alive => known.then_some(alive),
+            BossEvent::Alive => known.then_some(observation.compatible_alive()),
             BossEvent::BeforeSpawn | BossEvent::Spawned => deadline.map(|_| {
                 elapsed.is_some_and(|elapsed| elapsed >= 0.0 && elapsed < trigger.duration_ms)
-                    && (trigger.event == BossEvent::Spawned || !alive)
+                    && observation.observed_alive() == Some(false)
             }),
         };
 
@@ -71,7 +65,10 @@ impl BossMatcher {
                 ),
             ),
             ("known".into(), json!(known)),
-            ("alive".into(), json!(alive)),
+            ("alive".into(), json!(observation.compatible_alive())),
+            ("observedAlive".into(), json!(observation.observed_alive())),
+            ("restored".into(), json!(observation.restored())),
+            ("expected".into(), json!(observation.expected())),
             ("respawnsAt".into(), json!(deadline)),
             (
                 "countdown".into(),

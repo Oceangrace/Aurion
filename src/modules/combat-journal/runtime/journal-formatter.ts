@@ -21,6 +21,14 @@ export class JournalFormatter {
     }).format(value);
   }
 
+  public amount(value: number | null): string {
+    return value === null ? '—' : this.number(value, false);
+  }
+
+  public percent(value: number | null): string {
+    return value === null ? '—' : this.amount(value) + '%';
+  }
+
   public value(row: JournalRow, compact: boolean, metric: JournalMetric): string {
     if (row.value === null && metric === JournalMetric.Critical) {
       return '—';

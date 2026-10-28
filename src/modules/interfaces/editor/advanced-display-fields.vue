@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Direction } from '../model/direction';
 import FieldPicker from './field-picker.vue';
 import TemplateField from './template-field.vue';
 import { computed } from 'vue';
@@ -51,7 +52,7 @@ const style = (patch: Partial<WidgetStyle>): void => {
   const next =
     direction === undefined || direction === null
       ? patch
-      : { ...patch, barVertical: direction === 'up' || direction === 'down' };
+      : { ...patch, barVertical: direction === Direction.Up || direction === Direction.Down };
 
   props.session.updateSelected((node) => ({ ...node, style: { ...node.style, ...next } }));
 };
@@ -119,7 +120,7 @@ const selectors = computed(
       { key: 'source', values: options(ProgressSource), kind: WidgetKind.Bar },
       {
         key: 'barDirection',
-        values: ['right', 'left', 'up', 'down'].map((value) => ({
+        values: Object.values(Direction).map((value) => ({
           value,
           label: t('modules.interfaces.advanced.options.' + value),
         })),

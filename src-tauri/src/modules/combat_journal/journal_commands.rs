@@ -5,6 +5,7 @@ use super::JournalReport;
 use super::JournalRepository;
 use crate::core::diagnostics::PerfLog;
 use crate::core::game::GameObservationSource;
+use crate::core::surface::Surface;
 use crate::integrations::aion2::catalog::RuntimeCatalog;
 use std::sync::{Arc, Mutex};
 use tauri::async_runtime::spawn_blocking;
@@ -18,9 +19,7 @@ pub(crate) async fn journal_frame(
     source: State<'_, Arc<dyn GameObservationSource>>,
     catalog: State<'_, Arc<RuntimeCatalog>>,
 ) -> Result<JournalFrame, String> {
-    if window.label() != "editor" {
-        return Err("Unknown journal surface".into());
-    }
+    Surface::Editor.require(window.label())?;
 
     let source = Arc::clone(source.inner());
     let catalog = Arc::clone(catalog.inner());
@@ -46,9 +45,7 @@ pub(crate) async fn journal_preferences_read(
     window: WebviewWindow,
     repository: State<'_, Arc<Mutex<JournalRepository>>>,
 ) -> Result<JournalPreferences, String> {
-    if window.label() != "editor" {
-        return Err("Unknown journal surface".into());
-    }
+    Surface::Editor.require(window.label())?;
 
     let repository = Arc::clone(repository.inner());
 
@@ -70,9 +67,7 @@ pub(crate) async fn journal_preferences_save(
     repository: State<'_, Arc<Mutex<JournalRepository>>>,
     preferences: JournalPreferences,
 ) -> Result<(), String> {
-    if window.label() != "editor" {
-        return Err("Unknown journal surface".into());
-    }
+    Surface::Editor.require(window.label())?;
 
     let repository = Arc::clone(repository.inner());
 
@@ -93,9 +88,7 @@ pub(crate) async fn journal_archive_read(
     window: WebviewWindow,
     archive: State<'_, Arc<Mutex<JournalArchive>>>,
 ) -> Result<Vec<JournalReport>, String> {
-    if window.label() != "editor" {
-        return Err("Unknown journal surface".into());
-    }
+    Surface::Editor.require(window.label())?;
 
     let archive = Arc::clone(archive.inner());
 
@@ -117,9 +110,7 @@ pub(crate) async fn journal_archive_save(
     archive: State<'_, Arc<Mutex<JournalArchive>>>,
     reports: Vec<JournalReport>,
 ) -> Result<(), String> {
-    if window.label() != "editor" {
-        return Err("Unknown journal surface".into());
-    }
+    Surface::Editor.require(window.label())?;
 
     let archive = Arc::clone(archive.inner());
 
@@ -139,7 +130,7 @@ pub(crate) async fn journal_archive_save(
 pub(crate) async fn journal_export_file(window: WebviewWindow, text: String) -> Result<(), String> {
     use tauri_plugin_dialog::DialogExt;
 
-    if window.label() != "editor" || text.len() > 8 * 1024 * 1024 {
+    if window.label() != Surface::Editor.label() || text.len() > 8 * 1024 * 1024 {
         return Err("Invalid combat export request".into());
     }
 

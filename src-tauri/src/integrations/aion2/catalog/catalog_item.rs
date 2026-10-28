@@ -7,6 +7,7 @@ use std::collections::BTreeSet;
 pub(crate) struct CatalogItem {
     pub(crate) key: String,
     pub(crate) name: String,
+    pub(crate) name_known: bool,
     pub(crate) context: String,
     pub(crate) icon: Option<String>,
     pub(crate) categories: Vec<String>,

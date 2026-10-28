@@ -4,12 +4,15 @@ import { computed, onBeforeUnmount, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { CatalogClient } from './catalog-client';
 import type { CatalogScope } from '../model/catalog-scope';
+import { CatalogSource } from '../model/catalog-source';
 import type { CatalogItem } from '../model/catalog-item';
 import type { CatalogForm } from '../model/catalog-form';
 import { CatalogPickerController } from './catalog-picker-controller';
 import { CatalogChoice } from './catalog-choice';
+import { CatalogOptions } from './catalog-options';
 import UiSelect from '../../../renderer/components/ui/ui-select.vue';
 import UiField from '../../../renderer/components/ui/ui-field.vue';
+import UiButton from '../../../renderer/components/ui/ui-button.vue';
 import './catalog-picker.css';
 const props = defineProps<{
   client: CatalogClient;
@@ -19,6 +22,9 @@ const props = defineProps<{
   selectedKey?: string | null;
   choiceKey?: string | null;
   enemies?: boolean;
+  category?: string | null;
+  source?: CatalogSource;
+  grouped?: boolean;
 }>();
 
 const emit = defineEmits<{ choose: [item: CatalogItem, form: CatalogForm, version: string] }>();
@@ -29,27 +35,27 @@ const controller = new CatalogPickerController(props.client);
 
 const choices = new CatalogChoice();
 
+const catalogOptions = new CatalogOptions(t, () => locale.value);
+
 const state = controller.getState();
 
 const query = ref('');
 
 const options = computed(() =>
-  state.value.page.items.map((item) => ({
-    value: item.key,
-    label: item.context === '' ? item.name : item.name + ' · ' + item.context,
-  })),
+  catalogOptions.list(state.value.page.items, props.scope, props.grouped === true),
 );
 
 const label = computed(() => state.value.selected?.name ?? props.label);
 
 watch(
-  () => [props.scope, props.contextKey, query.value, locale.value],
+  () => [props.scope, props.contextKey, props.category, props.source, query.value, locale.value],
   () => {
     controller.schedule({
       scope: props.scope,
       contextKey: props.contextKey,
       text: query.value,
-      category: null,
+      category: props.category ?? null,
+      source: props.source ?? CatalogSource.All,
     });
   },
   { immediate: true },
@@ -81,6 +87,10 @@ const pick = (key: string): void => {
     emit('choose', item, form, state.value.page.catalogVersion);
   }
 };
+
+const more = (): void => {
+  void controller.more();
+};
 </script>
 <template>
   <div class="catalog-picker">
@@ -93,7 +103,23 @@ const pick = (key: string): void => {
         :remote-search="true"
         @search="query = $event"
         @update:model-value="pick"
-      />
+      >
+        <template v-if="state.page.total > state.page.items.length" #footer>
+          <div class="catalog-picker-footer">
+            <span class="hint">
+              {{
+                t('modules.interfaces.moreResults', {
+                  total: state.page.total,
+                  shown: state.page.items.length,
+                })
+              }}
+            </span>
+            <UiButton :disabled="state.loading" @click="more">
+              {{ t('modules.interfaces.loadMore') }}
+            </UiButton>
+          </div>
+        </template>
+      </UiSelect>
     </UiField>
     <p v-if="state.restoring" class="hint">{{ t('modules.interfaces.loading') }}</p>
     <p v-if="state.error !== null" role="alert" class="error-note">

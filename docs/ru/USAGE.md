@@ -175,7 +175,8 @@ Aurion читает входящий игровой трафик через Npca
 preferences.json          настройки приложения
 combat-journal.json       окна и оформление журнала
 combat-reports.json       история боёв (по умолчанию 50, максимум 100)
-game-session.json         сохранённые персонаж, ресурсы, книга умений, таймеры боссов и NPC
+game-session.json         сохранённые персонаж, ресурсы, книга умений и NPC
+world-boss-cache.json     наблюдения боссов текущего процесса игры, отдельно по серверам
 icon-cache/               иконки, скачанные с assets.playnccdn.com
 aurion.log                ошибки загрузки иконок
 profiles/

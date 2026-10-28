@@ -3,7 +3,7 @@ use crate::core::game::GameSnapshot;
 use crate::core::game::SourceStatus;
 use crate::modules::interfaces::evaluation::PreviewVisual;
 use serde::Serialize;
-use std::collections::HashMap;
+use std::collections::{BTreeMap, HashMap};
 
 #[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -16,6 +16,7 @@ pub(crate) struct LiveFrame {
     error: Option<String>,
     visuals: HashMap<String, PreviewVisual>,
     states: HashMap<String, TriggerState>,
+    document_errors: BTreeMap<String, String>,
 }
 
 impl LiveFrame {
@@ -28,6 +29,19 @@ impl LiveFrame {
             error,
             visuals: HashMap::new(),
             states: HashMap::new(),
+            document_errors: BTreeMap::new(),
+        }
+    }
+
+    pub(super) fn absorb(&mut self, name: &str, part: Result<Self, String>) {
+        match part {
+            Ok(part) => {
+                self.visuals.extend(part.visuals);
+                self.states.extend(part.states);
+            }
+            Err(error) => {
+                self.document_errors.insert(name.to_owned(), error);
+            }
         }
     }
 

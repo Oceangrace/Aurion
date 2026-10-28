@@ -194,15 +194,7 @@ export class EditorSession {
     };
   }
 
-  public createWidget(kind: WidgetKind, name: string, parentId: string | null): void {
-    if (this.isReadOnly() === true || this.document() === null) {
-      return;
-    }
-
-    this.insertWidget(this.factory.create(kind, name), parentId);
-  }
-
-  private insertWidget(created: WidgetNode, parentId: string | null): void {
+  public createWidget(created: WidgetNode, parentId: string | null): void {
     if (this.isReadOnly() === true || this.document() === null) {
       return;
     }

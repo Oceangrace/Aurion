@@ -3,6 +3,7 @@ use crate::core::game::EntityId;
 use crate::core::game::GameEvent;
 use crate::core::game::HealthSnapshot;
 use crate::core::game::ManaSnapshot;
+use crate::core::game::StaminaSnapshot;
 
 /// Current and maximum HP and MP inside 0x3633, sent on every map load. Without it the own HP
 /// stays unknown until the first change, because 0x8d00 sends only changed values.
@@ -58,6 +59,7 @@ impl SelfVitalsDecoder {
             entity_id,
             health: HealthSnapshot::new(Some(health.0), Some(health.1)),
             mana: ManaSnapshot::new(Some(mana.0), Some(mana.1)),
+            stamina: StaminaSnapshot::default(),
         }))
     }
 

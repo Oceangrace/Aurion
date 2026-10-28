@@ -7,6 +7,8 @@ use serde::Deserialize;
 pub(crate) struct CatalogEntry {
     key: String,
     name: String,
+    #[serde(default)]
+    name_known: Option<bool>,
     icon: Option<String>,
     categories: Vec<String>,
     classes: Vec<String>,
@@ -32,6 +34,7 @@ impl CatalogEntry {
         Ok(CatalogItem {
             key: self.key.clone(),
             name: self.name.clone(),
+            name_known: self.name_known.unwrap_or(true),
             icon: self.icon.clone(),
             context: context.to_owned(),
             categories: self.categories.clone(),

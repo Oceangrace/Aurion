@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "clientBuild": 31,
-  "catalogVersion": "build31-normalized-v1",
+  "clientBuild": 32,
+  "catalogVersion": "build32-normalized-v1",
   "skills": {
     "1": "Glide",
     "2": "Flight",
@@ -5049,6 +5049,7 @@
     "1604380": "Attack",
     "1604381": "Attack",
     "1604382": "Attack",
+    "1604383": "Attack",
     "1604390": "Surging Thorn",
     "1604391": "Attack",
     "1604393": "Surging Thorn",

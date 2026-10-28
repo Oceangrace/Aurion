@@ -1,0 +1,17 @@
+export enum FieldScope {
+  Player = 'player',
+  Target = 'target',
+  TargetTarget = 'targetTarget',
+  Entity = 'entity',
+  Party = 'party',
+  Group = 'group',
+  Combat = 'combat',
+  Zone = 'zone',
+  Encounter = 'encounter',
+  Skill = 'skill',
+  Event = 'event',
+  Row = 'row',
+  Trigger = 't1',
+  Rule = 'rule',
+  Formula = 'formula',
+}

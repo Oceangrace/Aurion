@@ -32,7 +32,7 @@ const options = computed(() => [
     .map((field) => ({
       value: field.path,
       label: labels.label(field.path, props.formulas, props.rules),
-      group: labels.group(field.path),
+      group: labels.group(field),
       parentGroup: labels.parentGroup(field.path),
     }))
     .sort((left, right) => left.label.localeCompare(right.label, locale.value)),

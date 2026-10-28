@@ -8,4 +8,5 @@ export interface JournalAction {
   readonly skillId: number | null;
   readonly value: number;
   readonly durationMs?: number | null;
+  readonly skillEffectId?: number | null;
 }

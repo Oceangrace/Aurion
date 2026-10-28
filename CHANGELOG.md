@@ -7,6 +7,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Healing and HPS no longer count mana and other resource restoration as healing.
+- Journal analysis tabs open whenever their recorded data is available.
+- Known world boss timers survive instance travel, capture reconnects and Aurion restarts
+  during the same game session. Opening the map is still required to refresh boss data.
+- Fixed an old target being selected after changing maps.
+- A profile that cannot be loaded no longer blocks other profiles. Its files are preserved,
+  and the library explains the problem, including when a newer Aurion may be needed.
+- A failing HUD no longer interrupts other interfaces or the DPS/HPS meters.
+- Restored missing skills, effects and enemy variants in the HUD editor, including
+  hidden sources of boss mechanics. Catalog search supports IDs and loading more results.
+
+### Changed
+
+- Updated the game catalog for AION 2 client build 32.
+- Updated the Cleric HUD import with a stamina bar below mana and player and target
+  health bars aligned with mana.
+- The journal initially shows the current fight; the full run remains available as Σ.
+- World boss labels distinguish a recent sighting, an older sighting and an expected respawn.
+
+### Added
+
+- Widget templates for skill cooldowns, effects, resources, cast timers and enemy skill warnings
+  in the HUD editor.
+- Player stamina for HUD bars, text and conditions, with current, maximum and percentage values.
+- World boss rows expose `row.state` for profiles: `waiting`, `countdown`, `observed-alive`,
+  `last-seen-alive`, `expected` and `refresh`.
+
 ## [0.1.4] - 2026-10-24
 
 ### Fixed

@@ -14,6 +14,7 @@ use crate::core::game::ObservedEffect;
 use crate::core::game::ObservedList;
 use crate::core::game::ServerBattle;
 use crate::core::game::SkillId;
+use crate::core::game::StaminaSnapshot;
 use crate::core::game::UnitIdentity;
 use crate::core::game::UnitSnapshot;
 use crate::integrations::aion2::catalog::RuntimeCatalog;
@@ -26,6 +27,7 @@ pub(super) struct UnitState {
     maximum_health: Option<u32>,
     current_mana: Option<u32>,
     maximum_mana: Option<u32>,
+    stamina: StaminaSnapshot,
     health_restored: bool,
     mana_restored: bool,
     health_maximum_restored: bool,
@@ -55,6 +57,7 @@ impl UnitState {
             maximum_health: None,
             current_mana: None,
             maximum_mana: None,
+            stamina: StaminaSnapshot::default(),
             health_restored: false,
             mana_restored: false,
             health_maximum_restored: false,
@@ -218,6 +221,10 @@ impl UnitState {
         }
     }
 
+    pub(super) fn stamina(&mut self, stamina: &StaminaSnapshot) {
+        self.stamina.observe(stamina);
+    }
+
     pub(super) fn restore_npc(&mut self, recovery: &NpcRecovery) {
         self.npc_id = Some(recovery.npc_id());
         self.recovered_spawn = true;
@@ -287,6 +294,7 @@ impl UnitState {
     }
 
     pub(super) fn travel(&mut self) {
+        self.stamina = StaminaSnapshot::new(None, self.stamina.maximum());
         self.observed_health = HealthSnapshot::default();
         self.observed_mana = ManaSnapshot::default();
         self.server_battle = None;
@@ -420,6 +428,7 @@ impl UnitState {
     }
 
     pub(super) fn despawn(&mut self) {
+        self.stamina = StaminaSnapshot::default();
         self.observed_health = HealthSnapshot::default();
         self.observed_mana = ManaSnapshot::default();
         self.present = false;
@@ -471,6 +480,7 @@ impl UnitState {
             self.npc_id,
         )
         .with_cast(self.cast.clone())
+        .with_stamina(self.stamina.clone())
         .with_server_battle(self.server_battle.clone())
         .with_activity(
             ManaSnapshot::new(self.current_mana, self.maximum_mana)

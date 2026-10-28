@@ -107,9 +107,13 @@ export class UiSelectMenu<T extends string> {
       label,
       expanded,
       total: options.length,
-      options: expanded ? options.slice(0, this.state.limit) : [],
+      options: expanded ? this.options(options) : [],
       children: [],
     };
+  }
+
+  private options(options: readonly UiSelectOption<T>[]): readonly UiSelectOption<T>[] {
+    return this.configuration.remoteSearch === true ? options : options.slice(0, this.state.limit);
   }
 
   private expanded(key: string): boolean {
