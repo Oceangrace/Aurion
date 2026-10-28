@@ -35,6 +35,18 @@ impl<'a> SelectionResolver<'a> {
             .map(|item| item.match_ids())
     }
 
+    pub(super) fn matches_skill(&self, ids: &[u32], skill_id: u32) -> bool {
+        if ids.contains(&skill_id) {
+            return true;
+        }
+
+        self.catalog
+            .runtime()
+            .skill(skill_id)
+            .and_then(|skill| skill.charge_skill())
+            .is_some_and(|base_id| ids.contains(&base_id))
+    }
+
     pub(super) fn actor_ids(&self, key: &str) -> Option<Vec<u32>> {
         Some(
             self.catalog
