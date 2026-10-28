@@ -24,12 +24,12 @@
       "bytes": 462913
     },
     "translations/en.json": {
-      "sha256": "6ce360eaf1baafd1b35b6eb9fcedf36f8fa2d3630bcbaea1aa6304a2a8b5ca30",
-      "bytes": 8251598
+      "sha256": "d4b3bf6266dc669a9e5358100875b6d445f4deb7c0f15e1c2a898b5b145f840e",
+      "bytes": 8251541
     },
     "translations/ru.json": {
-      "sha256": "4dc8f89cf5a4b200bb05e674403ab5d199d0007f7541ccf059c213223c1cfa94",
-      "bytes": 10170862
+      "sha256": "4cd7d167e481069349eae602e5883e79777b3cef782a14d240afbbd45128b806",
+      "bytes": 10170791
     },
     "zones.json": {
       "sha256": "c0cc9a6c5454850229303ce97ab7bf018b2babf402e78a23192c4f9e3921689a",
